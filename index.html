@@ -58,16 +58,19 @@
       align-items: center;
       gap: 10px;
       position: relative;
-      transition: transform 0.2s ease;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
     .link-button:hover {
-      transform: scale(1.04);
+      background-color: white;
+      color: black;
+      transform: scale(1.05);
     }
 
     .discord-special {
       background-color: #222;
       border: 1px solid #333;
+      transition: background-color 0.3s ease;
     }
 
     .discord-special:hover {
@@ -76,6 +79,7 @@
 
     .discord-special:hover .discord-icon {
       filter: brightness(0);
+      transform: scale(1.1);
     }
 
     .discord-icon {
@@ -83,6 +87,7 @@
       height: 20px;
       filter: brightness(0) invert(1);
       margin-right: 8px;
+      transition: transform 0.3s ease;
     }
 
     footer {
