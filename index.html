@@ -79,24 +79,26 @@
       color: #555;
     }
 
-    /* ✅ Discord Button Style (Fixed Bottom-Right) */
+    /* ✅ Floating Discord Button */
     .floating-discord-button {
       position: fixed;
       bottom: 20px;
       right: 20px;
+      width: 80px;
+      height: 80px;
+      background-color: #5865F2;
+      border-radius: 16px;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      background-color: #5865F2;
-      color: white;
-      font-weight: bold;
       text-decoration: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      transition: transform 0.2s ease, background-color 0.2s ease;
-      font-size: 15px;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      gap: 4px;
       z-index: 9999;
+      transition: transform 0.2s ease, background-color 0.2s ease;
     }
 
     .floating-discord-button:hover {
@@ -105,9 +107,10 @@
     }
 
     .discord-icon {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       filter: brightness(0) invert(1);
+      opacity: 0.8;
     }
   </style>
 </head>
@@ -122,16 +125,16 @@
       <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Site (Injuries Generator)</a>
       <a href="https://rbx-url.com/nnxCvx3-" target="_blank">Immortal (Generator 2)</a>
       <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
-      <a href="https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
+      <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
     </div>
 
     <footer>© 2025 Minky</footer>
   </div>
 
-  <!-- ✅ Floating Discord Button -->
+  <!-- ✅ Bottom Right Discord Button -->
   <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="floating-discord-button">
     <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon" />
-    Discord Server
+    <span>Discord<br>Server</span>
   </a>
 
 </body>
