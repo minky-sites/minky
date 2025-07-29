@@ -4,206 +4,119 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@600&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
+      background: radial-gradient(circle at center, #0f0f0f, #000 90%);
       color: white;
       font-family: 'Poppins', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
+      margin: 0;
       text-align: center;
     }
-
     h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
       font-family: 'Orbitron', sans-serif;
+      font-size: 2.4rem;
+      margin-bottom: 10px;
     }
-
-    p {
-      color: #aaa;
-      margin-bottom: 30px;
-      white-space: pre-line;
-    }
-
-    .link-list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-    }
-
+    p { color: #aaa; margin-bottom: 24px; white-space: pre-line; }
+    .link-list { display: flex; flex-direction: column; align-items: center; gap: 14px; }
     .link-button {
-      text-decoration: none;
-      color: white;
-      background: #222;
-      padding: 14px;
-      border: 1px solid #333;
-      border-radius: 10px;
-      font-weight: bold;
-      width: 260px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: relative;
-      transition: 0.3s;
+      width: 260px; padding: 14px; background: #222; color: #fff;
+      text-decoration: none; border: 1px solid #333; border-radius: 10px;
+      font-weight: bold; display: flex; justify-content: space-between;
+      transition: background-color 0.2s, transform 0.2s;
     }
-
+    .link-button:hover { transform: scale(1.03); }
+    .discord-button:hover { background: #5865F2 !important; }
+    .discord-button:hover img { filter: brightness(0); }
+    .discord-icon { width: 20px; height: 20px; filter: brightness(0) invert(1); }
     .status-badge {
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      font-weight: bold;
+      padding: 4px 10px; border-radius: 6px;
+      font-size: 0.8rem; font-weight: bold; white-space: nowrap;
     }
-
-    .status-working {
-      background: #2ecc71;
-      color: black;
-    }
-
-    .status-down {
-      background: #e74c3c;
-      color: white;
-    }
-
-    .link-button:hover {
-      transform: scale(1.03);
-    }
-
-    .discord-button {
-      background: #222;
-    }
-
-    .discord-button:hover {
-      background: #5865F2 !important;
-    }
-
-    .discord-button:hover img {
-      filter: brightness(0);
-    }
-
-    .discord-icon {
-      width: 20px;
-      height: 20px;
-      margin-right: 8px;
-      filter: brightness(0) invert(1);
-    }
-
-    footer {
-      margin-top: 40px;
-      font-size: 0.8rem;
-      color: #555;
-    }
+    .status-working { background: #2ecc71; color: #000; }
+    .status-down { background: #e74c3c; color: #fff; }
   </style>
 </head>
 <body>
-
   <div>
     <h1>Minky</h1>
     <p>Best Beaming Sites/Methods/Tools/Tutorials 👾
 Join Our Discord For The Full Beaming Experience 👾</p>
-
     <div class="link-list">
-      <a href="https://www.logged.tg/auth/minkybeams" target="_blank" class="link-button" id="main-site">
-        Main Generator Site
-        <span class="status-badge" id="main-status">Checking…</span>
+      <a id="btn-main" href="https://www.logged.tg/auth/minkybeams" class="link-button">
+        Main Generator Site<span id="status-main" class="status-badge">Checking...</span>
       </a>
-
-      <a href="https://rbx-url.com/nnxCvx3-" target="_blank" class="link-button" id="immo-site">
-        Immortal (Generator 2)
-        <span class="status-badge" id="immo-status">Checking…</span>
+      <a id="btn-immo" href="https://roblox.tg/dashboard/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" class="link-button">
+        Immortal (Generator 2)<span id="status-immo" class="status-badge">Checking...</span>
       </a>
-
-      <a href="https://is.gd/bhAW9Q" target="_blank" class="link-button" id="autohar-site">
-        Autohar
-        <span class="status-badge" id="autohar-status">Checking…</span>
+      <a id="btn-auto" href="https://is.gd/bhAW9Q" class="link-button">
+        Autohar<span id="status-auto" class="status-badge">Checking...</span>
       </a>
-
-      <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank" class="link-button" id="cookie-site">
-        Cookie Refresher
-        <span class="status-badge" id="cookie-status">Checking…</span>
+      <a id="btn-cookie" href="https://dropref.com/?https://www.logged.tg/tools/refresher" class="link-button">
+        Cookie Refresher<span id="status-cookie" class="status-badge">Checking...</span>
       </a>
-
-      <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="link-button discord-button">
-        <span style="display: flex; align-items: center;">
-          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
+      <a href="https://discord.gg/kPeNP5aJTK" class="link-button discord-button">
+        <span style="display:flex; align-items:center;">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" class="discord-icon" alt="Discord">
           Discord Server
         </span>
       </a>
     </div>
-
-    <footer>© 2025 Minky</footer>
   </div>
 
   <script>
     const sites = [
       {
-        id: 'main-site',
-        statusId: 'main-status',
+        btn: 'btn-main',
+        status: 'status-main',
         url: 'https://www.logged.tg/auth/minkybeams',
-        downTriggers: ["WEBSITE UNDER MAINTENANCE", "404 | Page is missing", "This site can’t be reached"]
+        downIf: ['website under maintenance', '404 | page is missing', "this site can't be reached"]
       },
       {
-        id: 'immo-site',
-        statusId: 'immo-status',
-        url: 'https://rbx-url.com/nnxCvx3-',
-        downTriggers: ["This site can’t be reached"]
+        btn: 'btn-immo',
+        status: 'status-immo',
+        url: 'https://roblox.tg/dashboard/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=',
+        downIf: ["this site can't be reached"]
       },
       {
-        id: 'autohar-site',
-        statusId: 'autohar-status',
+        btn: 'btn-auto',
+        status: 'status-auto',
         url: 'https://is.gd/bhAW9Q',
-        downTriggers: ["This site can’t be reached"]
+        downIf: ["this site can't be reached"]
       },
       {
-        id: 'cookie-site',
-        statusId: 'cookie-status',
+        btn: 'btn-cookie',
+        status: 'status-cookie',
         url: 'https://dropref.com/?https://www.logged.tg/tools/refresher',
-        downTriggers: ["404 | Page is missing", "WEBSITE UNDER MAINTENANCE", "This site can’t be reached"]
+        downIf: ['404 | page is missing', 'website under maintenance', "this site can't be reached"]
       }
     ];
 
-    async function checkStatus(site) {
+    async function check(site) {
+      const statusEl = document.getElementById(site.status);
+      const btnEl = document.getElementById(site.btn);
       try {
-        const response = await fetch(site.url);
-        const text = await response.text();
-        const isDown = site.downTriggers.some(trigger => text.includes(trigger));
-        const statusEl = document.getElementById(site.statusId);
-        const linkEl = document.getElementById(site.id);
-        if (isDown) {
-          statusEl.textContent = "Down";
-          statusEl.className = "status-badge status-down";
-          linkEl.onmouseover = () => linkEl.style.background = "#e74c3c";
-          linkEl.onmouseout = () => linkEl.style.background = "#222";
-        } else {
-          statusEl.textContent = "Working";
-          statusEl.className = "status-badge status-working";
-          linkEl.onmouseover = () => linkEl.style.background = "#2ecc71";
-          linkEl.onmouseout = () => linkEl.style.background = "#222";
-        }
-      } catch (err) {
-        const statusEl = document.getElementById(site.statusId);
-        const linkEl = document.getElementById(site.id);
-        statusEl.textContent = "Down";
-        statusEl.className = "status-badge status-down";
-        linkEl.onmouseover = () => linkEl.style.background = "#e74c3c";
-        linkEl.onmouseout = () => linkEl.style.background = "#222";
+        const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(site.url)}`);
+        const text = await res.text();
+        const down = site.downIf.some(kw => text.toLowerCase().includes(kw));
+        statusEl.textContent = down ? 'Down' : 'Working';
+        statusEl.className = 'status-badge ' + (down ? 'status-down' : 'status-working');
+        btnEl.onmouseover = () => btnEl.style.background = down ? '#e74c3c' : '#2ecc71';
+        btnEl.onmouseout = () => btnEl.style.background = '#222';
+      } catch {
+        statusEl.textContent = 'Down';
+        statusEl.className = 'status-badge status-down';
+        btnEl.onmouseover = () => btnEl.style.background = '#e74c3c';
+        btnEl.onmouseout = () => btnEl.style.background = '#222';
       }
     }
 
-    sites.forEach(checkStatus);
+    sites.forEach(check);
   </script>
-
 </body>
 </html>
