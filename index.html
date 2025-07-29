@@ -21,10 +21,29 @@
       justify-content: center;
       min-height: 100vh;
       overflow: hidden;
+      position: relative;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      color: white;
+      font-size: 1em;
+      animation: fall linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
     }
 
     .container {
       text-align: center;
+      z-index: 10;
+      position: relative;
     }
 
     h1 {
@@ -99,6 +118,21 @@
   </style>
 </head>
 <body>
+
+  <!-- Snowflakes Container -->
+  <script>
+    const snowCount = 60;
+    for (let i = 0; i < snowCount; i++) {
+      const snowflake = document.createElement("div");
+      snowflake.classList.add("snowflake");
+      snowflake.innerHTML = "❄";
+      snowflake.style.left = Math.random() * 100 + "vw";
+      snowflake.style.animationDuration = (5 + Math.random() * 5) + "s";
+      snowflake.style.fontSize = (10 + Math.random() * 14) + "px";
+      snowflake.style.animationDelay = Math.random() * 5 + "s";
+      document.body.appendChild(snowflake);
+    }
+  </script>
 
   <div class="container">
     <h1>Minky</h1>
