@@ -3,280 +3,301 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Status Site</title>
+  <title>Minky</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #121212;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
       overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
     }
 
     h1 {
-      text-align: center;
-      font-size: 3em;
-      margin-top: 40px;
       font-family: 'Orbitron', sans-serif;
-      text-shadow: 0 0 10px white, 0 0 20px white;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px #fff, 0 0 20px #0ff;
+    }
+
+    p {
+      color: #aaa;
+      margin-bottom: 30px;
     }
 
     .container {
+      text-align: center;
+      padding: 80px 20px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .link-list {
       display: flex;
       flex-direction: column;
+      gap: 12px;
       align-items: center;
-      gap: 20px;
-      margin-top: 50px;
     }
 
-    .button-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .status-button {
-      background: #1f1f1f;
-      padding: 15px 30px;
-      border: none;
+    .link-list a {
+      text-decoration: none;
       color: white;
-      font-size: 18px;
-      border-radius: 8px;
-      transition: 0.3s ease;
-      cursor: pointer;
-      position: relative;
-      min-width: 240px;
-      text-align: center;
-    }
-
-    .status-button:hover {
-      background-color: #2a2a2a;
-      transform: scale(1.03);
-    }
-
-    .status-label {
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 12px;
-      color: white;
-      background-color: grey;
-    }
-
-    .status-working:hover { background-color: #2ecc71; }
-    .status-down:hover { background-color: #e74c3c; }
-
-    .discord-button {
+      background: #222;
+      padding: 14px;
+      border: 1px solid #333;
+      border-radius: 10px;
+      transition: 0.3s;
+      font-weight: bold;
+      width: 260px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #1f1f1f;
-      padding: 15px 30px;
-      border: none;
-      color: white;
-      font-size: 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s ease;
       gap: 10px;
     }
 
-    .discord-button:hover {
-      background-color: #7289da;
-      transform: scale(1.03);
+    .link-list a:hover {
+      background-color: white;
+      color: black;
+      transform: scale(1.05);
     }
 
-    .discord-icon {
-      width: 24px;
-      height: 24px;
-      transition: transform 0.3s ease;
-    }
-
-    .discord-button:hover .discord-icon {
-      transform: rotate(20deg) scale(1.2);
-      filter: brightness(0);
-    }
-
-    .report-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      z-index: 999;
-    }
-
-    .report-toggle-icon {
-      width: 50px;
-      height: 50px;
-      background: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .report-toggle-text {
-      margin-top: 5px;
-      font-size: 14px;
+    .discord-special:hover {
+      background-color: #5865F2 !important;
       color: white;
     }
 
-    .report-form {
-      position: fixed;
-      top: 100px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #1e1e1e;
-      padding: 30px;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 500px;
-      display: none;
-      flex-direction: column;
-      gap: 15px;
-      z-index: 999;
-      animation: fadeIn 0.3s ease;
+    .discord-icon {
+      width: 20px;
+      height: 20px;
+      filter: brightness(0) invert(1);
     }
 
-    .report-form input, .report-form textarea, .report-form select {
+    footer {
+      margin-top: 50px;
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    /* Report button */
+    .report-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #222;
+      color: white;
+      border: 1px solid #333;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+    }
+
+    .report-button:hover {
+      background: #1abc9c;
+      color: black;
+    }
+
+    .report-label {
+      font-size: 0.7rem;
+      position: absolute;
+      top: 60px;
+      text-align: center;
+      width: 60px;
+      color: #aaa;
+    }
+
+    .report-ui {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 90%;
+      max-width: 400px;
+      background: #111;
+      border: 1px solid #333;
+      padding: 25px;
+      border-radius: 12px;
+      z-index: 999;
+      transition: 0.4s ease;
+    }
+
+    .report-ui.active {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .report-ui h2 {
+      margin-bottom: 10px;
+    }
+
+    .report-ui small {
+      color: #aaa;
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    .report-ui input, .report-ui textarea, .report-ui select {
       width: 100%;
       padding: 10px;
-      border-radius: 5px;
-      border: none;
+      margin-bottom: 12px;
+      background: #222;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 6px;
     }
 
-    .submit-report {
+    .submit-btn {
       background: white;
       color: black;
-      padding: 10px;
-      font-size: 16px;
+      font-weight: bold;
+      padding: 10px 20px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: 0.3s ease;
+      width: 100%;
     }
 
-    .submit-report:hover {
-      background-color: #ddd;
-      transform: scale(1.03);
+    .submit-btn:hover {
+      background: #1abc9c;
+      color: black;
     }
 
-    .success-message {
+    .confirmation {
       position: fixed;
-      top: 10px;
+      top: -50px;
       left: 50%;
       transform: translateX(-50%);
-      background: #2ecc71;
-      padding: 10px 20px;
-      border-radius: 6px;
-      display: none;
-      z-index: 999;
-      font-size: 16px;
-      animation: slideDown 0.5s ease;
+      background: #1abc9c;
+      color: black;
+      padding: 12px 20px;
+      border-radius: 8px;
+      transition: 0.4s ease;
+      z-index: 9999;
     }
 
-    @keyframes slideDown {
-      from { transform: translate(-50%, -50px); opacity: 0; }
-      to { transform: translate(-50%, 0); opacity: 1; }
+    .confirmation.active {
+      top: 20px;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translate(-50%, -30px); }
-      to { opacity: 1; transform: translate(-50%, 0); }
+    @keyframes fall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0.3; }
     }
 
     .snowflake {
       position: fixed;
+      top: -10px;
       color: white;
-      font-size: 1em;
-      user-select: none;
-      pointer-events: none;
+      font-size: 12px;
+      opacity: 0.7;
       animation: fall linear infinite;
+      pointer-events: none;
+      user-select: none;
     }
 
-    @keyframes fall {
-      to {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
-  <h1>Status Dashboard</h1>
+  <!-- Snowflakes -->
+  <script>
+    for (let i = 0; i < 60; i++) {
+      const flake = document.createElement("div");
+      flake.classList.add("snowflake");
+      flake.textContent = "❄";
+      flake.style.left = Math.random() * 100 + "vw";
+      flake.style.fontSize = (10 + Math.random() * 10) + "px";
+      flake.style.animationDuration = (5 + Math.random() * 5) + "s";
+      flake.style.animationDelay = Math.random() * 5 + "s";
+      document.body.appendChild(flake);
+    }
+  </script>
+
   <div class="container">
-    <button class="status-button" data-url="https://site1.com">Main Site</button>
-    <button class="status-button" data-url="https://cookie.com">Cookie Refresher</button>
-    <button class="status-button" data-url="https://roblox.tg/dashboard/">Immortal</button>
-    <button class="discord-button">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" class="discord-icon">
-      Discord Server
-    </button>
+    <h1>Minky</h1>
+    <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
+
+    <div class="link-list">
+      <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
+      <a href="https://roblox.tg/dashboard/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" target="_blank">Immortal (Generator 2)</a>
+      <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
+      <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
+      <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
+        Discord Server
+      </a>
+    </div>
+
+    <footer>© 2025 Minky</footer>
   </div>
 
-  <div class="report-toggle" onclick="document.querySelector('.report-form').style.display = 'flex'">
-    <div class="report-toggle-icon">🔧</div>
-    <div class="report-toggle-text">Report</div>
+  <!-- Report Button -->
+  <div class="report-button" onclick="toggleReport()">
+    🛠
+    <div class="report-label">Report</div>
   </div>
 
-  <div class="report-form">
+  <!-- Report UI -->
+  <div class="report-ui" id="reportUI">
     <h2>Report A Bug/Suggestions</h2>
     <small>Must Be In The Discord Server To Get Your Response</small>
-    <input type="text" id="discordUser" placeholder="Discord Username">
-    <input type="text" id="discordID" placeholder="Discord User ID">
-    <select id="reportCategory">
-      <option disabled selected>Select Category</option>
-      <option>Report A Bug</option>
-      <option>New Suggestion</option>
-      <option>Report A Server Member</option>
+    <select id="category">
+      <option value="" disabled selected>Select Category</option>
+      <option value="Bug Report">Report A Bug</option>
+      <option value="Suggestion">New Suggestion</option>
+      <option value="Server Member">Report A Server Member</option>
     </select>
-    <textarea id="reportText" maxlength="3000" placeholder="Write your report..."></textarea>
-    <button class="submit-report" onclick="submitReport()">Submit Report</button>
+    <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
+    <input type="text" id="discordID" placeholder="Discord User ID">
+    <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
+    <button class="submit-btn" onclick="submitReport()">Submit Report</button>
   </div>
 
-  <div class="success-message" id="successMsg">Report sent successfully!</div>
+  <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
 
   <script>
+    function toggleReport() {
+      const ui = document.getElementById("reportUI");
+      ui.classList.toggle("active");
+    }
+
     function submitReport() {
-      const username = document.getElementById('discordUser').value;
-      const id = document.getElementById('discordID').value;
-      const category = document.getElementById('reportCategory').value;
-      const report = document.getElementById('reportText').value;
+      const user = document.getElementById("discordUser").value.trim();
+      const id = document.getElementById("discordID").value.trim();
+      const text = document.getElementById("reportText").value.trim();
+      const category = document.getElementById("category").value;
+
+      if (!user || !id || !text || !category) return alert("Please fill all fields.");
 
       fetch("https://discord.com/api/webhooks/1399803739199770664/dKXs2wiyMLtjgTLRbOZuz-N8BsJw3NGRZ0Pw8tnOX9YUJi3a6ju4cK_d-HsIYLHJmoy9", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          content: `**New Report (${category})**\nUsername: ${username}\nUser ID: ${id}\n\n${report}`
+          content: `📩 **New Report**\n**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`
         })
+      }).then(() => {
+        document.getElementById("confirmationMsg").classList.add("active");
+        setTimeout(() => {
+          document.getElementById("confirmationMsg").classList.remove("active");
+          document.getElementById("reportUI").classList.remove("active");
+        }, 5000);
       });
-
-      document.getElementById("successMsg").style.display = "block";
-      setTimeout(() => {
-        document.getElementById("successMsg").style.display = "none";
-        document.querySelector(".report-form").style.display = "none";
-      }, 5000);
     }
-
-    // Snowflakes
-    setInterval(() => {
-      const flake = document.createElement("div");
-      flake.className = "snowflake";
-      flake.textContent = "❄️";
-      flake.style.left = Math.random() * 100 + "vw";
-      flake.style.fontSize = Math.random() * 10 + 10 + "px";
-      flake.style.animationDuration = Math.random() * 5 + 5 + "s";
-      document.body.appendChild(flake);
-      setTimeout(() => flake.remove(), 10000);
-    }, 200);
   </script>
-
 </body>
 </html>
