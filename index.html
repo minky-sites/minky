@@ -6,12 +6,7 @@
   <title>Minky</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Nunito', sans-serif;
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
@@ -20,32 +15,27 @@
       min-height: 100vh;
       position: relative;
     }
-
     h1 {
       font-family: 'Orbitron', sans-serif;
       font-size: 2.5rem;
       margin-bottom: 10px;
       text-shadow: 0 0 5px #fff, 0 0 10px #fff;
     }
-
     p {
       color: #aaa;
       margin-bottom: 30px;
     }
-
     .container {
       text-align: center;
       padding: 80px 20px;
       animation: fadeIn 1.5s ease;
     }
-
     .link-list {
       display: flex;
       flex-direction: column;
       gap: 12px;
       align-items: center;
     }
-
     .link-list a {
       text-decoration: none;
       color: white;
@@ -61,23 +51,19 @@
       justify-content: center;
       gap: 10px;
     }
-
     .link-list a:hover {
       background-color: #5865F2;
       color: white;
     }
-
     .discord-icon {
       width: 22px;
       height: 22px;
     }
-
     footer {
       margin-top: 50px;
       font-size: 0.8rem;
       color: #555;
     }
-
     .report-button {
       position: fixed;
       top: 20px;
@@ -95,12 +81,10 @@
       justify-content: center;
       transition: 0.3s;
     }
-
     .report-button:hover {
       background: white;
       color: black;
     }
-
     .report-label {
       font-size: 0.7rem;
       position: absolute;
@@ -109,7 +93,6 @@
       width: 60px;
       color: #aaa;
     }
-
     .report-ui {
       position: fixed;
       top: 50%;
@@ -124,21 +107,17 @@
       z-index: 999;
       transition: 0.4s ease;
     }
-
     .report-ui.active {
       transform: translate(-50%, -50%) scale(1);
     }
-
     .report-ui h2 {
       margin-bottom: 10px;
     }
-
     .report-ui small {
       color: #aaa;
       display: block;
       margin-bottom: 15px;
     }
-
     .report-ui input, .report-ui textarea, .report-ui select {
       width: 100%;
       padding: 10px;
@@ -148,7 +127,6 @@
       border: 1px solid #444;
       border-radius: 6px;
     }
-
     .submit-btn {
       background: white;
       color: black;
@@ -160,11 +138,9 @@
       width: 100%;
       transition: 0.3s;
     }
-
     .submit-btn:hover {
       transform: scale(1.05);
     }
-
     .confirmation, .error-msg {
       position: fixed;
       top: -50px;
@@ -176,24 +152,20 @@
       z-index: 9999;
       font-weight: bold;
     }
-
     .confirmation.active {
       top: 20px;
       background: white;
       color: black;
     }
-
     .error-msg.active {
       top: 20px;
       background: red;
       color: white;
     }
-
     @keyframes fall {
       0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
       100% { transform: translateY(100vh) rotate(360deg); opacity: 0.3; }
     }
-
     .snowflake {
       position: fixed;
       top: -10px;
@@ -204,7 +176,6 @@
       pointer-events: none;
       user-select: none;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -213,7 +184,6 @@
 </head>
 <body>
 
-<!-- Snowflakes -->
 <script>
   for (let i = 0; i < 60; i++) {
     const flake = document.createElement("div");
@@ -299,7 +269,7 @@
 
     const content = `📩 **New Report**\n**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`;
 
-    fetch("https://discord.com/api/webhooks/xxx", {
+    fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ content })
@@ -310,6 +280,8 @@
         conf.classList.remove("active");
         document.getElementById("reportUI").classList.remove("active");
       }, 5000);
+    }).catch(() => {
+      showError("Failed to send report.");
     });
   }
 </script>
