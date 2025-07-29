@@ -39,17 +39,25 @@
       white-space: pre-line;
     }
 
+    .status-heading {
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
     .link-list {
       display: flex;
       flex-direction: column;
       gap: 12px;
+      align-items: center;
     }
 
     .link-row {
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       gap: 12px;
+      width: 100%;
     }
 
     a {
@@ -96,7 +104,8 @@
       border-radius: 8px;
       font-weight: bold;
       color: #fff;
-      min-width: 60px;
+      min-width: 70px;
+      text-align: center;
     }
 
     .working {
@@ -111,12 +120,6 @@
       margin-top: 40px;
       font-size: 0.8rem;
       color: #555;
-    }
-
-    .status-heading {
-      margin: 20px 0 10px;
-      font-size: 0.9rem;
-      color: #ccc;
     }
 
     @keyframes fadeIn {
