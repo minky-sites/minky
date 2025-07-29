@@ -52,12 +52,20 @@
       gap: 10px;
     }
     .link-list a:hover {
-      background-color: #5865F2;
-      color: white;
+      background-color: white;
+      color: black;
+    }
+    .discord-special:hover {
+      background-color: #5865F2 !important;
+      color: white !important;
+    }
+    .discord-special:hover .discord-icon {
+      filter: brightness(0) invert(1);
     }
     .discord-icon {
       width: 22px;
       height: 22px;
+      transition: 0.3s;
     }
     footer {
       margin-top: 50px;
