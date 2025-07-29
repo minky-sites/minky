@@ -6,42 +6,24 @@
   <title>Minky</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
       font-family: 'Poppins', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       min-height: 100vh;
     }
 
-    .container {
-      text-align: center;
-      animation: fadeIn 1.5s ease;
-    }
+    .container { text-align: center; animation: fadeIn 1.5s ease; }
 
-    h1 {
-      font-size: 2.2rem;
-      margin-bottom: 8px;
-    }
+    h1 { font-size: 2.2rem; margin-bottom: 8px; }
 
     p {
       color: #aaa;
       margin-bottom: 25px;
       white-space: pre-line;
-    }
-
-    .status-title {
-      font-size: 0.9rem;
-      color: #aaa;
-      margin-bottom: 5px;
     }
 
     .link-status-container {
@@ -55,7 +37,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 12px;
       width: 100%;
     }
 
@@ -85,11 +67,7 @@
       background-color: #5865F2;
       border: none;
     }
-
-    .discord-special:hover {
-      background-color: #4752c4;
-      color: white;
-    }
+    .discord-special:hover { background-color: #4752c4; color: white; }
 
     .discord-icon {
       width: 20px;
@@ -102,63 +80,19 @@
       padding: 4px 10px;
       border-radius: 6px;
       font-weight: bold;
-    }
-
-    .working {
-      background-color: #2ecc71;
-      color: #000;
-    }
-
-    .down {
-      background-color: #e74c3c;
       color: #fff;
     }
 
-    footer {
-      margin-top: 40px;
-      font-size: 0.8rem;
-      color: #555;
-    }
+    .working { background-color: #2ecc71; color: #000; }
+    .down    { background-color: #e74c3c; color: #fff; }
+
+    footer { margin-top: 40px; font-size: 0.8rem; color: #555; }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
   </style>
-
-  <script>
-    async function checkSites() {
-      const urls = {
-        "https://www.logged.tg/auth/minkybeams": "main",
-        "https://rbx-url.com/nnxCvx3-": "immo",
-        "https://is.gd/bhAW9Q": "auto",
-        "https://dropref.com/?https://www.logged.tg/tools/refresher": "cookie"
-      };
-
-      for (const [url, key] of Object.entries(urls)) {
-        const tag = document.querySelector(`[data-status-for="${key}"]`);
-
-        try {
-          const controller = new AbortController();
-          setTimeout(() => controller.abort(), 4000);
-          const response = await fetch(url, { method: "HEAD", mode: "no-cors", signal: controller.signal });
-          tag.textContent = "Working";
-          tag.classList.add("working");
-        } catch (err) {
-          tag.textContent = "Down";
-          tag.classList.add("down");
-        }
-      }
-    }
-
-    window.onload = checkSites;
-  </script>
 </head>
 <body>
 
@@ -169,28 +103,26 @@ Best Beaming Sites/Methods/Tools/Tutorials 👾
 Join Our Discord For The Full Beaming Experience 👾
     </p>
 
-    <div class="status-title">Status</div>
-
     <div class="link-status-container">
 
       <div class="link-row">
         <a href="https://www.logged.tg/auth/minkybeams" target="_blank" class="link-button">Main Generator Site</a>
-        <span class="status-tag" data-status-for="main">Checking...</span>
+        <span class="status-tag" id="status-main">Checking...</span>
       </div>
 
       <div class="link-row">
-        <a href="https://rbx-url.com/nnxCvx3-" target="_blank" class="link-button">Immortal (Generator 2)</a>
-        <span class="status-tag" data-status-for="immo">Checking...</span>
+        <a href="https://immortalgen.site" target="_blank" class="link-button">Immortal (Generator 2)</a>
+        <span class="status-tag" id="status-immortal">Checking...</span>
       </div>
 
       <div class="link-row">
         <a href="https://is.gd/bhAW9Q" target="_blank" class="link-button">Autohar</a>
-        <span class="status-tag" data-status-for="auto">Checking...</span>
+        <span class="status-tag" id="status-autohar">Checking...</span>
       </div>
 
       <div class="link-row">
         <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank" class="link-button">Cookie Refresher</a>
-        <span class="status-tag" data-status-for="cookie">Checking...</span>
+        <span class="status-tag" id="status-cookie">Checking...</span>
       </div>
 
       <div class="link-row">
@@ -204,6 +136,28 @@ Join Our Discord For The Full Beaming Experience 👾
 
     <footer>© 2025 Minky</footer>
   </div>
+
+  <script>
+    async function checkStatusViaProxy(url, elId, triggers) {
+      const el = document.getElementById(elId);
+      try {
+        const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+        const json = await res.json();
+        const txt = (json.contents || "").toLowerCase();
+        const down = triggers.some(t => txt.includes(t));
+        el.textContent = down ? "Down" : "Working";
+        el.className = `status-tag ${down ? "down" : "working"}`;
+      } catch {
+        el.textContent = "Down";
+        el.className = `status-tag down`; 
+      }
+    }
+
+    checkStatusViaProxy("https://www.logged.tg/auth/minkybeams", "status-main", ["website under maintenance", "404┃page is missing", "can't be reached"]);
+    checkStatusViaProxy("https://immortalgen.site", "status-immortal", ["can't be reached"]);
+    checkStatusViaProxy("https://is.gd/bhAW9Q", "status-autohar", ["can't be reached"]);
+    checkStatusViaProxy("https://dropref.com/?https://www.logged.tg/tools/refresher", "status-cookie", ["404┃page is missing", "can't be reached"]);
+  </script>
 
 </body>
 </html>
