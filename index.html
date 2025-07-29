@@ -79,7 +79,7 @@
       color: #555;
     }
 
-    /* ✅ Floating Discord Button */
+    /* ✅ Floating Discord Button - NO Hover effect */
     .floating-discord-button {
       position: fixed;
       bottom: 20px;
@@ -95,14 +95,15 @@
       justify-content: center;
       overflow: hidden;
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+      cursor: pointer;
     }
 
     .floating-discord-button img {
       position: absolute;
       width: 65%;
       height: 65%;
-      opacity: 0.3; /* 👈 low opacity instead of transparent */
-      filter: invert(1);
+      opacity: 0.3;
+      filter: none;
       pointer-events: none;
     }
 
@@ -118,7 +119,8 @@
     }
 
     .floating-discord-button:hover {
-      transform: scale(1.05);
+      background-color: #5865F2 !important;
+      transform: none !important;
     }
   </style>
 </head>
@@ -138,9 +140,9 @@
     <footer>© 2025 Minky</footer>
   </div>
 
-  <!-- ✅ Floating Button with Low Opacity Icon & Overlaid Text -->
+  <!-- ✅ Fixed Discord Button -->
   <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="floating-discord-button">
-    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord Icon">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRu5HhM4cuZ2Bx4aGns5EkGfnJytEqCMfGDgw&s" alt="Discord Icon">
     <span>Discord<br>Server</span>
   </a>
 
