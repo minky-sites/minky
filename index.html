@@ -85,7 +85,6 @@
       color: #555;
     }
 
-    /* Report button */
     .report-button {
       position: fixed;
       top: 20px;
@@ -105,7 +104,7 @@
     }
 
     .report-button:hover {
-      background: white; /* changed from green */
+      background: white;
       color: black;
     }
 
@@ -170,26 +169,33 @@
     }
 
     .submit-btn:hover {
-      background: white; /* changed from green */
+      background: white;
       color: black;
-      transform: scale(1.05); /* added animation */
+      transform: scale(1.05);
     }
 
-    .confirmation {
+    .confirmation, .error-msg {
       position: fixed;
       top: -50px;
       left: 50%;
       transform: translateX(-50%);
-      background: white; /* changed from green */
-      color: black;
       padding: 12px 20px;
       border-radius: 8px;
       transition: 0.4s ease;
       z-index: 9999;
+      font-weight: bold;
     }
 
     .confirmation.active {
       top: 20px;
+      background: white;
+      color: black;
+    }
+
+    .error-msg.active {
+      top: 20px;
+      background: red;
+      color: white;
     }
 
     @keyframes fall {
@@ -271,11 +277,19 @@
   </div>
 
   <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
+  <div class="error-msg" id="errorMsg">Only numbers allowed in entering your ID</div>
 
   <script>
     function toggleReport() {
       const ui = document.getElementById("reportUI");
       ui.classList.toggle("active");
+    }
+
+    function showError(msg) {
+      const error = document.getElementById("errorMsg");
+      error.textContent = msg;
+      error.classList.add("active");
+      setTimeout(() => error.classList.remove("active"), 4000);
     }
 
     function submitReport() {
@@ -285,6 +299,7 @@
       const category = document.getElementById("category").value;
 
       if (!user || !id || !text || !category) return alert("Please fill all fields.");
+      if (!/^\d+$/.test(id)) return showError("Only numbers allowed in entering your ID");
 
       fetch("https://discord.com/api/webhooks/1399803739199770664/dKXs2wiyMLtjgTLRbOZuz-N8BsJw3NGRZ0Pw8tnOX9YUJi3a6ju4cK_d-HsIYLHJmoy9", {
         method: "POST",
@@ -293,9 +308,10 @@
           content: `📩 **New Report**\n**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`
         })
       }).then(() => {
-        document.getElementById("confirmationMsg").classList.add("active");
+        const confirmation = document.getElementById("confirmationMsg");
+        confirmation.classList.add("active");
         setTimeout(() => {
-          document.getElementById("confirmationMsg").classList.remove("active");
+          confirmation.classList.remove("active");
           document.getElementById("reportUI").classList.remove("active");
         }, 5000);
       });
