@@ -41,6 +41,7 @@
 
     .status-heading {
       margin-bottom: 10px;
+      margin-top: -10px;
       font-size: 0.9rem;
       color: #ccc;
     }
@@ -54,10 +55,10 @@
 
     .link-row {
       display: flex;
+      justify-content: flex-start;
+      gap: 10px;
       align-items: center;
-      justify-content: center;
-      gap: 12px;
-      width: 100%;
+      width: 340px;
     }
 
     a {
@@ -85,6 +86,7 @@
     .discord-special {
       background-color: #5865F2;
       border: none;
+      margin-top: 10px;
     }
 
     .discord-special:hover {
@@ -164,12 +166,12 @@ Join Our Discord For The Full Beaming Experience 👾</p>
         <span id="status-cookie" class="status-label">Checking...</span>
       </div>
 
+      <!-- Discord doesn't need a status -->
       <div class="link-row">
         <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
           <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
           Discord Server
         </a>
-        <span class="status-label working">Working</span>
       </div>
     </div>
 
