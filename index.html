@@ -4,31 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@500&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
+      font-family: 'Inter', sans-serif;
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      min-height: 100vh;
       overflow-y: auto;
-      position: relative;
+      min-height: 100vh;
       padding: 40px 0;
+      position: relative;
     }
 
     .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
-      animation: fadeIn 1.5s ease;
     }
 
     h1 {
@@ -37,10 +30,7 @@
       margin-bottom: 10px;
     }
 
-    p {
-      color: #aaa;
-      margin-bottom: 25px;
-    }
+    p { color: #aaa; margin-bottom: 25px; }
 
     .link-list {
       display: flex;
@@ -92,49 +82,132 @@
       filter: brightness(0);
     }
 
+    .report-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #333;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      transition: background 0.3s ease;
+    }
+
+    .report-btn:hover { background: #555; }
+
+    .report-btn img {
+      width: 24px;
+      height: 24px;
+      filter: invert(1);
+    }
+
+    .report-text {
+      position: fixed;
+      top: 72px;
+      right: 17px;
+      font-size: 0.75rem;
+      color: white;
+    }
+
+    .report-ui {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      background: #111;
+      border: 1px solid #444;
+      padding: 20px;
+      width: 300px;
+      border-radius: 10px;
+      z-index: 999;
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .report-ui input, .report-ui textarea {
+      background: #222;
+      border: 1px solid #444;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      width: 100%;
+    }
+
+    .report-ui textarea {
+      resize: vertical;
+      height: 120px;
+      max-height: 200px;
+    }
+
+    .report-ui button {
+      background: #444;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .report-ui button:hover {
+      background: #666;
+    }
+
+    .success-message {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #4caf50;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      display: none;
+      animation: slideDown 0.5s ease;
+      z-index: 1001;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px) translateX(-50%); }
+      to { opacity: 1; transform: translateY(0) translateX(-50%); }
+    }
+
     footer {
       margin-top: 40px;
       font-size: 0.8rem;
       color: #555;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Snowflake styles */
-    .snowflake {
-      position: fixed;
-      top: -10px;
-      color: white;
-      font-size: 1em;
-      user-select: none;
-      pointer-events: none;
-      animation-name: fall;
-      animation-timing-function: linear;
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(110vh);
-        opacity: 0;
-      }
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
+  <div class="success-message" id="successMessage">Report sent successfully</div>
+
+  <button class="report-btn" onclick="toggleReportUI()">
+    <img src="https://cdn-icons-png.flaticon.com/512/3524/3524659.png" alt="Report">
+  </button>
+  <div class="report-text">Report</div>
+
+  <div class="report-ui" id="reportUI">
+    <h3>Report A Bug/Suggestions</h3>
+    <small>Must Be In The Discord Server To Get Your Response</small>
+    <input type="text" id="discordName" placeholder="Discord Username (e.g. User#1234)">
+    <input type="text" id="discordID" placeholder="Discord User ID">
+    <textarea id="reportText" maxlength="3000" placeholder="Write your report here (max 3000 chars)"></textarea>
+    <button onclick="submitReport()">Submit Report</button>
+  </div>
+
   <div class="container">
     <h1>Minky</h1>
-    <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>
-    Join Our Discord For The Full Beaming Experience 👾</p>
+    <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
 
     <div class="link-list">
       <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
@@ -151,19 +224,49 @@
   </div>
 
   <script>
-    // Snowflake generator
-    setInterval(() => {
-      const snowflake = document.createElement("div");
-      snowflake.classList.add("snowflake");
-      snowflake.innerText = "❄";
-      snowflake.style.left = Math.random() * 100 + "vw";
-      snowflake.style.animationDuration = 5 + Math.random() * 5 + "s";
-      snowflake.style.fontSize = Math.random() * 10 + 10 + "px";
-      document.body.appendChild(snowflake);
-      setTimeout(() => {
-        snowflake.remove();
-      }, 10000);
-    }, 200);
+    function toggleReportUI() {
+      const panel = document.getElementById("reportUI");
+      panel.style.display = panel.style.display === "flex" ? "none" : "flex";
+    }
+
+    function submitReport() {
+      const name = document.getElementById("discordName").value.trim();
+      const id = document.getElementById("discordID").value.trim();
+      const report = document.getElementById("reportText").value.trim();
+
+      if (!name || !id || !report) {
+        alert("Please fill out all fields before submitting.");
+        return;
+      }
+
+      const content = `**Report Submitted**\n**Username:** ${name}\n**User ID:** ${id}\n**Report:**\n${report}`;
+      const payload = {
+        content: content
+      };
+
+      fetch("https://discord.com/api/webhooks/1399803739199770664/dKXs2wiyMLtjgTLRbOZuz-N8BsJw3NGRZ0Pw8tnOX9YUJi3a6ju4cK_d-HsIYLHJmoy9", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(res => {
+        if (res.ok) {
+          document.getElementById("successMessage").style.display = "block";
+          setTimeout(() => {
+            document.getElementById("successMessage").style.display = "none";
+            document.getElementById("reportUI").style.display = "none";
+            document.getElementById("discordName").value = "";
+            document.getElementById("discordID").value = "";
+            document.getElementById("reportText").value = "";
+          }, 5000);
+        } else {
+          alert("Failed to send report. Webhook may be invalid.");
+        }
+      })
+      .catch(() => {
+        alert("Error sending report. Check internet or webhook.");
+      });
+    }
   </script>
 
 </body>
