@@ -55,12 +55,32 @@
       font-weight: bold;
       width: 260px;
       margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
 
     a:hover {
       background: #1abc9c;
       color: black;
       transform: scale(1.05);
+    }
+
+    .discord-special {
+      background-color: #5865F2;
+      border: none;
+    }
+
+    .discord-special:hover {
+      background-color: #4752c4;
+      color: white;
+    }
+
+    .discord-icon {
+      width: 20px;
+      height: 20px;
+      filter: brightness(0) invert(1);
     }
 
     footer {
@@ -79,46 +99,6 @@
         transform: translateY(0);
       }
     }
-
-    /* ✅ Floating Discord Button */
-    .floating-discord-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      background-color: #222;
-      border: 1px solid #333;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: 11px;
-      font-weight: bold;
-      color: white;
-      text-decoration: none;
-      line-height: 1.1;
-      z-index: 999;
-      pointer-events: auto;
-      overflow: hidden;
-    }
-
-    .floating-discord-button:hover {
-      transform: none;
-      background-color: #222;
-    }
-
-    .floating-discord-button img {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      opacity: 0.2;
-      object-fit: cover;
-      border-radius: 12px;
-      z-index: -1;
-    }
-
   </style>
 </head>
 <body>
@@ -128,20 +108,18 @@
     <p>Join Our Discord To Learn Everything About Beaming 👾</p>
 
     <div class="link-list">
-      <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Site (Injuries Generator)</a>
+      <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
       <a href="https://rbx-url.com/nnxCvx3-" target="_blank">Immortal (Generator 2)</a>
       <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
       <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
+      <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
+        Discord Server
+      </a>
     </div>
 
     <footer>© 2025 Minky</footer>
   </div>
-
-  <!-- ✅ Floating Discord Button -->
-  <a href="https://discord.gg/kPeNP5aJTK" class="floating-discord-button" target="_blank">
-    Discord<br>Server
-    <img src="https://lens.usercontent.google.com/image?vsrid=CLeDibHskcqlbBACGAEiJDYyZGUzYTMyLTI3YTMtNDQxMC1hZGI0LTEzNTNiM2Y3YjQ2MjIGIgJlbigHOKeg7r_y4Y4D" alt="Discord Icon Background"/>
-  </a>
 
 </body>
 </html>
