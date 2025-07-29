@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -13,7 +13,7 @@
     }
 
     body {
-      font-family: 'Rubik', sans-serif;
+      font-family: 'Nunito', sans-serif;
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
       overflow-x: hidden;
@@ -25,7 +25,7 @@
       font-family: 'Orbitron', sans-serif;
       font-size: 2.5rem;
       margin-bottom: 10px;
-      text-shadow: 0 0 6px #ffffff;
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff;
     }
 
     p {
@@ -63,24 +63,13 @@
     }
 
     .link-list a:hover {
-      background-color: white;
-      color: black;
-      transform: scale(1.05);
-    }
-
-    .discord-special:hover .discord-icon {
-      filter: none;
-    }
-
-    .discord-special:hover {
-      background-color: white !important;
-      color: black;
+      background-color: #5865F2;
+      color: white;
     }
 
     .discord-icon {
-      width: 24px;
-      height: 24px;
-      filter: brightness(0) invert(1);
+      width: 22px;
+      height: 22px;
     }
 
     footer {
@@ -147,14 +136,7 @@
     .report-ui small {
       color: #aaa;
       display: block;
-      margin-bottom: 10px;
-    }
-
-    .anon-option {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      gap: 8px;
+      margin-bottom: 15px;
     }
 
     .report-ui input, .report-ui textarea, .report-ui select {
@@ -167,6 +149,18 @@
       border-radius: 6px;
     }
 
+    .checkbox-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .checkbox-wrapper label {
+      font-size: 0.9rem;
+      color: white;
+    }
+
     .submit-btn {
       background: white;
       color: black;
@@ -176,7 +170,7 @@
       border-radius: 8px;
       cursor: pointer;
       width: 100%;
-      transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+      transition: 0.3s;
     }
 
     .submit-btn:hover {
@@ -231,123 +225,117 @@
 </head>
 <body>
 
-  <!-- Snowflakes -->
-  <script>
-    for (let i = 0; i < 60; i++) {
-      const flake = document.createElement("div");
-      flake.classList.add("snowflake");
-      flake.textContent = "❄";
-      flake.style.left = Math.random() * 100 + "vw";
-      flake.style.fontSize = (10 + Math.random() * 10) + "px";
-      flake.style.animationDuration = (5 + Math.random() * 5) + "s";
-      flake.style.animationDelay = Math.random() * 5 + "s";
-      document.body.appendChild(flake);
-    }
-  </script>
+<!-- Snowflakes -->
+<script>
+  for (let i = 0; i < 60; i++) {
+    const flake = document.createElement("div");
+    flake.classList.add("snowflake");
+    flake.textContent = "❄";
+    flake.style.left = Math.random() * 100 + "vw";
+    flake.style.fontSize = (10 + Math.random() * 10) + "px";
+    flake.style.animationDuration = (5 + Math.random() * 5) + "s";
+    flake.style.animationDelay = Math.random() * 5 + "s";
+    document.body.appendChild(flake);
+  }
+</script>
 
-  <div class="container">
-    <h1>Minky</h1>
-    <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
+<div class="container">
+  <h1>Minky</h1>
+  <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
 
-    <div class="link-list">
-      <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
-      <a href="https://roblox.tg/dashboard/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" target="_blank">Immortal (Generator 2)</a>
-      <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
-      <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
-      <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
-        <img src="https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/discord.svg" alt="Discord" class="discord-icon">
-        Discord Server
-      </a>
-    </div>
-
-    <footer>© 2025 Minky</footer>
+  <div class="link-list">
+    <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
+    <a href="https://roblox.tg/dashboard" target="_blank">Immortal (Generator 2)</a>
+    <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
+    <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
+    <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
+      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-icon">
+      Discord Server
+    </a>
   </div>
 
-  <!-- Report Button -->
-  <div class="report-button" onclick="toggleReport()">
-    🛠
-    <div class="report-label">Report</div>
+  <footer>© 2025 Minky</footer>
+</div>
+
+<!-- Report Button -->
+<div class="report-button" onclick="toggleReport()">🛠<div class="report-label">Report</div></div>
+
+<!-- Report UI -->
+<div class="report-ui" id="reportUI">
+  <h2>Report A Bug/Suggestions</h2>
+  <small>Must Be In The Discord Server To Get Your Response</small>
+
+  <select id="category" onchange="handleCategoryChange()">
+    <option value="" disabled selected>Select Category</option>
+    <option value="Bug Report">Report A Bug</option>
+    <option value="Suggestion">New Suggestion</option>
+    <option value="Server Member">Report A Server Member</option>
+  </select>
+
+  <div class="checkbox-wrapper" id="anonWrapper">
+    <input type="checkbox" id="anonCheck">
+    <label for="anonCheck">Submit Anonymously</label>
   </div>
 
-  <!-- Report UI -->
-  <div class="report-ui" id="reportUI">
-    <h2>Report A Bug/Suggestions</h2>
-    <small>Must Be In The Discord Server To Get Your Response</small>
+  <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
+  <input type="text" id="discordID" placeholder="Discord User ID">
+  <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
+  <button class="submit-btn" onclick="submitReport()">Submit Report</button>
+</div>
 
-    <div class="anon-option">
-      <input type="checkbox" id="anonymous" />
-      <label for="anonymous">Submit Anonymously</label>
-    </div>
+<div class="confirmation" id="confirmationMsg">Report sent successfully</div>
+<div class="error-msg" id="errorMsg">Only numbers allowed in entering your ID</div>
 
-    <select id="category" onchange="checkCategory()">
-      <option value="" disabled selected>Select Category</option>
-      <option value="Bug Report">Report A Bug</option>
-      <option value="Suggestion">New Suggestion</option>
-      <option value="Server Member">Report A Server Member</option>
-    </select>
+<script>
+  function toggleReport() {
+    document.getElementById("reportUI").classList.toggle("active");
+  }
 
-    <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
-    <input type="text" id="discordID" placeholder="Discord User ID">
-    <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
-    <button class="submit-btn" onclick="submitReport()">Submit Report</button>
-  </div>
+  function handleCategoryChange() {
+    const cat = document.getElementById("category").value;
+    document.getElementById("anonWrapper").style.display = (cat === "Server Member") ? "none" : "flex";
+  }
 
-  <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
-  <div class="error-msg" id="errorMsg">Only numbers allowed in entering your ID</div>
+  function showError(msg) {
+    const error = document.getElementById("errorMsg");
+    error.textContent = msg;
+    error.classList.add("active");
+    setTimeout(() => error.classList.remove("active"), 4000);
+  }
 
-  <script>
-    function toggleReport() {
-      document.getElementById("reportUI").classList.toggle("active");
+  function submitReport() {
+    const user = document.getElementById("discordUser").value.trim();
+    const id = document.getElementById("discordID").value.trim();
+    const text = document.getElementById("reportText").value.trim();
+    const category = document.getElementById("category").value;
+    const anon = document.getElementById("anonCheck").checked;
+
+    if (!category || !text || (!anon && (!user || !id))) {
+      alert("Please fill all fields.");
+      return;
     }
 
-    function showError(msg) {
-      const error = document.getElementById("errorMsg");
-      error.textContent = msg;
-      error.classList.add("active");
-      setTimeout(() => error.classList.remove("active"), 4000);
+    if (!anon && !/^\d+$/.test(id)) {
+      showError("Only numbers allowed in entering your ID");
+      return;
     }
 
-    function checkCategory() {
-      const category = document.getElementById("category").value;
-      const anonBox = document.getElementById("anonymous");
-      anonBox.disabled = (category === "Server Member");
-      if (anonBox.disabled) anonBox.checked = false;
-    }
+    const content = `📩 **New Report**\n**Category:** ${category}\n**User:** ${anon ? "Anonymous" : user + " (" + id + ")"}\n**Report:**\n${text}`;
 
-    function submitReport() {
-      const user = document.getElementById("discordUser").value.trim();
-      const id = document.getElementById("discordID").value.trim();
-      const text = document.getElementById("reportText").value.trim();
-      const category = document.getElementById("category").value;
-      const isAnon = document.getElementById("anonymous").checked;
+    fetch("https://discord.com/api/webhooks/xxx", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content })
+    }).then(() => {
+      const conf = document.getElementById("confirmationMsg");
+      conf.classList.add("active");
+      setTimeout(() => {
+        conf.classList.remove("active");
+        document.getElementById("reportUI").classList.remove("active");
+      }, 5000);
+    });
+  }
+</script>
 
-      if (!category || (!isAnon && (!user || !id || !text))) {
-        alert("Please fill all fields.");
-        return;
-      }
-
-      if (!/^\d+$/.test(id) && !isAnon) {
-        showError("Only numbers allowed in entering your ID");
-        return;
-      }
-
-      const payload = {
-        content: `📩 **New Report**\n**Category:** ${category}\n**Anonymous:** ${isAnon ? "Yes" : "No"}\n${!isAnon ? `**User:** ${user} (${id})\n` : ""}**Report:**\n${text}`
-      };
-
-      fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      }).then(() => {
-        const confirmation = document.getElementById("confirmationMsg");
-        confirmation.classList.add("active");
-        setTimeout(() => {
-          confirmation.classList.remove("active");
-          document.getElementById("reportUI").classList.remove("active");
-        }, 5000);
-      });
-    }
-  </script>
 </body>
 </html>
