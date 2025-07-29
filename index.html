@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -17,7 +17,6 @@
       color: white;
       font-family: 'Poppins', sans-serif;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
@@ -29,6 +28,7 @@
     }
 
     h1 {
+      font-family: 'Orbitron', sans-serif;
       font-size: 2.5rem;
       margin-bottom: 8px;
     }
@@ -42,15 +42,25 @@
     .link-list {
       display: flex;
       flex-direction: column;
-      gap: 16px;
       align-items: center;
+      gap: 12px;
     }
 
     .link-wrapper {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+    }
+
+    .status {
+      margin-left: 10px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      background-color: gray;
+      color: white;
+      transition: background-color 0.3s;
     }
 
     a {
@@ -60,56 +70,38 @@
       padding: 14px;
       border: 1px solid #333;
       border-radius: 10px;
+      transition: 0.3s;
       font-weight: bold;
       width: 260px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: 0.3s;
-    }
-
-    a img.discord-icon {
-      width: 20px;
-      height: 20px;
-      margin-right: 8px;
-      filter: brightness(0) invert(1);
-    }
-
-    a.discord-special:hover img.discord-icon {
-      filter: brightness(0);
+      gap: 10px;
     }
 
     .discord-special {
-      background: #222;
+      background-color: #222;
     }
 
     .discord-special:hover {
-      background: #5865F2 !important;
-      color: white;
+      background-color: #5865F2;
     }
 
-    .status {
-      font-size: 0.8rem;
-      padding: 4px 8px;
-      border-radius: 5px;
-      font-weight: bold;
-      white-space: nowrap;
+    .discord-icon {
+      width: 20px;
+      height: 20px;
+      filter: brightness(0) invert(1);
     }
 
-    .status-working {
-      background-color: #2ecc71;
-      color: black;
-    }
-
-    .status-down {
-      background-color: #e74c3c;
-      color: white;
-    }
-
-    .status-label {
-      margin-bottom: 8px;
-      font-size: 0.85rem;
-      color: #bbb;
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     footer {
@@ -117,113 +109,84 @@
       font-size: 0.8rem;
       color: #555;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
   </style>
 </head>
 <body>
-
   <div class="container">
     <h1>Minky</h1>
     <p>Best Beaming Sites/Methods/Tools/Tutorials 👾
 Join Our Discord For The Full Beaming Experience 👾</p>
 
-    <div class="status-label">Status</div>
+    <div class="link-list">
+      <div class="link-wrapper">
+        <a href="https://www.logged.tg/auth/minkybeams" target="_blank" id="main-site">Main Generator Site</a>
+        <div class="status" id="main-site-status">Checking...</div>
+      </div>
 
-    <div class="link-list" id="link-list">
-      <!-- Sites will be inserted here dynamically -->
+      <div class="link-wrapper">
+        <a href="https://rbx-url.com/nnxCvx3-" target="_blank" id="immortal">Immortal (Generator 2)</a>
+        <div class="status" id="immortal-status">Checking...</div>
+      </div>
+
+      <div class="link-wrapper">
+        <a href="https://is.gd/bhAW9Q" target="_blank" id="autohar">Autohar</a>
+        <div class="status" id="autohar-status">Checking...</div>
+      </div>
+
+      <div class="link-wrapper">
+        <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank" id="cookie-refresher">Cookie Refresher</a>
+        <div class="status" id="cookie-refresher-status">Checking...</div>
+      </div>
+
+      <div class="link-wrapper">
+        <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special" id="discord">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
+          Discord Server
+        </a>
+      </div>
     </div>
 
     <footer>© 2025 Minky</footer>
   </div>
 
   <script>
-    const sites = [
-      {
-        name: "Main Generator Site",
-        url: "https://www.logged.tg/auth/minkybeams",
-        testType: "text",
-        downIf: ["WEBSITE UNDER MAINTENANCE", "404 | Page is missing...", "This site can’t be reached"],
-      },
-      {
-        name: "Immortal (Generator 2)",
-        url: "https://rbx-url.com/nnxCvx3-",
-        testType: "browser",
-        downIf: ["This site can’t be reached"],
-      },
-      {
-        name: "Autohar",
-        url: "https://is.gd/bhAW9Q",
-        testType: "browser",
-        downIf: ["This site can’t be reached"],
-      },
-      {
-        name: "Cookie Refresher",
-        url: "https://dropref.com/?https://www.logged.tg/tools/refresher",
-        testType: "text",
-        downIf: ["404 | Page is missing...", "This site can’t be reached"],
-      },
-      {
-        name: "Discord Server",
-        url: "https://discord.gg/kPeNP5aJTK",
-        isDiscord: true
-      }
-    ];
+    async function checkStatus(url, statusId, hoverColor) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 7000);
 
-    const linkList = document.getElementById("link-list");
+      try {
+        const response = await fetch(url, { method: 'GET', mode: 'cors', signal: controller.signal });
 
-    sites.forEach(site => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "link-wrapper";
-
-      const a = document.createElement("a");
-      a.href = site.url;
-      a.target = "_blank";
-      a.textContent = site.name;
-      
-      if (site.isDiscord) {
-        a.classList.add("discord-special");
-        a.innerHTML = `<img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" class="discord-icon" alt="Discord"> Discord Server`;
-        wrapper.appendChild(a);
-        linkList.appendChild(wrapper);
-        return;
-      }
-
-      const status = document.createElement("div");
-      status.className = "status";
-      status.textContent = "Checking...";
-
-      wrapper.appendChild(a);
-      wrapper.appendChild(status);
-      linkList.appendChild(wrapper);
-
-      // Check site status
-      fetch(site.url)
-        .then(response => response.text())
-        .then(html => {
-          const isDown = site.downIf.some(keyword => html.includes(keyword));
-          if (isDown) {
-            status.classList.add("status-down");
-            status.textContent = "Down";
-            a.onmouseover = () => a.style.backgroundColor = "#e74c3c";
-            a.onmouseout = () => a.style.backgroundColor = "#222";
-          } else {
-            status.classList.add("status-working");
-            status.textContent = "Working";
-            a.onmouseover = () => a.style.backgroundColor = "#2ecc71";
-            a.onmouseout = () => a.style.backgroundColor = "#222";
+        if (response.ok) {
+          document.getElementById(statusId).textContent = "Working";
+          document.getElementById(statusId).style.backgroundColor = "#2ecc71"; // Green
+          document.getElementById(statusId.replace('-status', '')).addEventListener("mouseover", function () {
+            this.style.backgroundColor = "#2ecc71";
+            this.style.color = "black";
+          });
+        } else {
+          const text = await response.text();
+          if (text.includes("WEBSITE UNDER MAINTENANCE") || text.includes("404 | Page is missing...")) {
+            throw new Error("Custom down");
           }
-        })
-        .catch(() => {
-          status.classList.add("status-down");
-          status.textContent = "Down";
-          a.onmouseover = () => a.style.backgroundColor = "#e74c3c";
-          a.onmouseout = () => a.style.backgroundColor = "#222";
+          document.getElementById(statusId).textContent = "Working";
+          document.getElementById(statusId).style.backgroundColor = "#2ecc71";
+        }
+      } catch {
+        document.getElementById(statusId).textContent = "Down";
+        document.getElementById(statusId).style.backgroundColor = "#e74c3c"; // Red
+        document.getElementById(statusId.replace('-status', '')).addEventListener("mouseover", function () {
+          this.style.backgroundColor = "#e74c3c";
+          this.style.color = "white";
         });
-    });
+      }
+      clearTimeout(timeout);
+    }
+
+    checkStatus("https://www.logged.tg/auth/minkybeams", "main-site-status");
+    checkStatus("https://rbx-url.com/nnxCvx3-", "immortal-status");
+    checkStatus("https://is.gd/bhAW9Q", "autohar-status");
+    checkStatus("https://dropref.com/?https://www.logged.tg/tools/refresher", "cookie-refresher-status");
   </script>
 </body>
 </html>
