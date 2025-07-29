@@ -39,16 +39,16 @@
       white-space: pre-line;
     }
 
-    .status-title {
-      font-size: 0.9rem;
-      color: #aaa;
-      margin-bottom: 8px;
-    }
-
     .link-list {
       display: flex;
       flex-direction: column;
       gap: 12px;
+    }
+
+    .link-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     a {
@@ -64,7 +64,7 @@
       margin: 0 auto;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       gap: 10px;
     }
 
@@ -74,44 +74,36 @@
       transform: scale(1.05);
     }
 
-    .status {
-      font-size: 0.7rem;
-      padding: 4px 8px;
-      border-radius: 10px;
-      font-weight: bold;
-    }
-
-    .working {
-      background-color: #2ecc71;
-      color: black;
-    }
-
-    .down {
-      background-color: #e74c3c;
-      color: white;
-    }
-
     .discord-special {
       background-color: #5865F2;
       border: none;
-      justify-content: center;
     }
 
     .discord-special:hover {
-      background-color: #5865F2;
+      background-color: #4752c4;
       color: white;
-    }
-
-    .discord-special span {
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
 
     .discord-icon {
       width: 20px;
       height: 20px;
       filter: brightness(0) invert(1);
+    }
+
+    .status-label {
+      margin-top: 5px;
+      font-size: 0.85rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      color: white;
+    }
+
+    .working {
+      background-color: #2ecc71;
+    }
+
+    .down {
+      background-color: #e74c3c;
     }
 
     footer {
@@ -130,6 +122,12 @@
         transform: translateY(0);
       }
     }
+
+    .status-title {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 8px;
+    }
   </style>
 </head>
 <body>
@@ -142,32 +140,68 @@ Join Our Discord For The Full Beaming Experience 👾</p>
     <div class="status-title">Status</div>
 
     <div class="link-list">
-      <a href="https://www.logged.tg/auth/minkybeams" target="_blank">
-        Main Generator Site
-        <span class="status down">Down</span>
-      </a>
-      <a href="https://rbx-url.com/nnxCvx3-" target="_blank">
-        Immortal (Generator 2)
-        <span class="status working">Working</span>
-      </a>
-      <a href="https://is.gd/bhAW9Q" target="_blank">
-        Autohar
-        <span class="status working">Working</span>
-      </a>
-      <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">
-        Cookie Refresher
-        <span class="status down">Down</span>
-      </a>
-      <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
-        <span>
+      <div class="link-item">
+        <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
+        <div class="status-label" id="status-main">Checking...</div>
+      </div>
+
+      <div class="link-item">
+        <a href="https://rbx-url.com/nnxCvx3-" target="_blank">Immortal (Generator 2)</a>
+        <div class="status-label" id="status-immortal">Checking...</div>
+      </div>
+
+      <div class="link-item">
+        <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
+        <div class="status-label" id="status-autohar">Checking...</div>
+      </div>
+
+      <div class="link-item">
+        <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
+        <div class="status-label" id="status-cookie">Checking...</div>
+      </div>
+
+      <div class="link-item">
+        <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
           <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
           Discord Server
-        </span>
-      </a>
+        </a>
+      </div>
     </div>
 
     <footer>© 2025 Minky</footer>
   </div>
+
+  <script>
+    async function checkStatus(url, elementId, type) {
+      try {
+        const response = await fetch(url);
+        const text = await response.text();
+
+        const errors = [
+          "Website Under Maintenance",
+          "404┃Page Is Missing",
+          "This site can’t be reached",
+          "page not found",
+          "Page Is Missing"
+        ];
+
+        const isDown = !response.ok || errors.some(err => text.includes(err.toLowerCase()) || text.includes(err));
+        const statusElement = document.getElementById(elementId);
+
+        statusElement.classList.add(isDown ? "down" : "working");
+        statusElement.textContent = isDown ? "Down" : "Working";
+      } catch (err) {
+        const statusElement = document.getElementById(elementId);
+        statusElement.classList.add("down");
+        statusElement.textContent = "Down";
+      }
+    }
+
+    checkStatus("https://www.logged.tg/auth/minkybeams", "status-main");
+    checkStatus("https://rbx-url.com/nnxCvx3-", "status-immortal");
+    checkStatus("https://is.gd/bhAW9Q", "status-autohar");
+    checkStatus("https://dropref.com/?https://www.logged.tg/tools/refresher", "status-cookie");
+  </script>
 
 </body>
 </html>
