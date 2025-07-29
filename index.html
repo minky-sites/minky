@@ -80,6 +80,12 @@
       width: 20px;
       height: 20px;
       filter: brightness(0) invert(1);
+      transition: transform 0.3s ease;
+    }
+
+    a.discord-button:hover .discord-icon {
+      filter: brightness(0);
+      transform: rotate(15deg);
     }
 
     /* Report Floating Button */
@@ -96,15 +102,29 @@
     .report-button button {
       width: 45px;
       height: 45px;
-      border-radius: 50%;
-      background-color: white;
-      border: none;
+      border-radius: 10px;
+      background-color: #222;
+      border: 1px solid #333;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
     }
 
-    .report-button img {
+    .report-button button:hover {
+      background-color: white;
+      transform: scale(1.05);
+    }
+
+    .report-button button img {
       width: 20px;
       height: 20px;
+      filter: brightness(0) invert(1);
+    }
+
+    .report-button button:hover img {
+      filter: brightness(0);
     }
 
     .report-button span {
@@ -117,7 +137,7 @@
     .report-form-container {
       display: none;
       position: fixed;
-      top: 50px;
+      top: 80px;
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
@@ -127,6 +147,14 @@
       border-radius: 10px;
       z-index: 101;
       box-shadow: 0 0 15px #000;
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .report-form-container.show {
+      display: block;
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
     .report-form-container h2 {
@@ -155,16 +183,17 @@
       margin-top: 15px;
       padding: 10px;
       width: 100%;
-      background: #1abc9c;
+      background: white;
+      color: black;
+      font-weight: bold;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      color: black;
-      font-weight: bold;
+      transition: 0.3s;
     }
 
     .report-form-container button.submit-btn:hover {
-      background: #16a085;
+      background: #eee;
     }
 
     .success-message {
@@ -180,7 +209,6 @@
       display: none;
       z-index: 102;
     }
-
   </style>
 </head>
 <body>
@@ -231,7 +259,17 @@
 <script>
   function toggleReportForm() {
     const form = document.getElementById("reportForm");
-    form.style.display = form.style.display === "block" ? "none" : "block";
+    if (!form.classList.contains("show")) {
+      form.style.display = "block";
+      setTimeout(() => {
+        form.classList.add("show");
+      }, 10);
+    } else {
+      form.classList.remove("show");
+      setTimeout(() => {
+        form.style.display = "none";
+      }, 400);
+    }
   }
 
   function submitReport() {
@@ -261,7 +299,10 @@
       setTimeout(() => {
         document.getElementById("successMessage").style.display = "none";
       }, 5000);
-      document.getElementById("reportForm").style.display = "none";
+      document.getElementById("reportForm").classList.remove("show");
+      setTimeout(() => {
+        document.getElementById("reportForm").style.display = "none";
+      }, 400);
     })
     .catch((error) => {
       alert("Failed to send report.");
