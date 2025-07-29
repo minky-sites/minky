@@ -149,19 +149,6 @@
       border-radius: 6px;
     }
 
-    .checkbox-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .checkbox-wrapper label {
-      font-size: 0.9rem;
-      color: white;
-    }
-
     .submit-btn {
       background: white;
       color: black;
@@ -266,17 +253,12 @@
   <h2>Report A Bug/Suggestions</h2>
   <small>Must Be In The Discord Server To Get Your Response</small>
 
-  <select id="category" onchange="handleCategoryChange()">
+  <select id="category">
     <option value="" disabled selected>Select Category</option>
     <option value="Bug Report">Report A Bug</option>
     <option value="Suggestion">New Suggestion</option>
     <option value="Server Member">Report A Server Member</option>
   </select>
-
-  <div class="checkbox-wrapper" id="anonWrapper">
-    <input type="checkbox" id="anonCheck">
-    <label for="anonCheck">Submit Anonymously</label>
-  </div>
 
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
   <input type="text" id="discordID" placeholder="Discord User ID">
@@ -292,11 +274,6 @@
     document.getElementById("reportUI").classList.toggle("active");
   }
 
-  function handleCategoryChange() {
-    const cat = document.getElementById("category").value;
-    document.getElementById("anonWrapper").style.display = (cat === "Server Member") ? "none" : "flex";
-  }
-
   function showError(msg) {
     const error = document.getElementById("errorMsg");
     error.textContent = msg;
@@ -309,19 +286,18 @@
     const id = document.getElementById("discordID").value.trim();
     const text = document.getElementById("reportText").value.trim();
     const category = document.getElementById("category").value;
-    const anon = document.getElementById("anonCheck").checked;
 
-    if (!category || !text || (!anon && (!user || !id))) {
+    if (!category || !text || !user || !id) {
       alert("Please fill all fields.");
       return;
     }
 
-    if (!anon && !/^\d+$/.test(id)) {
+    if (!/^\d+$/.test(id)) {
       showError("Only numbers allowed in entering your ID");
       return;
     }
 
-    const content = `📩 **New Report**\n**Category:** ${category}\n**User:** ${anon ? "Anonymous" : user + " (" + id + ")"}\n**Report:**\n${text}`;
+    const content = `📩 **New Report**\n**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`;
 
     fetch("https://discord.com/api/webhooks/xxx", {
       method: "POST",
