@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Orbitron:wght@800&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -29,19 +29,27 @@
     }
 
     h1 {
-      font-family: 'Orbitron', sans-serif;
       font-size: 2.2rem;
       margin-bottom: 8px;
+      font-family: 'Orbitron', sans-serif;
     }
 
     p {
       color: #aaa;
       margin-bottom: 25px;
+      white-space: pre-line;
     }
 
     .link-list {
       display: flex;
       flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .button-row {
+      display: flex;
+      align-items: center;
       gap: 12px;
     }
 
@@ -55,7 +63,6 @@
       transition: 0.3s;
       font-weight: bold;
       width: 260px;
-      margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -66,6 +73,23 @@
       background: #1abc9c;
       color: black;
       transform: scale(1.05);
+    }
+
+    .status-tag {
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: bold;
+      color: white;
+      text-transform: uppercase;
+    }
+
+    .working {
+      background-color: #27ae60;
+    }
+
+    .down {
+      background-color: #c0392b;
     }
 
     .discord-special {
@@ -106,24 +130,71 @@
 
   <div class="container">
     <h1>Minky</h1>
-    <p>
-      Best Beaming Sites/Methods/Tools/Tutorials 👾<br>
-      Join Our Discord For The Full Beaming Experience 👾
-    </p>
+    <p>Best Beaming Sites/Methods/Tools/Tutorials 👾
+Join Our Discord For The Full Beaming Experience 👾</p>
 
-    <div class="link-list">
-      <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
-      <a href="https://rbx-url.com/nnxCvx3-" target="_blank">Immortal (Generator 2)</a>
-      <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
-      <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
-      <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
-        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
-        Discord Server
-      </a>
+    <div class="link-list" id="link-list">
+      <div class="button-row">
+        <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
+        <span class="status-tag" id="main-status">Checking...</span>
+      </div>
+      <div class="button-row">
+        <a href="https://rbx-url.com/nnxCvx3-" target="_blank">Immortal (Generator 2)</a>
+        <span class="status-tag" id="immo-status">Checking...</span>
+      </div>
+      <div class="button-row">
+        <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
+        <span class="status-tag" id="auto-status">Checking...</span>
+      </div>
+      <div class="button-row">
+        <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
+        <span class="status-tag" id="cookie-status">Checking...</span>
+      </div>
+      <div class="button-row">
+        <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
+          Discord Server
+        </a>
+      </div>
     </div>
 
     <footer>© 2025 Minky</footer>
   </div>
+
+  <script>
+    async function checkStatus(url, rules, elementId) {
+      try {
+        const response = await fetch(url, { mode: 'no-cors' });
+        const text = await response.text();
+
+        if (rules.some(rule => text.includes(rule))) {
+          document.getElementById(elementId).textContent = 'DOWN';
+          document.getElementById(elementId).className = 'status-tag down';
+        } else {
+          document.getElementById(elementId).textContent = 'WORKING';
+          document.getElementById(elementId).className = 'status-tag working';
+        }
+      } catch (err) {
+        document.getElementById(elementId).textContent = 'DOWN';
+        document.getElementById(elementId).className = 'status-tag down';
+      }
+    }
+
+    window.onload = () => {
+      checkStatus('https://www.logged.tg/auth/minkybeams',
+        ["WEBSITE UNDER MAINTENANCE", "404 | Page is missing", "Can't be reached"],
+        'main-status');
+      checkStatus('https://rbx-url.com/nnxCvx3-',
+        ["Can't be reached"],
+        'immo-status');
+      checkStatus('https://is.gd/bhAW9Q',
+        ["Can't be reached"],
+        'auto-status');
+      checkStatus('https://dropref.com/?https://www.logged.tg/tools/refresher',
+        ["404 | Page is missing", "Can't be reached"],
+        'cookie-status');
+    };
+  </script>
 
 </body>
 </html>
