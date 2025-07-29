@@ -20,7 +20,6 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      overflow: hidden;
     }
 
     .container {
@@ -40,22 +39,24 @@
     }
 
     .status-title {
-      margin-bottom: 10px;
       font-size: 0.9rem;
       color: #aaa;
+      margin-bottom: 5px;
     }
 
     .link-status-container {
       display: flex;
       flex-direction: column;
-      gap: 12px;
       align-items: center;
+      gap: 12px;
     }
 
     .link-row {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
+      width: 100%;
     }
 
     .link-button {
@@ -132,36 +133,31 @@
   </style>
 
   <script>
-    async function checkStatus() {
-      const statusMap = {
-        "https://www.logged.tg/auth/minkybeams": ["WEBSITE UNDER MAINTENANCE", "Page Is Missing", "ERR_NAME_NOT_RESOLVED"],
-        "https://rbx-url.com/nnxCvx3-": ["ERR_NAME_NOT_RESOLVED"],
-        "https://is.gd/bhAW9Q": ["ERR_NAME_NOT_RESOLVED"],
-        "https://dropref.com/?https://www.logged.tg/tools/refresher": ["Page Is Missing", "ERR_NAME_NOT_RESOLVED"]
+    async function checkSites() {
+      const urls = {
+        "https://www.logged.tg/auth/minkybeams": "main",
+        "https://rbx-url.com/nnxCvx3-": "immo",
+        "https://is.gd/bhAW9Q": "auto",
+        "https://dropref.com/?https://www.logged.tg/tools/refresher": "cookie"
       };
 
-      const entries = Object.entries(statusMap);
+      for (const [url, key] of Object.entries(urls)) {
+        const tag = document.querySelector(`[data-status-for="${key}"]`);
 
-      for (const [url, errorTexts] of entries) {
         try {
-          const response = await fetch(url, { method: "GET", mode: "no-cors" });
-          updateStatus(url, true);
-        } catch (e) {
-          const errorString = e.toString();
-          const isDown = errorTexts.some(text => errorString.includes(text));
-          updateStatus(url, !isDown ? true : false);
+          const controller = new AbortController();
+          setTimeout(() => controller.abort(), 4000);
+          const response = await fetch(url, { method: "HEAD", mode: "no-cors", signal: controller.signal });
+          tag.textContent = "Working";
+          tag.classList.add("working");
+        } catch (err) {
+          tag.textContent = "Down";
+          tag.classList.add("down");
         }
       }
     }
 
-    function updateStatus(url, isWorking) {
-      const tag = document.querySelector(`[data-status-for="${url}"]`);
-      if (!tag) return;
-      tag.textContent = isWorking ? "Working" : "Down";
-      tag.classList.add(isWorking ? "working" : "down");
-    }
-
-    window.onload = checkStatus;
+    window.onload = checkSites;
   </script>
 </head>
 <body>
@@ -176,28 +172,34 @@ Join Our Discord For The Full Beaming Experience 👾
     <div class="status-title">Status</div>
 
     <div class="link-status-container">
+
       <div class="link-row">
         <a href="https://www.logged.tg/auth/minkybeams" target="_blank" class="link-button">Main Generator Site</a>
-        <span class="status-tag" data-status-for="https://www.logged.tg/auth/minkybeams">Checking...</span>
+        <span class="status-tag" data-status-for="main">Checking...</span>
       </div>
+
       <div class="link-row">
         <a href="https://rbx-url.com/nnxCvx3-" target="_blank" class="link-button">Immortal (Generator 2)</a>
-        <span class="status-tag" data-status-for="https://rbx-url.com/nnxCvx3-">Checking...</span>
+        <span class="status-tag" data-status-for="immo">Checking...</span>
       </div>
+
       <div class="link-row">
         <a href="https://is.gd/bhAW9Q" target="_blank" class="link-button">Autohar</a>
-        <span class="status-tag" data-status-for="https://is.gd/bhAW9Q">Checking...</span>
+        <span class="status-tag" data-status-for="auto">Checking...</span>
       </div>
+
       <div class="link-row">
         <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank" class="link-button">Cookie Refresher</a>
-        <span class="status-tag" data-status-for="https://dropref.com/?https://www.logged.tg/tools/refresher">Checking...</span>
+        <span class="status-tag" data-status-for="cookie">Checking...</span>
       </div>
+
       <div class="link-row">
         <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="link-button discord-special">
           <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
           Discord Server
         </a>
       </div>
+
     </div>
 
     <footer>© 2025 Minky</footer>
