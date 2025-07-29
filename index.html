@@ -58,7 +58,7 @@
       margin: 0 auto;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       gap: 10px;
     }
 
@@ -68,9 +68,32 @@
       transform: scale(1.05);
     }
 
+    .status {
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    .working {
+      background-color: #2ecc71;
+      color: black;
+    }
+
+    .down {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .fixing {
+      background-color: #f39c12;
+      color: black;
+    }
+
     .discord-special {
       background-color: #5865F2;
       border: none;
+      justify-content: center;
     }
 
     .discord-special:hover {
@@ -110,10 +133,22 @@
 Join Our Discord For The Full Beaming Experience 👾</p>
 
     <div class="link-list">
-      <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
-      <a href="https://rbx-url.com/nnxCvx3-" target="_blank">Immortal (Generator 2)</a>
-      <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
-      <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
+      <a href="https://www.logged.tg/auth/minkybeams" target="_blank">
+        Main Generator Site
+        <span class="status working">Working</span>
+      </a>
+      <a href="https://rbx-url.com/nnxCvx3-" target="_blank">
+        Immortal (Generator 2)
+        <span class="status down">Down</span>
+      </a>
+      <a href="https://is.gd/bhAW9Q" target="_blank">
+        Autohar
+        <span class="status fixing">Fixing</span>
+      </a>
+      <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">
+        Cookie Refresher
+        <span class="status working">Working</span>
+      </a>
       <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
         <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
         Discord Server
