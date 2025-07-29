@@ -4,13 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
       font-family: 'Poppins', sans-serif;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
@@ -18,11 +25,11 @@
 
     .container {
       text-align: center;
+      animation: fadeIn 1.5s ease;
     }
 
     h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.4rem;
+      font-size: 2.5rem;
       margin-bottom: 8px;
     }
 
@@ -35,13 +42,14 @@
     .link-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
       align-items: center;
     }
 
     .link-wrapper {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
     }
 
@@ -49,16 +57,26 @@
       text-decoration: none;
       color: white;
       background: #222;
+      padding: 14px;
       border: 1px solid #333;
       border-radius: 10px;
-      padding: 14px;
       font-weight: bold;
       width: 260px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
       transition: 0.3s;
+    }
+
+    a img.discord-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      filter: brightness(0) invert(1);
+    }
+
+    a.discord-special:hover img.discord-icon {
+      filter: brightness(0);
     }
 
     .discord-special {
@@ -66,38 +84,32 @@
     }
 
     .discord-special:hover {
-      background-color: #5865F2 !important;
+      background: #5865F2 !important;
+      color: white;
     }
 
-    .discord-special:hover .discord-icon {
-      filter: brightness(0);
-    }
-
-    .discord-icon {
-      width: 20px;
-      height: 20px;
-      filter: brightness(0) invert(1);
-    }
-
-    .status-tag {
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 0.75rem;
+    .status {
+      font-size: 0.8rem;
+      padding: 4px 8px;
+      border-radius: 5px;
       font-weight: bold;
       white-space: nowrap;
-      min-width: 65px;
-      text-align: center;
-      transition: 0.3s;
     }
 
-    .working {
-      background-color: #00c853;
+    .status-working {
+      background-color: #2ecc71;
       color: black;
     }
 
-    .down {
-      background-color: #e53935;
+    .status-down {
+      background-color: #e74c3c;
       color: white;
+    }
+
+    .status-label {
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+      color: #bbb;
     }
 
     footer {
@@ -105,95 +117,113 @@
       font-size: 0.8rem;
       color: #555;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
+
   <div class="container">
     <h1>Minky</h1>
     <p>Best Beaming Sites/Methods/Tools/Tutorials 👾
 Join Our Discord For The Full Beaming Experience 👾</p>
 
-    <div class="link-list">
-      <div class="link-wrapper">
-        <a id="btn-main" href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
-        <span class="status-tag" id="status-main">Checking...</span>
-      </div>
-      <div class="link-wrapper">
-        <a id="btn-immo" href="https://rbx-url.com/nnxCvx3-" target="_blank">Immortal (Generator 2)</a>
-        <span class="status-tag" id="status-immo">Checking...</span>
-      </div>
-      <div class="link-wrapper">
-        <a id="btn-auto" href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
-        <span class="status-tag" id="status-auto">Checking...</span>
-      </div>
-      <div class="link-wrapper">
-        <a id="btn-refresher" href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
-        <span class="status-tag" id="status-refresher">Checking...</span>
-      </div>
-      <div class="link-wrapper">
-        <a class="discord-special" href="https://discord.gg/kPeNP5aJTK" target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
-          Discord Server
-        </a>
-      </div>
+    <div class="status-label">Status</div>
+
+    <div class="link-list" id="link-list">
+      <!-- Sites will be inserted here dynamically -->
     </div>
 
     <footer>© 2025 Minky</footer>
   </div>
 
   <script>
-    async function checkStatus(url, id, btnId, rules) {
-      const statusEl = document.getElementById(id);
-      const buttonEl = document.getElementById(btnId);
-
-      try {
-        const res = await fetch(url, { mode: 'no-cors' });
-        fetch(url)
-          .then(res => res.text())
-          .then(text => {
-            let content = text.toLowerCase();
-            const isDown = rules.some(rule => content.includes(rule));
-            if (isDown) {
-              statusEl.textContent = 'Down';
-              statusEl.className = 'status-tag down';
-              buttonEl.onmouseover = () => buttonEl.style.backgroundColor = '#e53935';
-              buttonEl.onmouseout = () => buttonEl.style.backgroundColor = '#222';
-            } else {
-              statusEl.textContent = 'Working';
-              statusEl.className = 'status-tag working';
-              buttonEl.onmouseover = () => {
-                buttonEl.style.backgroundColor = '#00c853';
-                buttonEl.style.color = '#000';
-              };
-              buttonEl.onmouseout = () => {
-                buttonEl.style.backgroundColor = '#222';
-                buttonEl.style.color = '#fff';
-              };
-            }
-          })
-          .catch(() => {
-            statusEl.textContent = 'Down';
-            statusEl.className = 'status-tag down';
-            buttonEl.onmouseover = () => buttonEl.style.backgroundColor = '#e53935';
-            buttonEl.onmouseout = () => buttonEl.style.backgroundColor = '#222';
-          });
-      } catch (e) {
-        statusEl.textContent = 'Down';
-        statusEl.className = 'status-tag down';
-        buttonEl.onmouseover = () => buttonEl.style.backgroundColor = '#e53935';
-        buttonEl.onmouseout = () => buttonEl.style.backgroundColor = '#222';
+    const sites = [
+      {
+        name: "Main Generator Site",
+        url: "https://www.logged.tg/auth/minkybeams",
+        testType: "text",
+        downIf: ["WEBSITE UNDER MAINTENANCE", "404 | Page is missing...", "This site can’t be reached"],
+      },
+      {
+        name: "Immortal (Generator 2)",
+        url: "https://rbx-url.com/nnxCvx3-",
+        testType: "browser",
+        downIf: ["This site can’t be reached"],
+      },
+      {
+        name: "Autohar",
+        url: "https://is.gd/bhAW9Q",
+        testType: "browser",
+        downIf: ["This site can’t be reached"],
+      },
+      {
+        name: "Cookie Refresher",
+        url: "https://dropref.com/?https://www.logged.tg/tools/refresher",
+        testType: "text",
+        downIf: ["404 | Page is missing...", "This site can’t be reached"],
+      },
+      {
+        name: "Discord Server",
+        url: "https://discord.gg/kPeNP5aJTK",
+        isDiscord: true
       }
-    }
+    ];
 
-    const downRulesMain = ["website under maintenance", "404 | page is missing...", "this site can’t be reached"];
-    const downRulesImmo = ["this site can’t be reached"];
-    const downRulesAuto = ["this site can’t be reached"];
-    const downRulesRefresher = ["404 | page is missing...", "this site can’t be reached"];
+    const linkList = document.getElementById("link-list");
 
-    checkStatus("https://www.logged.tg/auth/minkybeams", "status-main", "btn-main", downRulesMain);
-    checkStatus("https://rbx-url.com/nnxCvx3-", "status-immo", "btn-immo", downRulesImmo);
-    checkStatus("https://is.gd/bhAW9Q", "status-auto", "btn-auto", downRulesAuto);
-    checkStatus("https://dropref.com/?https://www.logged.tg/tools/refresher", "status-refresher", "btn-refresher", downRulesRefresher);
+    sites.forEach(site => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "link-wrapper";
+
+      const a = document.createElement("a");
+      a.href = site.url;
+      a.target = "_blank";
+      a.textContent = site.name;
+      
+      if (site.isDiscord) {
+        a.classList.add("discord-special");
+        a.innerHTML = `<img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" class="discord-icon" alt="Discord"> Discord Server`;
+        wrapper.appendChild(a);
+        linkList.appendChild(wrapper);
+        return;
+      }
+
+      const status = document.createElement("div");
+      status.className = "status";
+      status.textContent = "Checking...";
+
+      wrapper.appendChild(a);
+      wrapper.appendChild(status);
+      linkList.appendChild(wrapper);
+
+      // Check site status
+      fetch(site.url)
+        .then(response => response.text())
+        .then(html => {
+          const isDown = site.downIf.some(keyword => html.includes(keyword));
+          if (isDown) {
+            status.classList.add("status-down");
+            status.textContent = "Down";
+            a.onmouseover = () => a.style.backgroundColor = "#e74c3c";
+            a.onmouseout = () => a.style.backgroundColor = "#222";
+          } else {
+            status.classList.add("status-working");
+            status.textContent = "Working";
+            a.onmouseover = () => a.style.backgroundColor = "#2ecc71";
+            a.onmouseout = () => a.style.backgroundColor = "#222";
+          }
+        })
+        .catch(() => {
+          status.classList.add("status-down");
+          status.textContent = "Down";
+          a.onmouseover = () => a.style.backgroundColor = "#e74c3c";
+          a.onmouseout = () => a.style.backgroundColor = "#222";
+        });
+    });
   </script>
 </body>
 </html>
