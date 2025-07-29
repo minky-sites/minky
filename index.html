@@ -20,7 +20,7 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      overflow-x: hidden;
+      overflow: hidden;
     }
 
     .container {
@@ -39,14 +39,13 @@
       white-space: pre-line;
     }
 
-    .status-heading {
+    .status-title {
       margin-bottom: 10px;
-      margin-top: -10px;
       font-size: 0.9rem;
-      color: #ccc;
+      color: #aaa;
     }
 
-    .link-list {
+    .link-status-container {
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -55,13 +54,11 @@
 
     .link-row {
       display: flex;
-      justify-content: flex-start;
-      gap: 10px;
       align-items: center;
-      width: 340px;
+      gap: 10px;
     }
 
-    a {
+    .link-button {
       text-decoration: none;
       color: white;
       background: #222;
@@ -77,7 +74,7 @@
       gap: 10px;
     }
 
-    a:hover {
+    .link-button:hover {
       background: #1abc9c;
       color: black;
       transform: scale(1.05);
@@ -86,7 +83,6 @@
     .discord-special {
       background-color: #5865F2;
       border: none;
-      margin-top: 10px;
     }
 
     .discord-special:hover {
@@ -100,22 +96,21 @@
       filter: brightness(0) invert(1);
     }
 
-    .status-label {
+    .status-tag {
       font-size: 0.8rem;
-      padding: 5px 10px;
-      border-radius: 8px;
+      padding: 4px 10px;
+      border-radius: 6px;
       font-weight: bold;
-      color: #fff;
-      min-width: 70px;
-      text-align: center;
     }
 
     .working {
-      background-color: #28a745;
+      background-color: #2ecc71;
+      color: #000;
     }
 
     .down {
-      background-color: #dc3545;
+      background-color: #e74c3c;
+      color: #fff;
     }
 
     footer {
@@ -135,40 +130,70 @@
       }
     }
   </style>
+
+  <script>
+    async function checkStatus() {
+      const statusMap = {
+        "https://www.logged.tg/auth/minkybeams": ["WEBSITE UNDER MAINTENANCE", "Page Is Missing", "ERR_NAME_NOT_RESOLVED"],
+        "https://rbx-url.com/nnxCvx3-": ["ERR_NAME_NOT_RESOLVED"],
+        "https://is.gd/bhAW9Q": ["ERR_NAME_NOT_RESOLVED"],
+        "https://dropref.com/?https://www.logged.tg/tools/refresher": ["Page Is Missing", "ERR_NAME_NOT_RESOLVED"]
+      };
+
+      const entries = Object.entries(statusMap);
+
+      for (const [url, errorTexts] of entries) {
+        try {
+          const response = await fetch(url, { method: "GET", mode: "no-cors" });
+          updateStatus(url, true);
+        } catch (e) {
+          const errorString = e.toString();
+          const isDown = errorTexts.some(text => errorString.includes(text));
+          updateStatus(url, !isDown ? true : false);
+        }
+      }
+    }
+
+    function updateStatus(url, isWorking) {
+      const tag = document.querySelector(`[data-status-for="${url}"]`);
+      if (!tag) return;
+      tag.textContent = isWorking ? "Working" : "Down";
+      tag.classList.add(isWorking ? "working" : "down");
+    }
+
+    window.onload = checkStatus;
+  </script>
 </head>
 <body>
 
   <div class="container">
     <h1>Minky</h1>
-    <p>Best Beaming Sites/Methods/Tools/Tutorials 👾
-Join Our Discord For The Full Beaming Experience 👾</p>
+    <p>
+Best Beaming Sites/Methods/Tools/Tutorials 👾
+Join Our Discord For The Full Beaming Experience 👾
+    </p>
 
-    <div class="status-heading">Status</div>
+    <div class="status-title">Status</div>
 
-    <div class="link-list">
+    <div class="link-status-container">
       <div class="link-row">
-        <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
-        <span id="status-main" class="status-label">Checking...</span>
+        <a href="https://www.logged.tg/auth/minkybeams" target="_blank" class="link-button">Main Generator Site</a>
+        <span class="status-tag" data-status-for="https://www.logged.tg/auth/minkybeams">Checking...</span>
       </div>
-
       <div class="link-row">
-        <a href="https://immortalgen.site" target="_blank">Immortal (Generator 2)</a>
-        <span id="status-immortal" class="status-label">Checking...</span>
+        <a href="https://rbx-url.com/nnxCvx3-" target="_blank" class="link-button">Immortal (Generator 2)</a>
+        <span class="status-tag" data-status-for="https://rbx-url.com/nnxCvx3-">Checking...</span>
       </div>
-
       <div class="link-row">
-        <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
-        <span id="status-autohar" class="status-label">Checking...</span>
+        <a href="https://is.gd/bhAW9Q" target="_blank" class="link-button">Autohar</a>
+        <span class="status-tag" data-status-for="https://is.gd/bhAW9Q">Checking...</span>
       </div>
-
       <div class="link-row">
-        <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
-        <span id="status-cookie" class="status-label">Checking...</span>
+        <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank" class="link-button">Cookie Refresher</a>
+        <span class="status-tag" data-status-for="https://dropref.com/?https://www.logged.tg/tools/refresher">Checking...</span>
       </div>
-
-      <!-- Discord doesn't need a status -->
       <div class="link-row">
-        <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
+        <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="link-button discord-special">
           <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
           Discord Server
         </a>
@@ -177,27 +202,6 @@ Join Our Discord For The Full Beaming Experience 👾</p>
 
     <footer>© 2025 Minky</footer>
   </div>
-
-  <script>
-    async function checkStatusViaProxy(url, elementId, downTriggers) {
-      try {
-        const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
-        const data = await res.json();
-        const content = data.contents.toLowerCase();
-        const isDown = downTriggers.some(trigger => content.includes(trigger));
-        document.getElementById(elementId).textContent = isDown ? "Down" : "Working";
-        document.getElementById(elementId).className = "status-label " + (isDown ? "down" : "working");
-      } catch {
-        document.getElementById(elementId).textContent = "Down";
-        document.getElementById(elementId).className = "status-label down";
-      }
-    }
-
-    checkStatusViaProxy('https://www.logged.tg/auth/minkybeams', 'status-main', ["website under maintenance", "404┃page is missing", "can't be reached"]);
-    checkStatusViaProxy('https://immortalgen.site', 'status-immortal', ["can't be reached"]);
-    checkStatusViaProxy('https://is.gd/bhAW9Q', 'status-autohar', ["can't be reached"]);
-    checkStatusViaProxy('https://dropref.com/?https://www.logged.tg/tools/refresher', 'status-cookie', ["404┃page is missing", "can't be reached"]);
-  </script>
 
 </body>
 </html>
