@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -13,22 +13,43 @@
     }
 
     body {
+      font-family: 'Nunito', sans-serif;
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
-      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
       min-height: 100vh;
-      overflow-y: auto;
-      position: relative;
+    }
+
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(100vh); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .container {
       text-align: center;
-      padding-top: 100px;
+      padding: 80px 20px;
+      animation: fadeIn 1.5s ease;
     }
 
     h1 {
-      font-size: 2.2rem;
       font-family: 'Poppins', sans-serif;
+      font-size: 2.5rem;
       margin-bottom: 10px;
     }
 
@@ -40,11 +61,11 @@
     .link-list {
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 12px;
+      align-items: center;
     }
 
-    a.button {
+    .link-list a {
       text-decoration: none;
       color: white;
       background: #222;
@@ -60,19 +81,18 @@
       gap: 10px;
     }
 
-    a.button:hover {
-      background: white;
+    .link-list a:hover {
+      background-color: white;
       color: black;
       transform: scale(1.05);
     }
 
-    a.discord-button {
-      background-color: #222;
+    .discord-special {
       position: relative;
     }
 
-    a.discord-button:hover {
-      background-color: #5865F2;
+    .discord-special:hover {
+      background-color: #5865F2 !important;
       color: white;
     }
 
@@ -80,31 +100,26 @@
       width: 20px;
       height: 20px;
       filter: brightness(0) invert(1);
-      transition: transform 0.3s ease;
     }
 
-    a.discord-button:hover .discord-icon {
-      filter: brightness(0);
-      transform: rotate(15deg);
+    footer {
+      margin-top: 50px;
+      font-size: 0.8rem;
+      color: #555;
     }
 
-    /* Report Floating Button */
+    /* Report Button UI */
     .report-button {
       position: fixed;
       top: 20px;
       right: 20px;
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .report-button button {
-      width: 45px;
-      height: 45px;
-      border-radius: 10px;
-      background-color: #222;
+      background: #222;
+      color: white;
       border: 1px solid #333;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -112,204 +127,179 @@
       transition: 0.3s;
     }
 
-    .report-button button:hover {
-      background-color: white;
-      transform: scale(1.05);
+    .report-button:hover {
+      background: #1abc9c;
+      color: black;
     }
 
-    .report-button button img {
-      width: 20px;
-      height: 20px;
-      filter: brightness(0) invert(1);
-    }
-
-    .report-button button:hover img {
-      filter: brightness(0);
-    }
-
-    .report-button span {
-      margin-top: 4px;
-      color: white;
-      font-size: 12px;
+    .report-label {
+      font-size: 0.7rem;
+      position: absolute;
+      top: 60px;
       text-align: center;
+      width: 60px;
+      color: #aaa;
     }
 
-    .report-form-container {
-      display: none;
+    .report-ui {
       position: fixed;
-      top: 80px;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translate(-50%, -50%) scale(0);
       width: 90%;
       max-width: 400px;
       background: #111;
-      padding: 20px;
-      border-radius: 10px;
-      z-index: 101;
-      box-shadow: 0 0 15px #000;
-      opacity: 0;
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      border: 1px solid #333;
+      padding: 25px;
+      border-radius: 12px;
+      z-index: 999;
+      transition: 0.4s ease;
     }
 
-    .report-form-container.show {
-      display: block;
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
+    .report-ui.active {
+      transform: translate(-50%, -50%) scale(1);
     }
 
-    .report-form-container h2 {
+    .report-ui h2 {
       margin-bottom: 10px;
     }
 
-    .report-form-container label {
+    .report-ui small {
+      color: #aaa;
       display: block;
-      margin-top: 10px;
-      font-size: 14px;
+      margin-bottom: 15px;
     }
 
-    .report-form-container input,
-    .report-form-container select,
-    .report-form-container textarea {
+    .report-ui input, .report-ui textarea, .report-ui select {
       width: 100%;
-      margin-top: 5px;
-      padding: 8px;
-      border-radius: 5px;
-      border: none;
+      padding: 10px;
+      margin-bottom: 12px;
       background: #222;
       color: white;
+      border: 1px solid #444;
+      border-radius: 6px;
     }
 
-    .report-form-container button.submit-btn {
-      margin-top: 15px;
-      padding: 10px;
-      width: 100%;
+    .submit-btn {
       background: white;
       color: black;
       font-weight: bold;
+      padding: 10px 20px;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: 0.3s;
+      width: 100%;
     }
 
-    .report-form-container button.submit-btn:hover {
-      background: #eee;
+    .submit-btn:hover {
+      background: #1abc9c;
+      color: black;
     }
 
-    .success-message {
+    .confirmation {
       position: fixed;
-      top: 10px;
+      top: -50px;
       left: 50%;
       transform: translateX(-50%);
       background: #1abc9c;
-      padding: 10px 20px;
-      border-radius: 5px;
       color: black;
-      font-weight: bold;
-      display: none;
-      z-index: 102;
+      padding: 12px 20px;
+      border-radius: 8px;
+      transition: 0.4s ease;
+      z-index: 9999;
     }
+
+    .confirmation.active {
+      top: 20px;
+    }
+
   </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>Minky</h1>
-  <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
+  <!-- Snowflakes -->
+  <script>
+    for (let i = 0; i < 100; i++) {
+      const flake = document.createElement("div");
+      flake.classList.add("snowflake");
+      flake.style.left = Math.random() * 100 + "vw";
+      flake.style.animationDuration = 2 + Math.random() * 3 + "s";
+      flake.style.opacity = Math.random();
+      document.body.appendChild(flake);
+    }
+  </script>
 
-  <div class="link-list">
-    <a class="button" href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
-    <a class="button" href="https://roblox.tg/dashboard/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" target="_blank">Immortal (Generator 2)</a>
-    <a class="button" href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
-    <a class="button" href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
-    <a class="button discord-button" href="https://discord.gg/kPeNP5aJTK" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
-      Discord Server
-    </a>
+  <div class="container">
+    <h1>Minky</h1>
+    <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
+
+    <div class="link-list">
+      <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
+      <a href="https://roblox.tg/dashboard/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" target="_blank">Immortal (Generator 2)</a>
+      <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
+      <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
+      <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
+        Discord Server
+      </a>
+    </div>
+
+    <footer>© 2025 Minky</footer>
   </div>
-</div>
 
-<!-- Report Button -->
-<div class="report-button">
-  <button onclick="toggleReportForm()"><img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Wrench"></button>
-  <span>Report</span>
-</div>
+  <!-- Floating Report Button -->
+  <div class="report-button" onclick="toggleReport()">
+    🛠
+    <div class="report-label">Report</div>
+  </div>
 
-<!-- Report Form -->
-<div class="report-form-container" id="reportForm">
-  <h2>Report A Bug/Suggestions</h2>
-  <p style="font-size: 12px; color: #aaa;">Must Be In The Discord Server To Get Your Response</p>
-  <label for="category">Category</label>
-  <select id="category">
-    <option>Report A Bug</option>
-    <option>New Suggestion</option>
-    <option>Report A Server Member</option>
-  </select>
-  <label for="username">Discord Username</label>
-  <input type="text" id="username" placeholder="Your Discord Username">
-  <label for="userid">Discord ID</label>
-  <input type="text" id="userid" placeholder="Your Discord ID">
-  <label for="report">Report</label>
-  <textarea id="report" maxlength="3000" rows="5" placeholder="Describe the issue or suggestion..."></textarea>
-  <button class="submit-btn" onclick="submitReport()">Submit Report</button>
-</div>
+  <!-- Report UI -->
+  <div class="report-ui" id="reportUI">
+    <h2>Report A Bug/Suggestions</h2>
+    <small>Must Be In The Discord Server To Get Your Response</small>
+    <select id="category">
+      <option value="" disabled selected>Select Category</option>
+      <option value="Bug Report">Report A Bug</option>
+      <option value="Suggestion">New Suggestion</option>
+      <option value="Server Member">Report A Server Member</option>
+    </select>
+    <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
+    <input type="text" id="discordID" placeholder="Discord User ID">
+    <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
+    <button class="submit-btn" onclick="submitReport()">Submit Report</button>
+  </div>
 
-<div class="success-message" id="successMessage">Report sent successfully</div>
+  <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
 
-<script>
-  function toggleReportForm() {
-    const form = document.getElementById("reportForm");
-    if (!form.classList.contains("show")) {
-      form.style.display = "block";
-      setTimeout(() => {
-        form.classList.add("show");
-      }, 10);
-    } else {
-      form.classList.remove("show");
-      setTimeout(() => {
-        form.style.display = "none";
-      }, 400);
-    }
-  }
-
-  function submitReport() {
-    const category = document.getElementById("category").value;
-    const username = document.getElementById("username").value;
-    const userid = document.getElementById("userid").value;
-    const report = document.getElementById("report").value;
-
-    if (!username || !userid || !report) {
-      alert("Please fill out all fields.");
-      return;
+  <script>
+    function toggleReport() {
+      const ui = document.getElementById("reportUI");
+      ui.classList.toggle("active");
     }
 
-    const webhookUrl = "https://discord.com/api/webhooks/1399803739199770664/dKXs2wiyMLtjgTLRbOZuz-N8BsJw3NGRZ0Pw8tnOX9YUJi3a6ju4cK_d-HsIYLHJmoy9";
+    function submitReport() {
+      const user = document.getElementById("discordUser").value.trim();
+      const id = document.getElementById("discordID").value.trim();
+      const text = document.getElementById("reportText").value.trim();
+      const category = document.getElementById("category").value;
 
-    fetch(webhookUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        content: `**New ${category} Submitted**\n\n**User:** ${username}\n**ID:** ${userid}\n**Message:**\n${report}`
-      })
-    })
-    .then(() => {
-      document.getElementById("successMessage").style.display = "block";
-      setTimeout(() => {
-        document.getElementById("successMessage").style.display = "none";
-      }, 5000);
-      document.getElementById("reportForm").classList.remove("show");
-      setTimeout(() => {
-        document.getElementById("reportForm").style.display = "none";
-      }, 400);
-    })
-    .catch((error) => {
-      alert("Failed to send report.");
-      console.error(error);
-    });
-  }
-</script>
+      if (!user || !id || !text || !category) return alert("Please fill all fields.");
+
+      fetch("https://discord.com/api/webhooks/1399803739199770664/dKXs2wiyMLtjgTLRbOZuz-N8BsJw3NGRZ0Pw8tnOX9YUJi3a6ju4cK_d-HsIYLHJmoy9", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: `📩 **New Report**\n**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`
+        })
+      }).then(() => {
+        document.getElementById("confirmationMsg").classList.add("active");
+        setTimeout(() => {
+          document.getElementById("confirmationMsg").classList.remove("active");
+          document.getElementById("reportUI").classList.remove("active");
+        }, 5000);
+      });
+    }
+  </script>
 
 </body>
 </html>
