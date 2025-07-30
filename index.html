@@ -6,71 +6,378 @@
   <title>Minky</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* [unchanged styles omitted for brevity — your current styling remains exactly the same] */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #111;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    .container {
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 48px;
+      margin-bottom: 10px;
+      color: #fff;
+      text-shadow: 0 0 8px #00f0ff;
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .link-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .link-list a {
+      background: #222;
+      padding: 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #fff;
+      transition: background 0.3s;
+    }
+
+    .link-list a:hover {
+      background: #333;
+    }
+
+    .discord-special {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #5865F2;
+    }
+
+    .discord-special:hover {
+      background: #4752c4;
+    }
+
+    .discord-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      opacity: 0.6;
+    }
+
+    .report-button {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: white;
+      color: black;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .report-button:hover {
+      background: #ddd;
+    }
+
+    .report-label {
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .report-ui-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+    }
+
+    .report-ui {
+      position: fixed;
+      bottom: 80px;
+      right: 30px;
+      background: #222;
+      border-radius: 12px;
+      padding: 20px;
+      width: 320px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      display: none;
+      z-index: 1002;
+    }
+
+    .report-ui h2 {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    .report-ui small {
+      font-size: 12px;
+      display: block;
+      margin-bottom: 10px;
+      opacity: 0.7;
+    }
+
+    .report-ui select,
+    .report-ui input,
+    .report-ui textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 12px;
+      background: #333;
+      border: 1px solid #444;
+      border-radius: 6px;
+      color: #fff;
+    }
+
+    .report-ui textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .character-count {
+      text-align: right;
+      font-size: 12px;
+      color: #aaa;
+      margin-top: -10px;
+      margin-bottom: 10px;
+    }
+
+    .custom-photo-label {
+      display: inline-block;
+      background: #444;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: white;
+      color: black;
+      font-weight: bold;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background: #ddd;
+    }
+
+    .confirmation,
+    .error-msg {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f0;
+      color: black;
+      padding: 10px 20px;
+      border-radius: 8px;
+      display: none;
+      z-index: 1003;
+      font-weight: bold;
+    }
+
+    .error-msg {
+      background: #f00;
+      color: white;
+    }
+
+    .photo-preview {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 10px;
+    }
+
+    .photo-preview img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #555;
+    }
+
+    .photo-preview::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .photo-preview::-webkit-scrollbar-thumb {
+      background: #444;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
-
-<div class="report-ui-overlay" onclick="closeReportUI()"></div>
-
-<div class="container">
-  <h1>Minky</h1>
-  <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
-
-  <div class="link-list">
-    <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
-    <a href="https://roblox.tg/dashboard" target="_blank">Immortal (Generator 2)</a>
-    <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
-    <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
-    <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-icon">
-      Discord Server
-    </a>
+  <div class="container">
+    <h1>Minky</h1>
+    <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
+    <div class="link-list">
+      <a href="#">Link 1</a>
+      <a href="#">Link 2</a>
+      <a href="#">Link 3</a>
+      <a href="#">Link 4</a>
+      <a class="discord-special" href="#">
+        <img class="discord-icon" src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" />
+        Join Discord
+      </a>
+    </div>
+    <footer>&copy; 2025 Minky</footer>
   </div>
 
-  <footer>© 2025 Minky</footer>
-</div>
+  <div class="report-button" onclick="toggleReportUI()">
+    🛠
+    <div class="report-label">Report</div>
+  </div>
 
-<!-- Report Button -->
-<div class="report-button" onclick="toggleReport()">
-  🛠<div class="report-label">Report</div>
-</div>
+  <div class="report-ui-overlay" onclick="toggleReportUI()"></div>
 
-<!-- Report UI -->
-<div class="report-ui" id="reportUI">
-  <h2>Report A Bug/Suggestions</h2>
-  <small>Must Be In The Discord Server To Get Your Response</small>
+  <div class="report-ui" id="reportUI">
+    <h2>Report A Bug/Suggestions</h2>
+    <small>Must Be In The Discord Server To Get Your Response</small>
 
-  <select id="category">
-    <option value="" disabled selected>Select Category</option>
-    <option value="Bug Report">Report A Bug</option>
-    <option value="Suggestion">New Suggestion</option>
-    <option value="Server Member">Report A Server Member</option>
-    <option value="Site Down">Site Down</option>
-  </select>
+    <select id="category">
+      <option value="" disabled selected>Select Category</option>
+      <option value="Bug Report">Report A Bug</option>
+      <option value="Suggestion">New Suggestion</option>
+      <option value="Server Member">Report A Server Member</option>
+      <option value="Site Down">Site Down</option>
+    </select>
 
-  <label for="discordUser">Username</label>
-  <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
+    <label for="discordUser">Username</label>
+    <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
 
-  <label for="discordID">User ID</label>
-  <input type="text" id="discordID" placeholder="Discord User ID">
+    <label for="discordID">User ID</label>
+    <input type="text" id="discordID" placeholder="Discord User ID">
 
-  <label for="reportText">Report</label>
-  <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
-  <div class="character-count" id="charCount">0 / 3000</div>
+    <label for="reportText">Report</label>
+    <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
+    <div class="character-count" id="charCount">0 / 3000</div>
 
-  <label for="addPhoto" class="custom-photo-label">Add Photo</label>
-  <input type="file" id="addPhoto" accept="image/*" multiple style="display: none;" />
-  <div id="photoPreviewContainer" class="photo-preview"></div>
+    <label for="addPhoto" class="custom-photo-label">Add Photo</label>
+    <input type="file" id="addPhoto" accept="image/*" multiple style="display: none;" />
+    <div id="photoPreviewContainer" class="photo-preview"></div>
 
-  <button class="submit-btn" onclick="submitReport()">Submit Report</button>
-</div>
+    <button class="submit-btn" onclick="submitReport()">Submit Report</button>
+  </div>
 
-<div class="confirmation" id="confirmationMsg">Report sent successfully</div>
-<div class="error-msg" id="errorMsg">Error</div>
+  <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
+  <div class="error-msg" id="errorMsg">Error</div>
 
-<script>
-  // [Unchanged JS script remains the same — all your existing functionality is intact]
-</script>
+  <script>
+    const reportUI = document.getElementById("reportUI");
+    const overlay = document.querySelector(".report-ui-overlay");
+    const reportText = document.getElementById("reportText");
+    const charCount = document.getElementById("charCount");
+    const photoInput = document.getElementById("addPhoto");
+    const previewContainer = document.getElementById("photoPreviewContainer");
+
+    function toggleReportUI() {
+      const isVisible = reportUI.style.display === "block";
+      reportUI.style.display = isVisible ? "none" : "block";
+      overlay.style.display = isVisible ? "none" : "block";
+    }
+
+    reportText.addEventListener("input", () => {
+      charCount.textContent = `${reportText.value.length} / 3000`;
+    });
+
+    photoInput.addEventListener("change", () => {
+      previewContainer.innerHTML = "";
+      Array.from(photoInput.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          previewContainer.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    function submitReport() {
+      const category = document.getElementById("category").value;
+      const user = document.getElementById("discordUser").value;
+      const id = document.getElementById("discordID").value;
+      const text = reportText.value.trim();
+
+      if (!category || !user || !id || !text) {
+        showError("Please fill out all fields.");
+        return;
+      }
+
+      const msg = `**Category:** ${category}\n**User:** ${user} (${id})\n**Report:** ${text}`;
+      const formData = new FormData();
+      formData.append("content", msg);
+      Array.from(photoInput.files).forEach(file => {
+        formData.append("files[]", file);
+      });
+
+      fetch("YOUR_DISCORD_WEBHOOK", {
+        method: "POST",
+        body: formData
+      }).then(res => {
+        if (res.ok) {
+          showConfirmation();
+          resetForm();
+        } else {
+          showError("Failed to send report.");
+        }
+      }).catch(() => {
+        showError("Failed to send report.");
+      });
+    }
+
+    function resetForm() {
+      document.getElementById("category").selectedIndex = 0;
+      document.getElementById("discordUser").value = "";
+      document.getElementById("discordID").value = "";
+      reportText.value = "";
+      charCount.textContent = "0 / 3000";
+      photoInput.value = "";
+      previewContainer.innerHTML = "";
+    }
+
+    function showConfirmation() {
+      const msg = document.getElementById("confirmationMsg");
+      msg.style.display = "block";
+      setTimeout(() => msg.style.display = "none", 3000);
+    }
+
+    function showError(text) {
+      const msg = document.getElementById("errorMsg");
+      msg.textContent = text;
+      msg.style.display = "block";
+      setTimeout(() => msg.style.display = "none", 3000);
+    }
+  </script>
 </body>
 </html>
