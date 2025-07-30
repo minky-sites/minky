@@ -30,8 +30,7 @@
 
     p {
       color: #aaa;
-      margin: 20px auto 40px;
-      max-width: 600px;
+      margin-bottom: 50px;
     }
 
     .container {
@@ -69,8 +68,8 @@
     }
 
     .discord-special:hover {
-      background-color: #5865F2 !important;
-      color: white !important;
+      background-color: #5865F2;
+      color: white;
     }
 
     .discord-special:hover .discord-icon {
@@ -141,7 +140,6 @@
 
     .report-ui h2 {
       margin-bottom: 10px;
-      font-family: 'Orbitron', sans-serif;
     }
 
     .report-ui small {
@@ -150,9 +148,7 @@
       margin-bottom: 15px;
     }
 
-    .report-ui input,
-    .report-ui textarea,
-    .report-ui select {
+    .report-ui input, .report-ui textarea, .report-ui select {
       width: 100%;
       padding: 10px;
       margin-bottom: 12px;
@@ -160,7 +156,6 @@
       color: white;
       border: 1px solid #444;
       border-radius: 6px;
-      font-family: 'Nunito', sans-serif;
     }
 
     .submit-btn {
@@ -179,8 +174,7 @@
       transform: scale(1.05);
     }
 
-    .confirmation,
-    .error-msg {
+    .confirmation, .error-msg {
       position: fixed;
       top: -50px;
       left: 50%;
@@ -202,6 +196,43 @@
       top: 20px;
       background: red;
       color: white;
+    }
+
+    .counter {
+      text-align: right;
+      font-size: 0.8rem;
+      color: #aaa;
+      margin-top: -8px;
+      margin-bottom: 10px;
+    }
+
+    .counter.limit {
+      color: red;
+    }
+
+    .custom-file {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+    }
+
+    .custom-file input[type="file"] {
+      display: none;
+    }
+
+    .file-label {
+      background: #333;
+      color: white;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: 0.3s;
+    }
+
+    .file-label:hover {
+      background: #444;
     }
 
     @keyframes fall {
@@ -276,18 +307,34 @@
   </select>
 
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
-  <input type="text" id="discordID" placeholder="Discord User ID">
+  <input type="text" id="discordID" placeholder="Discord User ID (optional)">
   <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
+  <div class="counter" id="charCounter">0 / 3000</div>
+
+  <div class="custom-file">
+    <label for="fileInput" class="file-label">Add Photo (optional)</label>
+    <input type="file" id="fileInput">
+  </div>
+
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
 </div>
 
 <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
-<div class="error-msg" id="errorMsg">Only numbers allowed in entering your ID</div>
+<div class="error-msg" id="errorMsg"></div>
 
 <script>
   function toggleReport() {
     document.getElementById("reportUI").classList.toggle("active");
   }
+
+  const textArea = document.getElementById("reportText");
+  const counter = document.getElementById("charCounter");
+
+  textArea.addEventListener("input", () => {
+    const len = textArea.value.length;
+    counter.textContent = `${len} / 3000`;
+    counter.classList.toggle("limit", len >= 3000);
+  });
 
   function showError(msg) {
     const error = document.getElementById("errorMsg");
@@ -302,27 +349,22 @@
     const text = document.getElementById("reportText").value.trim();
     const category = document.getElementById("category").value;
 
-    if (!category || !text || !user || !id) {
+    if (!category || !user || !text) {
       alert("Please fill all fields.");
       return;
     }
 
-    if (!/^[0-9]+$/.test(id)) {
-      showError("Only numbers allowed in entering your ID");
-      return;
-    }
-
-    if (/discord\.gg|discord\.com\/invite/i.test(user) || /discord\.gg|discord\.com\/invite/i.test(text)) {
+    if (/discord\.gg|discord\.com\/invite/.test(user) || /discord\.gg|discord\.com\/invite/.test(text)) {
       showError("Can't Enter A Discord Server Invite");
       return;
     }
 
-    if (text.length >= 3000) {
+    if (text.length > 3000) {
       showError("Can't Submit Report Because You Have Reached The Character Limit");
       return;
     }
 
-    const content = `📩 **New Report**\n**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`;
+    const content = `📩 **New Report**\n**Category:** ${category}\n**User:** ${user}${id ? " (" + id + ")" : ""}\n**Report:**\n${text}`;
 
     fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
       method: "POST",
