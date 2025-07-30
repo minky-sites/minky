@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Urbanist:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -13,7 +13,7 @@
     }
 
     body {
-      font-family: 'Urbanist', sans-serif;
+      font-family: 'Nunito', sans-serif;
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
       overflow-x: hidden;
@@ -30,7 +30,7 @@
 
     p {
       color: #aaa;
-      margin: 20px 0 40px;
+      margin-bottom: 30px;
     }
 
     .container {
@@ -63,7 +63,7 @@
     }
 
     .link-list a:hover {
-      background-color: white;
+      background-color: #fff;
       color: black;
     }
 
@@ -72,14 +72,13 @@
       color: white;
     }
 
-    .link-list a.discord-special:hover img {
-      filter: brightness(0) invert(1);
+    .link-list a.discord-special:hover .discord-icon {
+      filter: brightness(1000%);
     }
 
     .discord-icon {
       width: 22px;
       height: 22px;
-      transition: 0.3s;
     }
 
     footer {
@@ -149,9 +148,7 @@
       margin-bottom: 15px;
     }
 
-    .report-ui input,
-    .report-ui textarea,
-    .report-ui select {
+    .report-ui input, .report-ui textarea, .report-ui select {
       width: 100%;
       padding: 10px;
       margin-bottom: 12px;
@@ -159,43 +156,6 @@
       color: white;
       border: 1px solid #444;
       border-radius: 6px;
-    }
-
-    .file-upload {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 12px;
-    }
-
-    .file-upload label {
-      background: #222;
-      color: white;
-      padding: 10px 16px;
-      border: 1px solid #444;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .file-upload label:hover {
-      background: white;
-      color: black;
-    }
-
-    .file-upload input {
-      display: none;
-    }
-
-    .char-counter {
-      font-size: 0.8rem;
-      color: #aaa;
-      margin-top: -10px;
-      margin-bottom: 12px;
-      text-align: right;
-    }
-
-    .char-counter.red {
-      color: red;
     }
 
     .submit-btn {
@@ -214,8 +174,7 @@
       transform: scale(1.05);
     }
 
-    .confirmation,
-    .error-msg {
+    .confirmation, .error-msg {
       position: fixed;
       top: -50px;
       left: 50%;
@@ -239,43 +198,49 @@
       color: white;
     }
 
-    @keyframes fall {
-      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(100vh) rotate(360deg); opacity: 0.3; }
-    }
-
-    .snowflake {
-      position: fixed;
-      top: -10px;
-      color: white;
-      font-size: 12px;
-      opacity: 0.7;
-      animation: fall linear infinite;
-      pointer-events: none;
-      user-select: none;
-    }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    .file-upload {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .file-upload label {
+      background: #444;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .file-upload label:hover {
+      background: #666;
+    }
+
+    .file-upload input {
+      display: none;
+    }
+
+    .file-preview {
+      margin-top: 10px;
+      display: none;
+      justify-content: center;
+    }
+
+    .file-preview img {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 8px;
+      border: 1px solid #444;
+    }
   </style>
 </head>
 <body>
-
-<!-- Snowflakes -->
-<script>
-  for (let i = 0; i < 60; i++) {
-    const flake = document.createElement("div");
-    flake.classList.add("snowflake");
-    flake.textContent = "❄";
-    flake.style.left = Math.random() * 100 + "vw";
-    flake.style.fontSize = (10 + Math.random() * 10) + "px";
-    flake.style.animationDuration = (5 + Math.random() * 5) + "s";
-    flake.style.animationDelay = Math.random() * 5 + "s";
-    document.body.appendChild(flake);
-  }
-</script>
 
 <div class="container">
   <h1>Minky</h1>
@@ -295,10 +260,8 @@
   <footer>© 2025 Minky</footer>
 </div>
 
-<!-- Report Button -->
 <div class="report-button" onclick="toggleReport()">🛠<div class="report-label">Report</div></div>
 
-<!-- Report UI -->
 <div class="report-ui" id="reportUI">
   <h2>Report A Bug/Suggestions</h2>
   <small>Must Be In The Discord Server To Get Your Response</small>
@@ -313,11 +276,14 @@
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
   <input type="text" id="discordID" placeholder="Discord User ID">
   <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
-  <div class="char-counter" id="charCounter">0 / 3000</div>
 
   <div class="file-upload">
-    <label for="fileInput">Add Photo (optional)</label>
+    <label for="fileInput" id="fileLabel">Add Photo (optional)</label>
     <input type="file" id="fileInput" accept="image/*">
+  </div>
+
+  <div class="file-preview" id="filePreview">
+    <img id="previewImage" src="" alt="Uploaded Photo">
   </div>
 
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
@@ -327,9 +293,29 @@
 <div class="error-msg" id="errorMsg">Only numbers allowed in entering your ID</div>
 
 <script>
+  let uploadedImage = null;
+
   function toggleReport() {
     document.getElementById("reportUI").classList.toggle("active");
   }
+
+  document.getElementById("fileInput").addEventListener("change", function () {
+    const file = this.files[0];
+    const label = document.getElementById("fileLabel");
+    const previewContainer = document.getElementById("filePreview");
+    const previewImage = document.getElementById("previewImage");
+
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        uploadedImage = e.target.result;
+        previewImage.src = uploadedImage;
+        previewContainer.style.display = "flex";
+        label.style.display = "none";
+      };
+      reader.readAsDataURL(file);
+    }
+  });
 
   function showError(msg) {
     const error = document.getElementById("errorMsg");
@@ -338,21 +324,11 @@
     setTimeout(() => error.classList.remove("active"), 4000);
   }
 
-  const reportText = document.getElementById("reportText");
-  const charCounter = document.getElementById("charCounter");
-
-  reportText.addEventListener("input", () => {
-    const length = reportText.value.length;
-    charCounter.textContent = `${length} / 3000`;
-    charCounter.classList.toggle("red", length >= 3000);
-  });
-
   function submitReport() {
     const user = document.getElementById("discordUser").value.trim();
     const id = document.getElementById("discordID").value.trim();
     const text = document.getElementById("reportText").value.trim();
     const category = document.getElementById("category").value;
-    const fileInput = document.getElementById("fileInput");
 
     if (!category || !text || !user || !id) {
       alert("Please fill all fields.");
@@ -364,25 +340,28 @@
       return;
     }
 
-    if (text.length > 3000) {
-      showError("Can't Submit Report Because You Have Reached The Character Limit");
-      return;
-    }
+    const embed = {
+      title: "📩 New Report",
+      color: 0x00FFFF,
+      fields: [
+        { name: "Category", value: category, inline: false },
+        { name: "User", value: `${user} (${id})`, inline: false },
+        { name: "Report", value: text }
+      ]
+    };
 
-    if (/discord\.gg|discord\.com\/invite/.test(user) || /discord\.gg|discord\.com\/invite/.test(text)) {
-      showError("Can't Enter A Discord Server Invite");
-      return;
-    }
+    const payload = {
+      embeds: [embed]
+    };
 
-    const formData = new FormData();
-    formData.append("content", `📩 **New Report**\n**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`);
-    if (fileInput.files[0]) {
-      formData.append("file", fileInput.files[0]);
+    if (uploadedImage) {
+      payload.embeds[0].image = { url: uploadedImage };
     }
 
     fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
       method: "POST",
-      body: formData
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
     }).then(() => {
       const conf = document.getElementById("confirmationMsg");
       conf.classList.add("active");
