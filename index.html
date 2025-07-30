@@ -4,193 +4,292 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: 'Nunito', sans-serif;
-      background: #0e0e0e;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
       overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
     }
 
     h1 {
       font-family: 'Orbitron', sans-serif;
-      text-align: center;
-      margin-top: 50px;
-      font-size: 3em;
-      color: white;
-      text-shadow: 0 0 10px #00f2ff, 0 0 20px #00f2ff;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff;
     }
 
-    p.description {
-      text-align: center;
-      font-size: 1.1em;
-      color: #ccc;
-      margin-top: 20px;
-      margin-bottom: 60px;
+    p {
+      color: #aaa;
+      margin-bottom: 40px;
     }
 
-    .button-container {
+    .container {
+      text-align: center;
+      padding: 80px 20px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .link-list {
       display: flex;
       flex-direction: column;
+      gap: 12px;
       align-items: center;
-      gap: 20px;
     }
 
-    button {
-      background: transparent;
-      border: 2px solid white;
+    .link-list a {
+      text-decoration: none;
       color: white;
-      padding: 15px 30px;
-      font-size: 1em;
-      cursor: pointer;
+      background: #222;
+      padding: 14px;
+      border: 1px solid #333;
       border-radius: 10px;
+      transition: 0.3s;
+      font-weight: bold;
+      width: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .link-list a:hover {
+      background-color: white;
+      color: black;
+    }
+
+    .discord-special:hover img.discord-icon {
+      filter: brightness(0) invert(1);
+    }
+
+    .discord-icon {
+      width: 22px;
+      height: 22px;
+      transition: filter 0.3s;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    .report-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #222;
+      color: white;
+      border: 1px solid #333;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: 0.3s;
     }
 
-    button:hover {
+    .report-button:hover {
       background: white;
       color: black;
     }
 
-    .discord-button:hover {
-      background: #5865F2;
-      color: white;
-    }
-
-    .discord-button:hover img {
-      filter: brightness(0) invert(1);
-    }
-
-    .discord-button img {
-      width: 20px;
-      height: 20px;
-      vertical-align: middle;
-      margin-right: 10px;
-      transition: 0.3s;
+    .report-label {
+      font-size: 0.7rem;
+      position: absolute;
+      top: 60px;
+      text-align: center;
+      width: 60px;
+      color: #aaa;
     }
 
     .report-ui {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 40px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 90%;
+      max-width: 400px;
+      background: #111;
+      border: 1px solid #333;
+      padding: 25px;
+      border-radius: 12px;
+      z-index: 999;
+      transition: 0.4s ease;
     }
 
     .report-ui.active {
-      display: flex;
+      transform: translate(-50%, -50%) scale(1);
     }
 
     .report-ui h2 {
-      font-family: 'Orbitron', sans-serif;
-      text-shadow: 0 0 10px #00f2ff;
+      margin-bottom: 10px;
     }
 
     .report-ui small {
-      margin-bottom: 20px;
-      color: #ccc;
+      color: #aaa;
+      display: block;
+      margin-bottom: 15px;
     }
 
-    .report-ui input, .report-ui textarea, .report-ui select {
-      width: 300px;
-      margin: 10px 0;
+    .report-ui input,
+    .report-ui textarea,
+    .report-ui select {
+      width: 100%;
       padding: 10px;
-      border-radius: 8px;
-      border: none;
-      font-family: 'Nunito', sans-serif;
-    }
-
-    .report-ui textarea {
-      resize: vertical;
-      min-height: 120px;
+      margin-bottom: 12px;
+      background: #222;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 6px;
     }
 
     .submit-btn {
       background: white;
       color: black;
-      margin-top: 10px;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      transition: 0.3s;
     }
 
     .submit-btn:hover {
-      background: #ddd;
+      transform: scale(1.05);
     }
 
-    .confirmation, .error-msg {
-      display: none;
-      margin-top: 15px;
-      padding: 10px 20px;
+    .confirmation,
+    .error-msg {
+      position: fixed;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 20px;
       border-radius: 8px;
+      transition: 0.4s ease;
+      z-index: 9999;
       font-weight: bold;
-      font-size: 0.9em;
     }
 
     .confirmation.active {
-      display: block;
-      background: green;
-      color: white;
+      top: 20px;
+      background: white;
+      color: black;
     }
 
     .error-msg.active {
-      display: block;
+      top: 20px;
       background: red;
       color: white;
     }
 
-    #charCounter {
-      text-align: right;
-      font-size: 0.85rem;
-      color: #aaa;
-      margin-top: -10px;
-      margin-bottom: 10px;
-      width: 300px;
-    }
-
-    .file-upload-wrapper {
-      margin-top: 10px;
-      margin-bottom: 12px;
-      text-align: left;
-      width: 300px;
-    }
-
-    .file-upload-label {
-      display: inline-block;
-      background: #333;
-      color: white;
-      padding: 10px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      transition: 0.3s;
-    }
-
-    .file-upload-label:hover {
-      background: #444;
-    }
-
-    #screenshot {
-      display: none;
-    }
-
-    .file-name-display {
-      display: block;
-      margin-top: 6px;
+    .char-counter {
       font-size: 0.8rem;
       color: #aaa;
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .char-counter.limit {
+      color: red;
+    }
+
+    .screenshot-upload {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .screenshot-upload label {
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    .screenshot-upload input[type="file"]::file-selector-button {
+      background: #333;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    .screenshot-upload input[type="file"] {
+      color: #aaa;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0.3; }
+    }
+
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: white;
+      font-size: 12px;
+      opacity: 0.7;
+      animation: fall linear infinite;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
-<h1>Minky</h1>
-<p class="description">Welcome to the report center. Please select your category and fill in your details below.</p>
+<script>
+  for (let i = 0; i < 60; i++) {
+    const flake = document.createElement("div");
+    flake.classList.add("snowflake");
+    flake.textContent = "❄";
+    flake.style.left = Math.random() * 100 + "vw";
+    flake.style.fontSize = (10 + Math.random() * 10) + "px";
+    flake.style.animationDuration = (5 + Math.random() * 5) + "s";
+    flake.style.animationDelay = Math.random() * 5 + "s";
+    document.body.appendChild(flake);
+  }
+</script>
 
-<div class="button-container">
-  <button onclick="toggleReport()">📝 Report</button>
-  <button class="discord-button" onclick="window.open('https://discord.gg/yourserver', '_blank')">
-    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord"> Join Discord Server
-  </button>
+<div class="container">
+  <h1>Minky</h1>
+  <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
+
+  <div class="link-list">
+    <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
+    <a href="https://roblox.tg/dashboard" target="_blank">Immortal (Generator 2)</a>
+    <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
+    <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
+    <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
+      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-icon">
+      Discord Server
+    </a>
+  </div>
+
+  <footer>© 2025 Minky</footer>
 </div>
+
+<div class="report-button" onclick="toggleReport()">🛠<div class="report-label">Report</div></div>
 
 <div class="report-ui" id="reportUI">
   <h2>Report A Bug/Suggestions</h2>
@@ -204,26 +303,34 @@
   </select>
 
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
-  <input type="text" id="discordID" placeholder="Discord User ID">
-  <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000" oninput="updateCharCount()"></textarea>
-  <div id="charCounter">0 / 3000</div>
+  <input type="text" id="discordID" placeholder="Discord User ID (optional)">
+  <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
+  <div class="char-counter" id="charCounter">0 / 3000</div>
 
-  <div class="file-upload-wrapper">
-    <label for="screenshot" class="file-upload-label">Add Photo (optional)</label>
-    <input type="file" id="screenshot" accept="image/*" onchange="displayFileName()">
-    <span class="file-name-display" id="fileNameDisplay">No file selected</span>
+  <div class="screenshot-upload">
+    <label for="screenshot">Add Photo (optional)</label>
+    <input type="file" id="screenshot" accept="image/*">
   </div>
 
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
 </div>
 
 <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
-<div class="error-msg" id="errorMsg"></div>
+<div class="error-msg" id="errorMsg">Only numbers allowed in entering your ID</div>
 
 <script>
   function toggleReport() {
     document.getElementById("reportUI").classList.toggle("active");
   }
+
+  const reportText = document.getElementById("reportText");
+  const charCounter = document.getElementById("charCounter");
+
+  reportText.addEventListener("input", () => {
+    const len = reportText.value.length;
+    charCounter.textContent = `${len} / 3000`;
+    charCounter.classList.toggle("limit", len >= 3000);
+  });
 
   function showError(msg) {
     const error = document.getElementById("errorMsg");
@@ -232,51 +339,34 @@
     setTimeout(() => error.classList.remove("active"), 4000);
   }
 
-  function updateCharCount() {
-    const text = document.getElementById("reportText").value;
-    const counter = document.getElementById("charCounter");
-    counter.textContent = `${text.length} / 3000`;
-    counter.style.color = text.length >= 3000 ? 'red' : '#aaa';
-  }
-
-  function displayFileName() {
-    const fileInput = document.getElementById("screenshot");
-    const display = document.getElementById("fileNameDisplay");
-    const file = fileInput.files[0];
-    display.textContent = file ? file.name : "No file selected";
-  }
-
-  function containsInviteLink(text) {
-    return /(discord\.gg|discord\.com\/invite)/i.test(text);
-  }
-
   function submitReport() {
     const user = document.getElementById("discordUser").value.trim();
     const id = document.getElementById("discordID").value.trim();
-    const text = document.getElementById("reportText").value.trim();
+    const text = reportText.value.trim();
     const category = document.getElementById("category").value;
 
-    if (!category || !text || !user || !id) {
-      alert("Please fill all fields.");
+    if (!category || !text || !user) {
+      alert("Please fill all required fields.");
       return;
     }
 
-    if (!/^\d+$/.test(id)) {
+    if (!/^\d*$/.test(id)) {
       showError("Only numbers allowed in entering your ID");
       return;
     }
 
-    if (containsInviteLink(user) || containsInviteLink(text)) {
+    const inviteRegex = /(discord\.gg|discord\.com\/invite)/i;
+    if (inviteRegex.test(user) || inviteRegex.test(text)) {
       showError("Can't Enter A Discord Server Invite");
       return;
     }
 
-    if (text.length > 3000) {
+    if (text.length >= 3000) {
       showError("Can't Submit Report Because You Have Reached The Character Limit");
       return;
     }
 
-    const content = `📩 **New Report**\n**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`;
+    const content = `📩 **New Report**\n**Category:** ${category}\n**User:** ${user}${id ? " (" + id + ")" : ""}\n**Report:**\n${text}`;
 
     fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
       method: "POST",
