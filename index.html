@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rubik:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -13,7 +13,7 @@
     }
 
     body {
-      font-family: 'Quicksand', sans-serif;
+      font-family: 'Rubik', sans-serif;
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
       overflow-x: hidden;
@@ -35,7 +35,7 @@
 
     .container {
       text-align: center;
-      padding: 80px 20px;
+      padding: 80px 20px 20px;
       animation: fadeIn 1.5s ease;
     }
 
@@ -63,13 +63,13 @@
     }
 
     .link-list a:hover {
-      background-color: white;
+      background-color: #fff;
       color: black;
     }
 
     .discord-special:hover {
-      background-color: #5865F2;
-      color: white;
+      background-color: #5865F2 !important;
+      color: white !important;
     }
 
     .discord-special:hover .discord-icon {
@@ -133,6 +133,18 @@
       border-radius: 12px;
       z-index: 999;
       transition: 0.4s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #444 #111;
+    }
+
+    .report-ui::-webkit-scrollbar {
+      width: 6px;
+    }
+    .report-ui::-webkit-scrollbar-thumb {
+      background: #444;
+      border-radius: 3px;
     }
 
     .report-ui.active {
@@ -157,6 +169,15 @@
       color: white;
       border: 1px solid #444;
       border-radius: 6px;
+      font-family: 'Rubik', sans-serif;
+    }
+
+    #charCount {
+      text-align: right;
+      font-size: 0.8rem;
+      color: #aaa;
+      margin-top: -8px;
+      margin-bottom: 12px;
     }
 
     .submit-btn {
@@ -199,47 +220,53 @@
       color: white;
     }
 
-    .char-counter {
-      text-align: right;
-      font-size: 0.8rem;
-      color: #aaa;
-      margin-top: -8px;
-      margin-bottom: 12px;
+    .file-preview {
+      max-width: 100%;
+      border-radius: 6px;
+      margin-bottom: 10px;
     }
 
-    .char-counter.limit-reached {
-      color: red;
-    }
-
-    .preview-img {
-      width: 100%;
-      margin-bottom: 12px;
-      border-radius: 8px;
-    }
-
-    .remove-btn {
-      background: red;
+    .remove-photo-btn {
+      background: #ff3333;
       color: white;
       border: none;
-      padding: 6px 12px;
       border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.85rem;
       cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .file-wrapper {
       margin-bottom: 12px;
     }
 
-    .file-wrapper input[type="file"] {
-      display: none;
-    }
-
-    .file-wrapper label {
-      background: #333;
-      color: white;
+    .photo-upload {
+      display: inline-block;
+      background: #222;
+      border: 1px solid #444;
       padding: 10px;
-      display: block;
-      text-align: center;
       border-radius: 6px;
+      color: white;
       cursor: pointer;
-      margin-bottom: 12px;
+      text-align: center;
+      width: 100%;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0.3; }
+    }
+
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: white;
+      font-size: 12px;
+      opacity: 0.7;
+      animation: fall linear infinite;
+      pointer-events: none;
+      user-select: none;
     }
 
     @keyframes fadeIn {
@@ -249,6 +276,19 @@
   </style>
 </head>
 <body>
+
+<script>
+  for (let i = 0; i < 60; i++) {
+    const flake = document.createElement("div");
+    flake.classList.add("snowflake");
+    flake.textContent = "❄";
+    flake.style.left = Math.random() * 100 + "vw";
+    flake.style.fontSize = (10 + Math.random() * 10) + "px";
+    flake.style.animationDuration = (5 + Math.random() * 5) + "s";
+    flake.style.animationDelay = Math.random() * 5 + "s";
+    document.body.appendChild(flake);
+  }
+</script>
 
 <div class="container">
   <h1>Minky</h1>
@@ -285,36 +325,37 @@
 
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
   <input type="text" id="discordID" placeholder="Discord User ID">
-  <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000" oninput="updateCounter()"></textarea>
-  <div class="char-counter" id="charCounter">0 / 3000</div>
+  <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
+  <div id="charCount">0 / 3000</div>
 
   <div class="file-wrapper" id="fileWrapper">
-    <label for="imageUpload" id="imageLabel">Add Photo (optional)</label>
-    <input type="file" accept="image/*" id="imageUpload">
+    <label for="fileInput" class="photo-upload">Add Photo (optional)</label>
+    <input type="file" id="fileInput" style="display:none" accept="image/*">
+    <div id="previewWrapper"></div>
   </div>
-  <img id="preview" class="preview-img" style="display:none">
-  <button class="remove-btn" style="display:none" onclick="removeImage()">Remove Photo</button>
 
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
 </div>
 
 <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
-<div class="error-msg" id="errorMsg">Error</div>
+<div class="error-msg" id="errorMsg">Error Message</div>
 
 <script>
-  const webhook = "https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X";
-
   function toggleReport() {
     document.getElementById("reportUI").classList.toggle("active");
   }
 
-  function updateCounter() {
-    const textarea = document.getElementById("reportText");
-    const counter = document.getElementById("charCounter");
-    const length = textarea.value.length;
-    counter.textContent = `${length} / 3000`;
-    counter.classList.toggle("limit-reached", length >= 3000);
-  }
+  const textarea = document.getElementById("reportText");
+  const charCount = document.getElementById("charCount");
+
+  textarea.addEventListener("input", () => {
+    charCount.textContent = `${textarea.value.length} / 3000`;
+    if (textarea.value.length >= 3000) {
+      charCount.style.color = "red";
+    } else {
+      charCount.style.color = "#aaa";
+    }
+  });
 
   function showError(msg) {
     const error = document.getElementById("errorMsg");
@@ -323,32 +364,36 @@
     setTimeout(() => error.classList.remove("active"), 4000);
   }
 
-  document.getElementById("imageUpload").addEventListener("change", function () {
-    const file = this.files[0];
+  const fileInput = document.getElementById("fileInput");
+  const previewWrapper = document.getElementById("previewWrapper");
+
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
     if (file) {
-      const img = document.getElementById("preview");
-      img.src = URL.createObjectURL(file);
-      img.style.display = "block";
-      document.querySelector(".remove-btn").style.display = "block";
-      document.getElementById("fileWrapper").style.display = "none";
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        previewWrapper.innerHTML = `
+          <img src="${e.target.result}" class="file-preview">
+          <button class="remove-photo-btn" onclick="removePhoto()">Remove Photo</button>
+        `;
+      };
+      reader.readAsDataURL(file);
     }
   });
 
-  function removeImage() {
-    document.getElementById("imageUpload").value = "";
-    document.getElementById("preview").style.display = "none";
-    document.querySelector(".remove-btn").style.display = "none";
-    document.getElementById("fileWrapper").style.display = "block";
+  function removePhoto() {
+    fileInput.value = "";
+    previewWrapper.innerHTML = "";
   }
 
   function submitReport() {
     const user = document.getElementById("discordUser").value.trim();
     const id = document.getElementById("discordID").value.trim();
-    const text = document.getElementById("reportText").value.trim();
+    const text = textarea.value.trim();
     const category = document.getElementById("category").value;
-    const file = document.getElementById("imageUpload").files[0];
+    const file = fileInput.files[0];
 
-    if (!category || !user || !id || !text) {
+    if (!category || !text || !user || !id) {
       alert("Please fill all fields.");
       return;
     }
@@ -358,7 +403,7 @@
       return;
     }
 
-    if (/discord\.gg|discordapp\.com\/invite|discord\.com\/invite/.test(user) || /discord\.gg|discordapp\.com\/invite|discord\.com\/invite/.test(text)) {
+    if (user.includes("discord.gg") || text.includes("discord.gg")) {
       showError("Can't Enter A Discord Server Invite");
       return;
     }
@@ -369,28 +414,33 @@
     }
 
     const form = new FormData();
-    form.append("file", file);
     form.append("payload_json", JSON.stringify({
       embeds: [{
         title: "📩 New Report",
-        color: 0x5865F2,
         fields: [
-          { name: "Category", value: category, inline: false },
-          { name: "User", value: `${user} (${id})`, inline: false },
+          { name: "Category", value: category },
+          { name: "User", value: `${user} (${id})` },
           { name: "Report", value: text }
-        ]
+        ],
+        color: 0x5865F2
       }]
     }));
 
-    fetch(webhook, {
+    if (file) {
+      form.append("file", file, "image.png");
+    }
+
+    fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
       method: "POST",
       body: form
     }).then(() => {
-      const conf = document.getElementById("confirmationMsg");
-      conf.classList.add("active");
+      document.getElementById("confirmationMsg").classList.add("active");
       setTimeout(() => {
-        conf.classList.remove("active");
+        document.getElementById("confirmationMsg").classList.remove("active");
         document.getElementById("reportUI").classList.remove("active");
+        textarea.value = "";
+        charCount.textContent = "0 / 3000";
+        removePhoto();
       }, 5000);
     });
   }
