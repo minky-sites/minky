@@ -4,16 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Outfit', sans-serif;
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
       overflow-x: hidden;
@@ -24,7 +20,7 @@
     h1 {
       font-family: 'Orbitron', sans-serif;
       font-size: 2.5rem;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       text-shadow: 0 0 5px #fff, 0 0 10px #fff;
     }
 
@@ -63,18 +59,22 @@
     }
 
     .link-list a:hover {
-      background-color: white;
+      background-color: #fff;
       color: black;
     }
 
-    .link-list a.discord-special:hover img {
-      filter: brightness(0) invert(1);
+    .link-list a.discord-special:hover {
+      background-color: #5865F2;
+      color: white;
+    }
+
+    .link-list a.discord-special:hover .discord-icon {
+      filter: brightness(1000%);
     }
 
     .discord-icon {
       width: 22px;
       height: 22px;
-      transition: 0.3s;
     }
 
     footer {
@@ -154,17 +154,6 @@
       border-radius: 6px;
     }
 
-    .char-count {
-      text-align: right;
-      font-size: 0.8rem;
-      color: #aaa;
-      margin-bottom: 12px;
-    }
-
-    .char-count.red {
-      color: red;
-    }
-
     .submit-btn {
       background: white;
       color: black;
@@ -203,6 +192,14 @@
       top: 20px;
       background: red;
       color: white;
+    }
+
+    .char-counter {
+      text-align: right;
+      font-size: 0.8rem;
+      color: #aaa;
+      margin-top: -8px;
+      margin-bottom: 10px;
     }
 
     @keyframes fall {
@@ -266,8 +263,8 @@
 
 <!-- Report UI -->
 <div class="report-ui" id="reportUI">
-  <h2>Submit Report</h2>
-  <small>Tell us what's going on</small>
+  <h2>Report A Bug/Suggestions</h2>
+  <small>Must Be In The Discord Server To Get Your Response</small>
 
   <select id="category">
     <option value="" disabled selected>Select Category</option>
@@ -279,26 +276,25 @@
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
   <input type="text" id="discordID" placeholder="Discord User ID">
   <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
-  <div class="char-count" id="charCount">0 / 3000</div>
+  <div class="char-counter" id="charCounter">0 / 3000</div>
+  <input type="file" id="screenshot" accept="image/*">
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
 </div>
 
 <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
-<div class="error-msg" id="errorMsg"></div>
+<div class="error-msg" id="errorMsg">Only numbers allowed in entering your ID</div>
 
 <script>
+  const reportText = document.getElementById("reportText");
+  const charCounter = document.getElementById("charCounter");
+
+  reportText.addEventListener("input", () => {
+    charCounter.textContent = `${reportText.value.length} / 3000`;
+  });
+
   function toggleReport() {
     document.getElementById("reportUI").classList.toggle("active");
   }
-
-  const reportText = document.getElementById("reportText");
-  const charCount = document.getElementById("charCount");
-
-  reportText.addEventListener("input", () => {
-    const len = reportText.value.length;
-    charCount.textContent = `${len} / 3000`;
-    charCount.classList.toggle("red", len >= 3000);
-  });
 
   function showError(msg) {
     const error = document.getElementById("errorMsg");
@@ -310,10 +306,11 @@
   function submitReport() {
     const user = document.getElementById("discordUser").value.trim();
     const id = document.getElementById("discordID").value.trim();
-    const text = document.getElementById("reportText").value.trim();
+    const text = reportText.value.trim();
     const category = document.getElementById("category").value;
+    const screenshot = document.getElementById("screenshot").files[0];
 
-    if (!category || !text || !user || !id) {
+    if (!category || !user || !id || !text) {
       alert("Please fill all fields.");
       return;
     }
@@ -323,22 +320,18 @@
       return;
     }
 
-    if (user.includes("discord.gg") || text.includes("discord.gg")) {
-      showError("Can't Enter A Discord Server Invite");
-      return;
-    }
-
     if (text.length > 3000) {
       showError("Can't Submit Report Because You Have Reached The Character Limit");
       return;
     }
 
-    const content = `📩 **New Report**\n**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`;
+    const formData = new FormData();
+    formData.append("content", `📩 **New Report**\n**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`);
+    if (screenshot) formData.append("file", screenshot);
 
     fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content })
+      body: formData
     }).then(() => {
       const conf = document.getElementById("confirmationMsg");
       conf.classList.add("active");
