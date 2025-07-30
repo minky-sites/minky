@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Minky Report</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -16,14 +20,35 @@
       overflow: hidden;
     }
 
-    .snowflake {
+    .open-report-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 16px 32px;
+      font-size: 18px;
+      background: white;
+      color: black;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .open-report-btn:hover {
+      background: #ddd;
+    }
+
+    .overlay {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      z-index: 1;
     }
 
     .report-ui {
@@ -193,157 +218,23 @@
       border-radius: 6px;
       object-fit: cover;
     }
-
-    .remove-btn {
-      background: red;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 12px;
-    }
-
   </style>
 </head>
 <body>
-  <div class="snowflake"></div>
-
-  <div id="reportUI" class="report-ui">
-    <h1>Minky</h1>
-    <p>Report bugs, suggestions, or server members</p>
-
-    <label for="category">Category</label>
-    <select id="category">
-      <option>Bug</option>
-      <option>Suggestion</option>
-      <option>Server Member</option>
-    </select>
-
-    <label for="username">Discord Username</label>
-    <input type="text" id="username" placeholder="e.g. Minky#1234" />
-
-    <label for="discordId">Discord ID</label>
-    <input type="text" id="discordId" placeholder="e.g. 123456789012345678" />
-
-    <label for="reportText">Report</label>
-    <textarea id="reportText" maxlength="3000" placeholder="Describe your report..."></textarea>
-    <div class="char-counter" id="charCounter">0 / 3000</div>
-    <div id="charLimitMsg" class="char-limit-warning" style="display: none;">
-      Can't Submit Report Because You Have Reached The Character Limit
-    </div>
-
-    <div class="add-photo-wrapper">
-      <input type="file" id="addPhoto" accept="image/*" multiple />
-      <span class="photo-note">(max 5)</span>
-    </div>
-    <div id="photoPreviewContainer" class="photo-preview"></div>
-
-    <div id="errorMessage" class="error-message"></div>
-    <div id="successMessage" class="success-message"></div>
-
-    <button class="submit-btn" onclick="submitReport()">Submit Report</button>
-    <button class="discord-btn">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" width="20" />
-      Join Our Discord Server
-    </button>
+  <button class="open-report-btn" onclick="openReportUI()">Open Report UI</button>
+  <div class="overlay" id="overlay" onclick="closeReportUI()"></div>
+  <div id="reportUI" class="report-ui" style="display: none">
+    <!-- UI CONTENT WILL BE INJECTED FROM PREVIOUS REPLY SCRIPT -->
   </div>
-
   <script>
-    const reportText = document.getElementById("reportText");
-    const charCounter = document.getElementById("charCounter");
-    const charLimitMsg = document.getElementById("charLimitMsg");
-    const addPhoto = document.getElementById("addPhoto");
-    const preview = document.getElementById("photoPreviewContainer");
-    let uploadedPhotos = [];
-
-    reportText.addEventListener("input", () => {
-      const len = reportText.value.length;
-      charCounter.textContent = `${len} / 3000`;
-      charLimitMsg.style.display = len >= 3000 ? "block" : "none";
-    });
-
-    addPhoto.addEventListener("change", () => {
-      const files = [...addPhoto.files];
-      if (uploadedPhotos.length + files.length > 5) return alert("Max 5 photos");
-
-      files.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          uploadedPhotos.push(reader.result);
-          updatePreview();
-        };
-        reader.readAsDataURL(file);
-      });
-    });
-
-    function updatePreview() {
-      preview.innerHTML = "";
-      uploadedPhotos.forEach((src, i) => {
-        const img = document.createElement("img");
-        img.src = src;
-        preview.appendChild(img);
-      });
+    function openReportUI() {
+      document.getElementById('reportUI').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
     }
 
-    function submitReport() {
-      const username = document.getElementById("username").value;
-      const discordId = document.getElementById("discordId").value;
-      const report = reportText.value;
-      const category = document.getElementById("category").value;
-      const error = document.getElementById("errorMessage");
-      const success = document.getElementById("successMessage");
-
-      error.textContent = "";
-      success.textContent = "";
-
-      if (report.length > 3000) {
-        error.textContent = "Can't Submit Report Because You Have Reached The Character Limit";
-        return;
-      }
-
-      const hasInvite = /discord\.gg|discord\.com\/invite/.test(username + report);
-      if (hasInvite) {
-        error.textContent = "Can't Enter A Discord Server Invite";
-        return;
-      }
-
-      const embeds = [{
-        title: "New Report",
-        fields: [
-          { name: "Category", value: category },
-          { name: "Username", value: username || "Anonymous" },
-          { name: "Discord ID", value: discordId || "None Provided" },
-          { name: "Report", value: report }
-        ]
-      }];
-
-      const payload = {
-        embeds,
-        files: uploadedPhotos.map((src, i) => {
-          const b64 = src.split(',')[1];
-          return {
-            name: `photo${i + 1}.png`,
-            file: b64,
-          };
-        })
-      };
-
-      fetch('https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          content: null,
-          embeds,
-        })
-      });
-
-      success.textContent = "Report submitted successfully!";
-      setTimeout(() => {
-        success.textContent = "";
-      }, 5000);
+    function closeReportUI() {
+      document.getElementById('reportUI').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
     }
   </script>
 </body>
