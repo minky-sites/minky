@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -13,7 +13,7 @@
     }
 
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Nunito', sans-serif;
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
       overflow-x: hidden;
@@ -30,7 +30,8 @@
 
     p {
       color: #aaa;
-      margin-bottom: 40px;
+      margin: 20px auto 40px;
+      max-width: 600px;
     }
 
     .container {
@@ -67,14 +68,18 @@
       color: black;
     }
 
-    .discord-special:hover img.discord-icon {
+    .discord-special:hover {
+      background-color: #5865F2 !important;
+      color: white !important;
+    }
+
+    .discord-special:hover .discord-icon {
       filter: brightness(0) invert(1);
     }
 
     .discord-icon {
       width: 22px;
       height: 22px;
-      transition: filter 0.3s;
     }
 
     footer {
@@ -136,6 +141,7 @@
 
     .report-ui h2 {
       margin-bottom: 10px;
+      font-family: 'Orbitron', sans-serif;
     }
 
     .report-ui small {
@@ -154,6 +160,7 @@
       color: white;
       border: 1px solid #444;
       border-radius: 6px;
+      font-family: 'Nunito', sans-serif;
     }
 
     .submit-btn {
@@ -197,43 +204,6 @@
       color: white;
     }
 
-    .char-counter {
-      font-size: 0.8rem;
-      color: #aaa;
-      text-align: right;
-      margin-bottom: 10px;
-    }
-
-    .char-counter.limit {
-      color: red;
-    }
-
-    .screenshot-upload {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 6px;
-      margin-bottom: 12px;
-    }
-
-    .screenshot-upload label {
-      font-size: 0.9rem;
-      color: #aaa;
-    }
-
-    .screenshot-upload input[type="file"]::file-selector-button {
-      background: #333;
-      color: white;
-      border: 1px solid #444;
-      border-radius: 6px;
-      padding: 6px 12px;
-      cursor: pointer;
-    }
-
-    .screenshot-upload input[type="file"] {
-      color: #aaa;
-    }
-
     @keyframes fall {
       0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
       100% { transform: translateY(100vh) rotate(360deg); opacity: 0.3; }
@@ -258,6 +228,7 @@
 </head>
 <body>
 
+<!-- Snowflakes -->
 <script>
   for (let i = 0; i < 60; i++) {
     const flake = document.createElement("div");
@@ -289,8 +260,10 @@
   <footer>© 2025 Minky</footer>
 </div>
 
+<!-- Report Button -->
 <div class="report-button" onclick="toggleReport()">🛠<div class="report-label">Report</div></div>
 
+<!-- Report UI -->
 <div class="report-ui" id="reportUI">
   <h2>Report A Bug/Suggestions</h2>
   <small>Must Be In The Discord Server To Get Your Response</small>
@@ -303,15 +276,8 @@
   </select>
 
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
-  <input type="text" id="discordID" placeholder="Discord User ID (optional)">
+  <input type="text" id="discordID" placeholder="Discord User ID">
   <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
-  <div class="char-counter" id="charCounter">0 / 3000</div>
-
-  <div class="screenshot-upload">
-    <label for="screenshot">Add Photo (optional)</label>
-    <input type="file" id="screenshot" accept="image/*">
-  </div>
-
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
 </div>
 
@@ -323,15 +289,6 @@
     document.getElementById("reportUI").classList.toggle("active");
   }
 
-  const reportText = document.getElementById("reportText");
-  const charCounter = document.getElementById("charCounter");
-
-  reportText.addEventListener("input", () => {
-    const len = reportText.value.length;
-    charCounter.textContent = `${len} / 3000`;
-    charCounter.classList.toggle("limit", len >= 3000);
-  });
-
   function showError(msg) {
     const error = document.getElementById("errorMsg");
     error.textContent = msg;
@@ -342,21 +299,20 @@
   function submitReport() {
     const user = document.getElementById("discordUser").value.trim();
     const id = document.getElementById("discordID").value.trim();
-    const text = reportText.value.trim();
+    const text = document.getElementById("reportText").value.trim();
     const category = document.getElementById("category").value;
 
-    if (!category || !text || !user) {
-      alert("Please fill all required fields.");
+    if (!category || !text || !user || !id) {
+      alert("Please fill all fields.");
       return;
     }
 
-    if (!/^\d*$/.test(id)) {
+    if (!/^[0-9]+$/.test(id)) {
       showError("Only numbers allowed in entering your ID");
       return;
     }
 
-    const inviteRegex = /(discord\.gg|discord\.com\/invite)/i;
-    if (inviteRegex.test(user) || inviteRegex.test(text)) {
+    if (/discord\.gg|discord\.com\/invite/i.test(user) || /discord\.gg|discord\.com\/invite/i.test(text)) {
       showError("Can't Enter A Discord Server Invite");
       return;
     }
@@ -366,7 +322,7 @@
       return;
     }
 
-    const content = `📩 **New Report**\n**Category:** ${category}\n**User:** ${user}${id ? " (" + id + ")" : ""}\n**Report:**\n${text}`;
+    const content = `📩 **New Report**\n**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`;
 
     fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
       method: "POST",
