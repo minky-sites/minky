@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rubik&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Urbanist:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -13,7 +13,7 @@
     }
 
     body {
-      font-family: 'Rubik', sans-serif;
+      font-family: 'Urbanist', sans-serif;
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
       overflow-x: hidden;
@@ -30,7 +30,7 @@
 
     p {
       color: #aaa;
-      margin-bottom: 40px;
+      margin: 20px 0 40px;
     }
 
     .container {
@@ -67,12 +67,12 @@
       color: black;
     }
 
-    .discord-special:hover {
-      background-color: #5865F2 !important;
-      color: white !important;
+    .link-list a.discord-special:hover {
+      background-color: #5865F2;
+      color: white;
     }
 
-    .discord-special:hover .discord-icon {
+    .link-list a.discord-special:hover img {
       filter: brightness(0) invert(1);
     }
 
@@ -149,7 +149,9 @@
       margin-bottom: 15px;
     }
 
-    .report-ui input, .report-ui textarea, .report-ui select {
+    .report-ui input,
+    .report-ui textarea,
+    .report-ui select {
       width: 100%;
       padding: 10px;
       margin-bottom: 12px;
@@ -159,12 +161,41 @@
       border-radius: 6px;
     }
 
-    #charCount {
-      font-size: 0.75rem;
-      color: #999;
+    .file-upload {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .file-upload label {
+      background: #222;
+      color: white;
+      padding: 10px 16px;
+      border: 1px solid #444;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .file-upload label:hover {
+      background: white;
+      color: black;
+    }
+
+    .file-upload input {
+      display: none;
+    }
+
+    .char-counter {
+      font-size: 0.8rem;
+      color: #aaa;
       margin-top: -10px;
       margin-bottom: 12px;
       text-align: right;
+    }
+
+    .char-counter.red {
+      color: red;
     }
 
     .submit-btn {
@@ -183,7 +214,8 @@
       transform: scale(1.05);
     }
 
-    .confirmation, .error-msg {
+    .confirmation,
+    .error-msg {
       position: fixed;
       top: -50px;
       left: 50%;
@@ -205,23 +237,6 @@
       top: 20px;
       background: red;
       color: white;
-    }
-
-    .file-input {
-      margin-bottom: 12px;
-    }
-
-    input[type="file"]::file-selector-button {
-      background: white;
-      border: none;
-      color: black;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    input[type="file"]::after {
-      content: "Add Photo";
     }
 
     @keyframes fall {
@@ -248,6 +263,7 @@
 </head>
 <body>
 
+<!-- Snowflakes -->
 <script>
   for (let i = 0; i < 60; i++) {
     const flake = document.createElement("div");
@@ -279,8 +295,10 @@
   <footer>© 2025 Minky</footer>
 </div>
 
+<!-- Report Button -->
 <div class="report-button" onclick="toggleReport()">🛠<div class="report-label">Report</div></div>
 
+<!-- Report UI -->
 <div class="report-ui" id="reportUI">
   <h2>Report A Bug/Suggestions</h2>
   <small>Must Be In The Discord Server To Get Your Response</small>
@@ -293,15 +311,20 @@
   </select>
 
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
-  <input type="text" id="discordID" placeholder="Discord User ID (optional)">
+  <input type="text" id="discordID" placeholder="Discord User ID">
   <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
-  <div id="charCount">0 / 3000</div>
-  <input type="file" id="fileInput" class="file-input">
+  <div class="char-counter" id="charCounter">0 / 3000</div>
+
+  <div class="file-upload">
+    <label for="fileInput">Add Photo (optional)</label>
+    <input type="file" id="fileInput" accept="image/*">
+  </div>
+
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
 </div>
 
 <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
-<div class="error-msg" id="errorMsg">Error occurred</div>
+<div class="error-msg" id="errorMsg">Only numbers allowed in entering your ID</div>
 
 <script>
   function toggleReport() {
@@ -315,11 +338,13 @@
     setTimeout(() => error.classList.remove("active"), 4000);
   }
 
-  document.getElementById("reportText").addEventListener("input", () => {
-    const text = document.getElementById("reportText").value;
-    const counter = document.getElementById("charCount");
-    counter.textContent = `${text.length} / 3000`;
-    counter.style.color = text.length >= 3000 ? "red" : "#999";
+  const reportText = document.getElementById("reportText");
+  const charCounter = document.getElementById("charCounter");
+
+  reportText.addEventListener("input", () => {
+    const length = reportText.value.length;
+    charCounter.textContent = `${length} / 3000`;
+    charCounter.classList.toggle("red", length >= 3000);
   });
 
   function submitReport() {
@@ -327,25 +352,37 @@
     const id = document.getElementById("discordID").value.trim();
     const text = document.getElementById("reportText").value.trim();
     const category = document.getElementById("category").value;
-    const file = document.getElementById("fileInput").files[0];
+    const fileInput = document.getElementById("fileInput");
 
-    if (!category || !text || text.length > 3000) {
+    if (!category || !text || !user || !id) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    if (!/^\d+$/.test(id)) {
+      showError("Only numbers allowed in entering your ID");
+      return;
+    }
+
+    if (text.length > 3000) {
       showError("Can't Submit Report Because You Have Reached The Character Limit");
       return;
     }
 
-    if (/(discord\.gg|discord\.com\/invite)/i.test(user) || /(discord\.gg|discord\.com\/invite)/i.test(text)) {
+    if (/discord\.gg|discord\.com\/invite/.test(user) || /discord\.gg|discord\.com\/invite/.test(text)) {
       showError("Can't Enter A Discord Server Invite");
       return;
     }
 
-    const form = new FormData();
-    form.append("content", `📩 **New Report**\n**Category:** ${category}\n**User:** ${user || "Anonymous"}\n**ID:** ${id || "N/A"}\n**Report:**\n${text}`);
-    if (file) form.append("file", file);
+    const formData = new FormData();
+    formData.append("content", `📩 **New Report**\n**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`);
+    if (fileInput.files[0]) {
+      formData.append("file", fileInput.files[0]);
+    }
 
     fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
       method: "POST",
-      body: form
+      body: formData
     }).then(() => {
       const conf = document.getElementById("confirmationMsg");
       conf.classList.add("active");
