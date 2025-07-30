@@ -6,12 +6,7 @@
   <title>Minky</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rubik:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * {box-sizing: border-box; margin: 0; padding: 0;}
     body {
       font-family: 'Rubik', sans-serif;
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
@@ -20,33 +15,28 @@
       min-height: 100vh;
       position: relative;
     }
-
     h1 {
       font-family: 'Orbitron', sans-serif;
       font-size: 2.5rem;
       margin-bottom: 10px;
       text-shadow: 0 0 5px #fff, 0 0 10px #fff;
     }
-
     p {
       color: #aaa;
       margin-bottom: 40px;
       font-size: 1rem;
     }
-
     .container {
       text-align: center;
       padding: 80px 20px 40px;
       animation: fadeIn 1.5s ease;
     }
-
     .link-list {
       display: flex;
       flex-direction: column;
       gap: 12px;
       align-items: center;
     }
-
     .link-list a {
       text-decoration: none;
       color: white;
@@ -62,33 +52,19 @@
       justify-content: center;
       gap: 10px;
     }
-
-    .link-list a:hover {
-      background-color: white;
-      color: black;
-    }
-
-    .discord-special:hover {
-      background-color: #5865F2;
-      color: white;
-    }
-
-    .discord-special:hover .discord-icon {
-      filter: brightness(0) invert(1);
-    }
-
+    .link-list a:hover { background-color: white; color: black; }
+    .discord-special:hover { background-color: #5865F2; color: white; }
+    .discord-special:hover .discord-icon { filter: brightness(0) invert(1); }
     .discord-icon {
       width: 22px;
       height: 22px;
       transition: 0.3s;
     }
-
     footer {
       margin-top: 50px;
       font-size: 0.8rem;
       color: #555;
     }
-
     .report-button {
       position: fixed;
       top: 20px;
@@ -106,12 +82,7 @@
       justify-content: center;
       transition: 0.3s;
     }
-
-    .report-button:hover {
-      background: white;
-      color: black;
-    }
-
+    .report-button:hover { background: white; color: black; }
     .report-label {
       font-size: 0.7rem;
       position: absolute;
@@ -120,7 +91,6 @@
       width: 60px;
       color: #aaa;
     }
-
     .report-ui {
       position: fixed;
       top: 50%;
@@ -135,21 +105,13 @@
       z-index: 999;
       transition: 0.4s ease;
     }
-
-    .report-ui.active {
-      transform: translate(-50%, -50%) scale(1);
-    }
-
-    .report-ui h2 {
-      margin-bottom: 10px;
-    }
-
+    .report-ui.active { transform: translate(-50%, -50%) scale(1); }
+    .report-ui h2 { margin-bottom: 10px; }
     .report-ui small {
       color: #aaa;
       display: block;
       margin-bottom: 15px;
     }
-
     .report-ui input, .report-ui textarea, .report-ui select {
       width: 100%;
       padding: 10px;
@@ -159,7 +121,6 @@
       border: 1px solid #444;
       border-radius: 6px;
     }
-
     .submit-btn {
       background: white;
       color: black;
@@ -171,11 +132,7 @@
       width: 100%;
       transition: 0.3s;
     }
-
-    .submit-btn:hover {
-      transform: scale(1.05);
-    }
-
+    .submit-btn:hover { transform: scale(1.05); }
     .confirmation, .error-msg {
       position: fixed;
       top: -50px;
@@ -187,19 +144,16 @@
       z-index: 9999;
       font-weight: bold;
     }
-
     .confirmation.active {
       top: 20px;
       background: white;
       color: black;
     }
-
     .error-msg.active {
       top: 20px;
       background: red;
       color: white;
     }
-
     #charCounter {
       font-size: 0.8rem;
       text-align: right;
@@ -207,7 +161,6 @@
       margin-bottom: 10px;
       color: #aaa;
     }
-
     .file-input-wrapper {
       background: #222;
       color: #aaa;
@@ -218,16 +171,11 @@
       margin-bottom: 12px;
       border: 1px solid #444;
     }
-
-    .file-input-wrapper input {
-      display: none;
-    }
-
+    .file-input-wrapper input { display: none; }
     @keyframes fall {
       0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
       100% { transform: translateY(100vh) rotate(360deg); opacity: 0.3; }
     }
-
     .snowflake {
       position: fixed;
       top: -10px;
@@ -238,7 +186,6 @@
       pointer-events: none;
       user-select: none;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -353,7 +300,18 @@
     }
 
     const formData = new FormData();
-    formData.append("content", `📩 **New Report**\n**Category:** ${category}\n**User:** ${user}${id ? " (" + id + ")" : ""}\n**Report:**\n${text}`);
+    formData.append("payload_json", JSON.stringify({
+      content: null,
+      embeds: [{
+        title: "📩 New Report",
+        fields: [
+          { name: "Category", value: category },
+          { name: "User", value: user + (id ? ` (${id})` : "") },
+          { name: "Report", value: text }
+        ]
+      }]
+    }));
+
     if (file) {
       formData.append("file", file);
     }
