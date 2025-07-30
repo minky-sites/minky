@@ -82,12 +82,6 @@
       transition: 0.3s;
     }
 
-    .status-label {
-      font-size: 0.75rem;
-      color: #888;
-      margin-top: 10px;
-    }
-
     footer {
       margin-top: 50px;
       font-size: 0.8rem;
@@ -280,6 +274,16 @@
       color: red;
     }
 
+    .anonymous-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: #ccc;
+      margin-top: 6px;
+      margin-bottom: 12px;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -303,7 +307,6 @@
       <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-icon">
       Discord Server
     </a>
-    <div class="status-label">If the Sites are down or Flagged be Patient as we are aware of this and working on fixing it ASAP</div>
   </div>
 
   <footer>© 2025 Minky</footer>
@@ -315,10 +318,158 @@
 </div>
 
 <!-- Report UI -->
-<!-- All of your original JavaScript code + Report Form + Image Upload + Discord Webhook sending logic was NOT touched -->
-<script>
-// Your original full JavaScript logic remains untouched here
-</script>
+<div class="report-ui" id="reportUI">
+  <h2>Report A Bug/Suggestions</h2>
+  <small>Must Be In The Discord Server To Get Your Response</small>
 
+  <select id="category">
+    <option value="" disabled selected>Select Category</option>
+    <option value="Bug Report">Report A Bug</option>
+    <option value="Suggestion">New Suggestion</option>
+    <option value="Server Member">Report A Server Member</option>
+  </select>
+
+  <label for="discordUser">Username</label>
+  <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
+
+  <label for="discordID">User ID</label>
+  <input type="text" id="discordID" placeholder="Discord User ID">
+
+  <label for="reportText">Report</label>
+  <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
+  <div class="character-count" id="charCount">0 / 3000</div>
+
+  <label for="addPhoto" class="custom-photo-label">Add Photo</label>
+  <input type="file" id="addPhoto" accept="image/*" multiple style="display: none;" />
+  <div id="photoPreviewContainer" class="photo-preview"></div>
+
+  <div class="anonymous-checkbox">
+    <input type="checkbox" id="anonymousCheckbox" />
+    <label for="anonymousCheckbox">Submit Anonymously</label>
+  </div>
+
+  <button class="submit-btn" onclick="submitReport()">Submit Report</button>
+</div>
+
+<div class="confirmation" id="confirmationMsg">Report sent successfully</div>
+<div class="error-msg" id="errorMsg">Error</div>
+
+<script>
+  const reportUI = document.getElementById("reportUI");
+  const overlay = document.querySelector(".report-ui-overlay");
+  const charCount = document.getElementById("charCount");
+  const textArea = document.getElementById("reportText");
+  const photoInput = document.getElementById("addPhoto");
+  const photoContainer = document.getElementById("photoPreviewContainer");
+  let photoFiles = [];
+
+  function toggleReport() {
+    const isActive = reportUI.classList.contains("active");
+    if (isActive) {
+      closeReportUI();
+    } else {
+      reportUI.classList.add("active");
+      overlay.style.display = "block";
+    }
+  }
+
+  function closeReportUI() {
+    reportUI.classList.remove("active");
+    overlay.style.display = "none";
+  }
+
+  function showError(msg) {
+    const error = document.getElementById("errorMsg");
+    error.textContent = msg;
+    error.classList.add("active");
+    setTimeout(() => error.classList.remove("active"), 4000);
+  }
+
+  function updateCharCount() {
+    const len = textArea.value.length;
+    charCount.textContent = `${len} / 3000`;
+    charCount.classList.toggle("limit", len >= 3000);
+  }
+
+  textArea.addEventListener("input", updateCharCount);
+
+  photoInput.addEventListener("change", () => {
+    const files = Array.from(photoInput.files);
+    if (photoFiles.length + files.length > 5) {
+      showError("You can only upload up to 5 images.");
+      return;
+    }
+
+    files.forEach(file => {
+      photoFiles.push(file);
+      const reader = new FileReader();
+      reader.onload = e => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "photo-wrapper";
+
+        const img = document.createElement("img");
+        img.src = e.target.result;
+
+        const removeBtn = document.createElement("button");
+        removeBtn.className = "remove-photo";
+        removeBtn.textContent = "Remove Photo";
+        removeBtn.onclick = () => {
+          photoFiles = photoFiles.filter(f => f !== file);
+          photoContainer.removeChild(wrapper);
+        };
+
+        wrapper.appendChild(img);
+        wrapper.appendChild(removeBtn);
+        photoContainer.appendChild(wrapper);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    photoInput.value = '';
+  });
+
+  async function submitReport() {
+    const user = document.getElementById("discordUser").value.trim();
+    const id = document.getElementById("discordID").value.trim();
+    const text = textArea.value.trim();
+    const category = document.getElementById("category").value;
+
+    if (!category || !user || !id || !text) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    if (!/^\d+$/.test(id)) {
+      showError("Only numbers allowed in entering your ID");
+      return;
+    }
+
+    if (text.length >= 3000) {
+      showError("Can't Submit Report Because You Have Reached The Character Limit");
+      return;
+    }
+
+    const formData = new FormData();
+    const embed = {
+      title: "📩 New Report",
+      description: `**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`,
+      color: 0x5865F2
+    };
+
+    formData.append("payload_json", JSON.stringify({ embeds: [embed] }));
+    photoFiles.forEach((file, i) => formData.append(`files[${i}]`, file));
+
+    fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
+      method: "POST",
+      body: formData
+    }).then(() => {
+      document.getElementById("confirmationMsg").classList.add("active");
+      setTimeout(() => {
+        document.getElementById("confirmationMsg").classList.remove("active");
+        closeReportUI();
+      }, 5000);
+    });
+  }
+</script>
 </body>
 </html>
