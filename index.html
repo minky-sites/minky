@@ -1,241 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minky Report</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Minky</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap');
-
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      font-family: 'Outfit', sans-serif;
-      background: #121212;
+      font-family: 'Rubik', sans-serif;
+      background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
-      overflow: hidden;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
     }
 
-    .open-report-btn {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 16px 32px;
-      font-size: 18px;
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff;
+    }
+
+    p {
+      color: #aaa;
+      margin-bottom: 40px;
+    }
+
+    .container {
+      text-align: center;
+      padding: 80px 20px 20px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .link-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .link-list a {
+      text-decoration: none;
+      color: white;
+      background: #222;
+      padding: 14px;
+      border: 1px solid #333;
+      border-radius: 10px;
+      transition: 0.3s;
+      font-weight: bold;
+      width: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .link-list a:hover {
+      background-color: #fff;
+      color: black;
+    }
+
+    .discord-special:hover {
+      background-color: #5865F2;
+      color: white;
+    }
+
+    .discord-special:hover .discord-icon {
+      filter: brightness(0) invert(1);
+    }
+
+    .discord-icon {
+      width: 22px;
+      height: 22px;
+      transition: 0.3s;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    .report-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #222;
+      color: white;
+      border: 1px solid #333;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+      z-index: 999;
+    }
+
+    .report-button:hover {
       background: white;
       color: black;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s;
     }
 
-    .open-report-btn:hover {
-      background: #ddd;
-    }
-
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.5);
-      display: none;
-      z-index: 1;
+    .report-label {
+      font-size: 0.7rem;
+      position: absolute;
+      top: 60px;
+      text-align: center;
+      width: 60px;
+      color: #aaa;
     }
 
     .report-ui {
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      background: #1e1e1e;
-      padding: 24px;
-      border-radius: 16px;
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+      transform: translate(-50%, -50%) scale(0);
       width: 90%;
-      max-width: 500px;
-      z-index: 2;
+      max-width: 400px;
+      background: #111;
+      border: 1px solid #333;
+      padding: 25px;
+      border-radius: 12px;
+      z-index: 9999;
+      transition: 0.4s ease;
       overflow-y: auto;
       max-height: 90vh;
     }
 
-    .report-ui h1 {
-      font-family: 'Mochiy Pop One', sans-serif;
-      font-size: 28px;
+    .report-ui.active {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0.3; }
+    }
+
+    .snowflake {
+      position: fixed;
+      top: -10px;
       color: white;
-      margin-bottom: 8px;
-      text-align: center;
-    }
-
-    .report-ui p {
-      color: #aaa;
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    label {
-      display: block;
-      margin-top: 12px;
-      font-weight: bold;
-    }
-
-    select,
-    input[type="text"],
-    textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      margin-top: 6px;
-      background: #2c2c2c;
-      color: white;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-
-    .char-counter {
-      text-align: right;
       font-size: 12px;
-      color: #888;
-      margin-top: 4px;
-    }
-
-    .char-limit-warning {
-      color: red;
-      font-size: 12px;
-      margin-top: 6px;
-    }
-
-    .error-message {
-      color: red;
-      font-size: 14px;
-      margin-top: 6px;
-    }
-
-    .success-message {
-      color: #0f0;
-      font-size: 14px;
-      margin-top: 6px;
-      animation: fadeOut 2s forwards 3s;
-    }
-
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-        visibility: hidden;
-      }
-    }
-
-    .submit-btn,
-    .discord-btn {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: bold;
-      margin-top: 12px;
-      cursor: pointer;
-      border: none;
-      transition: background 0.3s;
-    }
-
-    .submit-btn {
-      background: white;
-      color: black;
-    }
-
-    .submit-btn:hover {
-      background: #ddd;
-    }
-
-    .discord-btn {
-      background: #5865F2;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .discord-btn:hover {
-      background: #4752c4;
-    }
-
-    .discord-btn:hover img {
-      filter: brightness(0) invert(1);
-    }
-
-    .add-photo-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 12px;
-      margin-bottom: 12px;
-    }
-
-    #addPhoto {
-      background: #333;
-      color: white;
-      border: 1px solid #444;
-      border-radius: 6px;
-      padding: 10px;
-      cursor: pointer;
-      width: 100%;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-
-    #addPhoto:hover {
-      background: #444;
-    }
-
-    .photo-note {
-      font-size: 0.85rem;
-      color: #888;
-      white-space: nowrap;
-    }
-
-    .photo-preview {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 8px;
-    }
-
-    .photo-preview img {
-      height: 60px;
-      border-radius: 6px;
-      object-fit: cover;
+      opacity: 0.7;
+      animation: fall linear infinite;
+      pointer-events: none;
+      user-select: none;
     }
   </style>
 </head>
 <body>
-  <button class="open-report-btn" onclick="openReportUI()">Open Report UI</button>
-  <div class="overlay" id="overlay" onclick="closeReportUI()"></div>
-  <div id="reportUI" class="report-ui" style="display: none">
-    <!-- UI CONTENT WILL BE INJECTED FROM PREVIOUS REPLY SCRIPT -->
-  </div>
-  <script>
-    function openReportUI() {
-      document.getElementById('reportUI').style.display = 'block';
-      document.getElementById('overlay').style.display = 'block';
-    }
 
-    function closeReportUI() {
-      document.getElementById('reportUI').style.display = 'none';
-      document.getElementById('overlay').style.display = 'none';
+<!-- Snowflakes -->
+<script>
+  for (let i = 0; i < 60; i++) {
+    const flake = document.createElement("div");
+    flake.classList.add("snowflake");
+    flake.textContent = "❄";
+    flake.style.left = Math.random() * 100 + "vw";
+    flake.style.fontSize = (10 + Math.random() * 10) + "px";
+    flake.style.animationDuration = (5 + Math.random() * 5) + "s";
+    flake.style.animationDelay = Math.random() * 5 + "s";
+    document.body.appendChild(flake);
+  }
+</script>
+
+<div class="container">
+  <h1>Minky</h1>
+  <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
+
+  <div class="link-list">
+    <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
+    <a href="https://roblox.tg/dashboard" target="_blank">Immortal (Generator 2)</a>
+    <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
+    <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
+    <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
+      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-icon">
+      Discord Server
+    </a>
+  </div>
+
+  <footer>© 2025 Minky</footer>
+</div>
+
+<!-- Report Button -->
+<div class="report-button" onclick="toggleReport()">🛠<div class="report-label">Report</div></div>
+
+<!-- Report UI Placeholder -->
+<div class="report-ui" id="reportUI"></div>
+
+<script>
+  function toggleReport() {
+    document.getElementById("reportUI").classList.toggle("active");
+  }
+
+  // Click outside to close
+  window.addEventListener("click", function(e) {
+    const ui = document.getElementById("reportUI");
+    const btn = document.querySelector(".report-button");
+    if (!ui.contains(e.target) && !btn.contains(e.target)) {
+      ui.classList.remove("active");
     }
-  </script>
+  });
+</script>
+
+<!-- Embedded Report UI Logic and Injection -->
+<script src="report-ui.js"></script>
+
 </body>
 </html>
