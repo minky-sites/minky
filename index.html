@@ -30,7 +30,13 @@
 
     .container {
       text-align: center;
-      padding: 80px 20px;
+      padding: 80px 20px 40px;
+    }
+
+    .container p {
+      margin-bottom: 60px; /* increased space here */
+      font-size: 1rem;
+      color: #ccc;
     }
 
     .link-list {
@@ -154,7 +160,7 @@
     .char-count {
       text-align: right;
       font-size: 0.8rem;
-      margin-top: -10px;
+      margin-top: -5px;
       margin-bottom: 10px;
       color: #aaa;
     }
@@ -237,8 +243,8 @@
     <option value="Suggestion">Suggestion</option>
     <option value="Server Member">Server Member</option>
   </select>
-  <div class="char-count" id="charCount">0 / 3000</div>
   <textarea id="reportText" placeholder="Enter your report..." rows="6"></textarea>
+  <div class="char-count" id="charCount">0 / 3000</div>
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
 </div>
 
