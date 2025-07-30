@@ -38,7 +38,7 @@
       padding: 80px 20px;
       animation: fadeIn 1.5s ease;
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
     .link-list {
@@ -62,6 +62,7 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
+      position: relative;
     }
 
     .link-list a:hover {
@@ -85,10 +86,10 @@
     }
 
     .discord-label {
-      margin-top: 8px;
-      font-size: 0.75rem;
-      color: #888;
-      max-width: 260px;
+      font-size: 0.7rem;
+      color: #aaa;
+      margin-top: 4px;
+      width: 260px;
       text-align: center;
     }
 
@@ -98,131 +99,56 @@
       color: #555;
     }
 
-    /* Report floating button */
-    .report-float {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-
-    .report-float button {
-      background-color: #222;
-      color: white;
-      border: 1px solid #333;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      font-size: 20px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .report-float button:hover {
-      background-color: white;
-      color: black;
-    }
-
-    .report-ui {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      background: rgba(0,0,0,0.9);
-      z-index: 999;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .report-ui.active {
-      display: flex;
-    }
-
-    .report-box {
-      background: #111;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 400px;
-      width: 90%;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .report-box h2 {
-      margin-bottom: 10px;
-    }
-
-    .report-box input,
-    .report-box select,
-    .report-box textarea {
-      padding: 10px;
-      background: #222;
-      color: white;
-      border: 1px solid #333;
-      border-radius: 8px;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    .report-box button {
-      padding: 10px;
-      background: white;
-      color: black;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .report-box button:hover {
-      background: #ccc;
-    }
-
-    /* Snowflakes */
-    .snowflake {
-      position: fixed;
-      top: -50px;
-      color: white;
-      font-size: 18px;
-      animation-name: fall;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
-      z-index: 0;
-      opacity: 0.8;
-      pointer-events: none;
-    }
-
-    @keyframes fall {
-      0% { transform: translateY(0) translateX(0); }
-      100% { transform: translateY(120vh) translateX(30px); }
-    }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: white;
+      font-size: 14px;
+      pointer-events: none;
+      z-index: 1;
+      user-select: none;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10px) translateX(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) translateX(30px);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
 
-<!-- Snowflake script -->
+<!-- Snowflakes -->
 <script>
-  const snowflakeCount = 40;
-  for (let i = 0; i < snowflakeCount; i++) {
+  function createSnowflake() {
     const snowflake = document.createElement("div");
-    snowflake.className = "snowflake";
-    snowflake.style.left = Math.random() * 100 + "vw";
-    snowflake.style.animationDuration = (5 + Math.random() * 5) + "s";
-    snowflake.style.fontSize = (12 + Math.random() * 10) + "px";
-    snowflake.style.animationDelay = Math.random() * 5 + "s";
+    snowflake.classList.add("snowflake");
     snowflake.textContent = "❄";
+    snowflake.style.left = Math.random() * window.innerWidth + "px";
+    snowflake.style.animationDuration = (5 + Math.random() * 5) + "s";
+    snowflake.style.opacity = Math.random();
+    snowflake.style.fontSize = (12 + Math.random() * 10) + "px";
     document.body.appendChild(snowflake);
+    setTimeout(() => snowflake.remove(), 10000);
   }
+  setInterval(createSnowflake, 200);
 </script>
 
+<!-- Report UI Overlay -->
+<div class="report-ui-overlay" onclick="closeReportUI()"></div>
+
+<!-- Main Container -->
 <div class="container">
   <h1>Minky</h1>
   <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
@@ -232,35 +158,30 @@
     <a href="https://roblox.tg/dashboard" target="_blank">Immortal (Generator 2)</a>
     <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
     <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
-    <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-icon">
-      Discord Server
-    </a>
-    <div class="discord-label">If any bugs or any site down report it in the button on top right the page (Must Join Discord Server To Get Response)</div>
+    <div>
+      <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-icon">
+        Discord Server
+      </a>
+      <div class="discord-label">
+        If any bugs or any site down report it in the button on top right the page (Must Join Discord Server To Get Response)
+      </div>
+    </div>
   </div>
 
   <footer>© 2025 Minky</footer>
 </div>
 
 <!-- Report Button -->
-<div class="report-float">
-  <button onclick="document.querySelector('.report-ui').classList.add('active')">🛠</button>
+<div class="report-button" onclick="toggleReport()">
+  🛠<div class="report-label">Report</div>
 </div>
 
-<!-- Report UI -->
-<div class="report-ui" onclick="this.classList.remove('active')">
-  <div class="report-box" onclick="event.stopPropagation()">
-    <h2>Submit Report</h2>
-    <input type="text" placeholder="Discord Username & ID (e.g. user#1234)">
-    <textarea placeholder="Enter your report (max 3000 characters)"></textarea>
-    <select>
-      <option>Bug</option>
-      <option>Suggestion</option>
-      <option>Server Member</option>
-    </select>
-    <button>Submit Report</button>
-  </div>
-</div>
+<!-- Report UI Script Injection -->
+<script>
+  const reportScript = document.createElement("script");
+  reportScript.src = "https://cdn.jsdelivr.net/gh/karas-r/reportui@main/report-ui.js";
+  document.body.appendChild(reportScript);
+</script>
 
-</body>
-</html>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/karas-r/reportui@main/report-ui.css" />
