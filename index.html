@@ -337,9 +337,15 @@
   let photoFiles = [];
 
   function toggleReport() {
+  const isActive = reportUI.classList.contains("active");
+  if (isActive) {
+    closeReportUI();
+  } else {
     reportUI.classList.add("active");
     overlay.style.display = "block";
   }
+}
+
 
   function closeReportUI() {
     reportUI.classList.remove("active");
