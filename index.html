@@ -336,9 +336,14 @@
   const photoContainer = document.getElementById("photoPreviewContainer");
   let photoFiles = [];
 
-  function toggleReport() {
-  reportUI.classList.add("active");
-  overlay.style.display = "block";
+function toggleReport() {
+  const isActive = reportUI.classList.contains("active");
+  if (isActive) {
+    closeReportUI();
+  } else {
+    reportUI.classList.add("active");
+    overlay.style.display = "block";
+  }
 }
 
 
