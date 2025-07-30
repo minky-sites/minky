@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -13,7 +13,7 @@
     }
 
     body {
-      font-family: 'Rubik', sans-serif;
+      font-family: 'Montserrat', sans-serif;
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
       overflow-x: hidden;
@@ -28,15 +28,15 @@
       text-shadow: 0 0 5px #fff, 0 0 10px #fff;
     }
 
-    .container {
-      text-align: center;
-      padding: 80px 20px 40px;
+    p {
+      color: #aaa;
+      margin-bottom: 50px;
     }
 
-    .container p {
-      margin-bottom: 60px; /* increased space here */
-      font-size: 1rem;
-      color: #ccc;
+    .container {
+      text-align: center;
+      padding: 80px 20px;
+      animation: fadeIn 1.5s ease;
     }
 
     .link-list {
@@ -67,14 +67,14 @@
       color: black;
     }
 
-    .discord-special:hover img {
+    .link-list a.discord-special:hover img {
       filter: brightness(0) invert(1);
     }
 
     .discord-icon {
       width: 22px;
       height: 22px;
-      transition: 0.3s ease;
+      transition: 0.3s;
     }
 
     footer {
@@ -136,7 +136,6 @@
 
     .report-ui h2 {
       margin-bottom: 10px;
-      font-family: 'Rubik', sans-serif;
     }
 
     .report-ui small {
@@ -145,9 +144,7 @@
       margin-bottom: 15px;
     }
 
-    .report-ui input,
-    .report-ui textarea,
-    .report-ui select {
+    .report-ui input, .report-ui textarea, .report-ui select {
       width: 100%;
       padding: 10px;
       margin-bottom: 12px;
@@ -160,12 +157,11 @@
     .char-count {
       text-align: right;
       font-size: 0.8rem;
-      margin-top: -5px;
-      margin-bottom: 10px;
       color: #aaa;
+      margin-bottom: 12px;
     }
 
-    .char-count.limit {
+    .char-count.red {
       color: red;
     }
 
@@ -185,8 +181,7 @@
       transform: scale(1.05);
     }
 
-    .confirmation,
-    .error-msg {
+    .confirmation, .error-msg {
       position: fixed;
       top: -50px;
       left: 50%;
@@ -209,9 +204,44 @@
       background: red;
       color: white;
     }
+
+    @keyframes fall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0.3; }
+    }
+
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: white;
+      font-size: 12px;
+      opacity: 0.7;
+      animation: fall linear infinite;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
+
+<!-- Snowflakes -->
+<script>
+  for (let i = 0; i < 60; i++) {
+    const flake = document.createElement("div");
+    flake.classList.add("snowflake");
+    flake.textContent = "❄";
+    flake.style.left = Math.random() * 100 + "vw";
+    flake.style.fontSize = (10 + Math.random() * 10) + "px";
+    flake.style.animationDuration = (5 + Math.random() * 5) + "s";
+    flake.style.animationDelay = Math.random() * 5 + "s";
+    document.body.appendChild(flake);
+  }
+</script>
 
 <div class="container">
   <h1>Minky</h1>
@@ -231,62 +261,60 @@
   <footer>© 2025 Minky</footer>
 </div>
 
+<!-- Report Button -->
 <div class="report-button" onclick="toggleReport()">🛠<div class="report-label">Report</div></div>
 
+<!-- Report UI -->
 <div class="report-ui" id="reportUI">
   <h2>Submit Report</h2>
   <small>Tell us what's going on</small>
-  <input type="text" placeholder="Discord Username" id="discordUsername">
-  <input type="text" placeholder="Discord ID" id="discordId">
-  <select id="reportCategory">
-    <option value="Bug">Bug</option>
-    <option value="Suggestion">Suggestion</option>
-    <option value="Server Member">Server Member</option>
+
+  <select id="category">
+    <option value="" disabled selected>Select Category</option>
+    <option value="Bug Report">Report A Bug</option>
+    <option value="Suggestion">New Suggestion</option>
+    <option value="Server Member">Report A Server Member</option>
   </select>
-  <textarea id="reportText" placeholder="Enter your report..." rows="6"></textarea>
+
+  <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
+  <input type="text" id="discordID" placeholder="Discord User ID">
+  <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
   <div class="char-count" id="charCount">0 / 3000</div>
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
 </div>
 
-<div class="confirmation" id="confirmation">Report submitted successfully!</div>
-<div class="error-msg" id="errorMsg">Error message</div>
+<div class="confirmation" id="confirmationMsg">Report sent successfully</div>
+<div class="error-msg" id="errorMsg"></div>
 
 <script>
-  const reportText = document.getElementById('reportText');
-  const charCount = document.getElementById('charCount');
-  const errorMsg = document.getElementById('errorMsg');
-  const confirmation = document.getElementById('confirmation');
-  const MAX_LENGTH = 3000;
-
-  reportText.addEventListener('input', () => {
-    const length = reportText.value.length;
-    charCount.textContent = `${length} / ${MAX_LENGTH}`;
-    charCount.classList.toggle('limit', length >= MAX_LENGTH);
-  });
-
   function toggleReport() {
     document.getElementById("reportUI").classList.toggle("active");
   }
 
-  function showError(message) {
-    errorMsg.textContent = message;
-    errorMsg.classList.add('active');
-    setTimeout(() => errorMsg.classList.remove('active'), 4000);
-  }
+  const reportText = document.getElementById("reportText");
+  const charCount = document.getElementById("charCount");
 
-  function showConfirmation() {
-    confirmation.classList.add('active');
-    setTimeout(() => confirmation.classList.remove('active'), 4000);
+  reportText.addEventListener("input", () => {
+    const len = reportText.value.length;
+    charCount.textContent = `${len} / 3000`;
+    charCount.classList.toggle("red", len >= 3000);
+  });
+
+  function showError(msg) {
+    const error = document.getElementById("errorMsg");
+    error.textContent = msg;
+    error.classList.add("active");
+    setTimeout(() => error.classList.remove("active"), 4000);
   }
 
   function submitReport() {
-    const user = document.getElementById("discordUsername").value.trim();
-    const id = document.getElementById("discordId").value.trim();
+    const user = document.getElementById("discordUser").value.trim();
+    const id = document.getElementById("discordID").value.trim();
     const text = document.getElementById("reportText").value.trim();
-    const category = document.getElementById("reportCategory").value;
+    const category = document.getElementById("category").value;
 
-    if (!user || !id || !text || !category) {
-      showError("Please fill all fields.");
+    if (!category || !text || !user || !id) {
+      alert("Please fill all fields.");
       return;
     }
 
@@ -295,12 +323,12 @@
       return;
     }
 
-    if (/discord(?:\.gg|\.com\/invite)/i.test(user) || /discord(?:\.gg|\.com\/invite)/i.test(text)) {
+    if (user.includes("discord.gg") || text.includes("discord.gg")) {
       showError("Can't Enter A Discord Server Invite");
       return;
     }
 
-    if (text.length > MAX_LENGTH) {
+    if (text.length > 3000) {
       showError("Can't Submit Report Because You Have Reached The Character Limit");
       return;
     }
@@ -312,8 +340,12 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ content })
     }).then(() => {
-      showConfirmation();
-      document.getElementById("reportUI").classList.remove("active");
+      const conf = document.getElementById("confirmationMsg");
+      conf.classList.add("active");
+      setTimeout(() => {
+        conf.classList.remove("active");
+        document.getElementById("reportUI").classList.remove("active");
+      }, 5000);
     });
   }
 </script>
