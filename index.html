@@ -312,8 +312,11 @@
     <option value="Server Member">Report A Server Member</option>
   </select>
 
+  <label style="color:white;">Username</label>
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
+  <label style="color:white;">User ID</label>
   <input type="text" id="discordID" placeholder="Discord User ID">
+  <label style="color:white;">Report</label>
   <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
   <div class="character-count" id="charCount">0 / 3000</div>
 
@@ -336,16 +339,15 @@
   const photoContainer = document.getElementById("photoPreviewContainer");
   let photoFiles = [];
 
-function toggleReport() {
-  const isActive = reportUI.classList.contains("active");
-  if (isActive) {
-    closeReportUI();
-  } else {
-    reportUI.classList.add("active");
-    overlay.style.display = "block";
+  function toggleReport() {
+    const isActive = reportUI.classList.contains("active");
+    if (isActive) {
+      closeReportUI();
+    } else {
+      reportUI.classList.add("active");
+      overlay.style.display = "block";
+    }
   }
-}
-
 
   function closeReportUI() {
     reportUI.classList.remove("active");
