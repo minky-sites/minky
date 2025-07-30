@@ -6,67 +6,311 @@
   <title>Minky</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rubik:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* All styles remain unchanged */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Rubik', sans-serif;
+      background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
+      color: white;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff;
+    }
+
+    .container {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .link-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .link-list a {
+      text-decoration: none;
+      color: white;
+      background: #222;
+      padding: 14px;
+      border: 1px solid #333;
+      border-radius: 10px;
+      transition: 0.3s;
+      font-weight: bold;
+      width: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .link-list a:hover {
+      background-color: white;
+      color: black;
+    }
+
+    .discord-special:hover img {
+      filter: brightness(0) invert(1);
+    }
+
+    .discord-icon {
+      width: 22px;
+      height: 22px;
+      transition: 0.3s ease;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    .report-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #222;
+      color: white;
+      border: 1px solid #333;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+    }
+
+    .report-button:hover {
+      background: white;
+      color: black;
+    }
+
+    .report-label {
+      font-size: 0.7rem;
+      position: absolute;
+      top: 60px;
+      text-align: center;
+      width: 60px;
+      color: #aaa;
+    }
+
+    .report-ui {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 90%;
+      max-width: 400px;
+      background: #111;
+      border: 1px solid #333;
+      padding: 25px;
+      border-radius: 12px;
+      z-index: 999;
+      transition: 0.4s ease;
+    }
+
+    .report-ui.active {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .report-ui h2 {
+      margin-bottom: 10px;
+      font-family: 'Rubik', sans-serif;
+    }
+
+    .report-ui small {
+      color: #aaa;
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    .report-ui input,
+    .report-ui textarea,
+    .report-ui select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      background: #222;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 6px;
+    }
+
+    .char-count {
+      text-align: right;
+      font-size: 0.8rem;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      color: #aaa;
+    }
+
+    .char-count.limit {
+      color: red;
+    }
+
+    .submit-btn {
+      background: white;
+      color: black;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      transition: 0.3s;
+    }
+
+    .submit-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .confirmation,
+    .error-msg {
+      position: fixed;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 20px;
+      border-radius: 8px;
+      transition: 0.4s ease;
+      z-index: 9999;
+      font-weight: bold;
+    }
+
+    .confirmation.active {
+      top: 20px;
+      background: white;
+      color: black;
+    }
+
+    .error-msg.active {
+      top: 20px;
+      background: red;
+      color: white;
+    }
   </style>
 </head>
 <body>
-  <!-- Body contents -->
 
-  <div class="report-ui" id="reportUI">
-    <h2>Submit Report</h2>
-    <small>Tell us what's going on</small>
-    <input type="text" placeholder="Discord Username" id="discordUsername">
-    <input type="text" placeholder="Discord ID" id="discordId">
-    <select id="reportCategory">
-      <option value="Bug">Bug</option>
-      <option value="Suggestion">Suggestion</option>
-      <option value="Server Member">Server Member</option>
-    </select>
-    <div class="char-count" id="charCount">0 / 3000</div>
-    <textarea id="reportText" placeholder="Enter your report..." rows="6"></textarea>
-    <button class="submit-btn" onclick="submitReport()">Submit Report</button>
+<div class="container">
+  <h1>Minky</h1>
+  <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
+
+  <div class="link-list">
+    <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
+    <a href="https://roblox.tg/dashboard" target="_blank">Immortal (Generator 2)</a>
+    <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
+    <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
+    <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
+      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-icon">
+      Discord Server
+    </a>
   </div>
 
-  <div class="error-msg" id="errorMsg">Can't Submit Report Because You Have Reached The Character Limit</div>
-  <div class="confirmation" id="confirmation">Report submitted successfully!</div>
+  <footer>© 2025 Minky</footer>
+</div>
 
-  <script>
-    const reportText = document.getElementById('reportText');
-    const charCount = document.getElementById('charCount');
-    const errorMsg = document.getElementById('errorMsg');
-    const confirmation = document.getElementById('confirmation');
-    const MAX_LENGTH = 3000;
+<div class="report-button" onclick="toggleReport()">🛠<div class="report-label">Report</div></div>
 
-    reportText.addEventListener('input', () => {
-      const length = reportText.value.length;
-      charCount.textContent = `${length} / ${MAX_LENGTH}`;
-      if (length >= MAX_LENGTH) {
-        charCount.classList.add('limit');
-      } else {
-        charCount.classList.remove('limit');
-      }
-    });
+<div class="report-ui" id="reportUI">
+  <h2>Submit Report</h2>
+  <small>Tell us what's going on</small>
+  <input type="text" placeholder="Discord Username" id="discordUsername">
+  <input type="text" placeholder="Discord ID" id="discordId">
+  <select id="reportCategory">
+    <option value="Bug">Bug</option>
+    <option value="Suggestion">Suggestion</option>
+    <option value="Server Member">Server Member</option>
+  </select>
+  <div class="char-count" id="charCount">0 / 3000</div>
+  <textarea id="reportText" placeholder="Enter your report..." rows="6"></textarea>
+  <button class="submit-btn" onclick="submitReport()">Submit Report</button>
+</div>
 
-    function showError(message) {
-      errorMsg.textContent = message;
-      errorMsg.classList.add('active');
-      setTimeout(() => errorMsg.classList.remove('active'), 4000);
+<div class="confirmation" id="confirmation">Report submitted successfully!</div>
+<div class="error-msg" id="errorMsg">Error message</div>
+
+<script>
+  const reportText = document.getElementById('reportText');
+  const charCount = document.getElementById('charCount');
+  const errorMsg = document.getElementById('errorMsg');
+  const confirmation = document.getElementById('confirmation');
+  const MAX_LENGTH = 3000;
+
+  reportText.addEventListener('input', () => {
+    const length = reportText.value.length;
+    charCount.textContent = `${length} / ${MAX_LENGTH}`;
+    charCount.classList.toggle('limit', length >= MAX_LENGTH);
+  });
+
+  function toggleReport() {
+    document.getElementById("reportUI").classList.toggle("active");
+  }
+
+  function showError(message) {
+    errorMsg.textContent = message;
+    errorMsg.classList.add('active');
+    setTimeout(() => errorMsg.classList.remove('active'), 4000);
+  }
+
+  function showConfirmation() {
+    confirmation.classList.add('active');
+    setTimeout(() => confirmation.classList.remove('active'), 4000);
+  }
+
+  function submitReport() {
+    const user = document.getElementById("discordUsername").value.trim();
+    const id = document.getElementById("discordId").value.trim();
+    const text = document.getElementById("reportText").value.trim();
+    const category = document.getElementById("reportCategory").value;
+
+    if (!user || !id || !text || !category) {
+      showError("Please fill all fields.");
+      return;
     }
 
-    function showConfirmation() {
-      confirmation.classList.add('active');
-      setTimeout(() => confirmation.classList.remove('active'), 4000);
+    if (!/^\d+$/.test(id)) {
+      showError("Only numbers allowed in entering your ID");
+      return;
     }
 
-    function submitReport() {
-      const text = reportText.value;
-      if (text.length > MAX_LENGTH) {
-        showError("Can't Submit Report Because You Have Reached The Character Limit");
-        return;
-      }
-      // Submit logic here
+    if (/discord(?:\.gg|\.com\/invite)/i.test(user) || /discord(?:\.gg|\.com\/invite)/i.test(text)) {
+      showError("Can't Enter A Discord Server Invite");
+      return;
+    }
+
+    if (text.length > MAX_LENGTH) {
+      showError("Can't Submit Report Because You Have Reached The Character Limit");
+      return;
+    }
+
+    const content = `📩 **New Report**\n**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`;
+
+    fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content })
+    }).then(() => {
       showConfirmation();
-    }
-  </script>
+      document.getElementById("reportUI").classList.remove("active");
+    });
+  }
+</script>
+
 </body>
 </html>
