@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Manrope:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -13,7 +13,7 @@
     }
 
     body {
-      font-family: 'Rubik', sans-serif;
+      font-family: 'Manrope', sans-serif;
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
       overflow-x: hidden;
@@ -63,13 +63,8 @@
     }
 
     .link-list a:hover {
-      background-color: white;
+      background-color: #fff;
       color: black;
-    }
-
-    .discord-special:hover {
-      background-color: #5865F2 !important;
-      color: white !important;
     }
 
     .discord-special:hover .discord-icon {
@@ -157,6 +152,18 @@
       color: white;
       border: 1px solid #444;
       border-radius: 6px;
+    }
+
+    .char-count {
+      font-size: 0.8rem;
+      color: #888;
+      margin-top: -10px;
+      margin-bottom: 12px;
+      text-align: right;
+    }
+
+    .char-count.warn {
+      color: red;
     }
 
     .submit-btn {
@@ -269,16 +276,24 @@
 
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
   <input type="text" id="discordID" placeholder="Discord User ID">
-  <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
+  <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000" oninput="updateCharCount()"></textarea>
+  <div class="char-count" id="charCounter">0 / 3000</div>
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
 </div>
 
 <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
-<div class="error-msg" id="errorMsg">Error</div>
+<div class="error-msg" id="errorMsg">Only numbers allowed in entering your ID</div>
 
 <script>
   function toggleReport() {
     document.getElementById("reportUI").classList.toggle("active");
+  }
+
+  function updateCharCount() {
+    const text = document.getElementById("reportText").value;
+    const counter = document.getElementById("charCounter");
+    counter.textContent = `${text.length} / 3000`;
+    counter.classList.toggle("warn", text.length > 2500);
   }
 
   function showError(msg) {
@@ -286,15 +301,6 @@
     error.textContent = msg;
     error.classList.add("active");
     setTimeout(() => error.classList.remove("active"), 4000);
-  }
-
-  function containsInviteLink(str) {
-    const patterns = [
-      "discord.gg/",
-      "discord.com/invite/",
-      "discordapp.com/invite/"
-    ];
-    return patterns.some(p => str.toLowerCase().includes(p));
   }
 
   function submitReport() {
@@ -313,7 +319,7 @@
       return;
     }
 
-    if (containsInviteLink(user) || containsInviteLink(text)) {
+    if (/discord\.gg|discord\.com\/invite/.test(user) || /discord\.gg|discord\.com\/invite/.test(text)) {
       showError("Can't Enter A Discord Server Invite");
       return;
     }
@@ -331,8 +337,6 @@
         conf.classList.remove("active");
         document.getElementById("reportUI").classList.remove("active");
       }, 5000);
-    }).catch(() => {
-      showError("Failed to send report.");
     });
   }
 </script>
