@@ -6,13 +6,151 @@
   <title>Minky</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* ...[unchanged styles above]... */
+    body {
+      margin: 0;
+      font-family: 'Nunito', sans-serif;
+      background: #0e0e0e;
+      color: white;
+      overflow-x: hidden;
+    }
 
-    /* Screenshot upload styling */
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      font-size: 3em;
+      color: white;
+      text-shadow: 0 0 10px #00f2ff, 0 0 20px #00f2ff;
+    }
+
+    p.description {
+      text-align: center;
+      font-size: 1.1em;
+      color: #ccc;
+      margin-top: 20px;
+      margin-bottom: 60px;
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    button {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      padding: 15px 30px;
+      font-size: 1em;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: white;
+      color: black;
+    }
+
+    .discord-button:hover {
+      background: #5865F2;
+      color: white;
+    }
+
+    .discord-button:hover img {
+      filter: brightness(0) invert(1);
+    }
+
+    .discord-button img {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 10px;
+      transition: 0.3s;
+    }
+
+    .report-ui {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 40px;
+    }
+
+    .report-ui.active {
+      display: flex;
+    }
+
+    .report-ui h2 {
+      font-family: 'Orbitron', sans-serif;
+      text-shadow: 0 0 10px #00f2ff;
+    }
+
+    .report-ui small {
+      margin-bottom: 20px;
+      color: #ccc;
+    }
+
+    .report-ui input, .report-ui textarea, .report-ui select {
+      width: 300px;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    .report-ui textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .submit-btn {
+      background: white;
+      color: black;
+      margin-top: 10px;
+    }
+
+    .submit-btn:hover {
+      background: #ddd;
+    }
+
+    .confirmation, .error-msg {
+      display: none;
+      margin-top: 15px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 0.9em;
+    }
+
+    .confirmation.active {
+      display: block;
+      background: green;
+      color: white;
+    }
+
+    .error-msg.active {
+      display: block;
+      background: red;
+      color: white;
+    }
+
+    #charCounter {
+      text-align: right;
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      width: 300px;
+    }
+
     .file-upload-wrapper {
       margin-top: 10px;
       margin-bottom: 12px;
       text-align: left;
+      width: 300px;
     }
 
     .file-upload-label {
@@ -44,14 +182,21 @@
 </head>
 <body>
 
-<!-- ...[unchanged body content above]... -->
+<h1>Minky</h1>
+<p class="description">Welcome to the report center. Please select your category and fill in your details below.</p>
 
-<!-- Report UI -->
+<div class="button-container">
+  <button onclick="toggleReport()">📝 Report</button>
+  <button class="discord-button" onclick="window.open('https://discord.gg/yourserver', '_blank')">
+    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord"> Join Discord Server
+  </button>
+</div>
+
 <div class="report-ui" id="reportUI">
   <h2>Report A Bug/Suggestions</h2>
   <small>Must Be In The Discord Server To Get Your Response</small>
 
-  <select id="category" onchange="handleCategoryChange()">
+  <select id="category">
     <option value="" disabled selected>Select Category</option>
     <option value="Bug Report">Report A Bug</option>
     <option value="Suggestion">New Suggestion</option>
@@ -61,9 +206,8 @@
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
   <input type="text" id="discordID" placeholder="Discord User ID">
   <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000" oninput="updateCharCount()"></textarea>
-  <div id="charCounter" style="text-align: right; font-size: 0.85rem; color: #aaa; margin-top: -10px; margin-bottom: 10px;">0 / 3000</div>
+  <div id="charCounter">0 / 3000</div>
 
-  <!-- Screenshot Upload -->
   <div class="file-upload-wrapper">
     <label for="screenshot" class="file-upload-label">Add Photo (optional)</label>
     <input type="file" id="screenshot" accept="image/*" onchange="displayFileName()">
@@ -74,16 +218,11 @@
 </div>
 
 <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
-<div class="error-msg" id="errorMsg">Only numbers allowed in entering your ID</div>
+<div class="error-msg" id="errorMsg"></div>
 
 <script>
   function toggleReport() {
     document.getElementById("reportUI").classList.toggle("active");
-  }
-
-  function handleCategoryChange() {
-    const cat = document.getElementById("category").value;
-    // No longer hiding anything.
   }
 
   function showError(msg) {
