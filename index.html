@@ -337,13 +337,8 @@
   let photoFiles = [];
 
   function toggleReport() {
-  const isActive = reportUI.classList.contains("active");
-  if (isActive) {
-    closeReportUI();
-  } else {
-    reportUI.classList.add("active");
-    overlay.style.display = "block";
-  }
+  reportUI.classList.add("active");
+  overlay.style.display = "block";
 }
 
 
@@ -361,7 +356,7 @@
 
   function updateCharCount() {
     const len = textArea.value.length;
-    charCount.textContent = ${len} / 3000;
+    charCount.textContent = `${len} / 3000`;
     charCount.classList.toggle("limit", len >= 3000);
   }
 
@@ -426,12 +421,12 @@
     const formData = new FormData();
     const embed = {
       title: "📩 New Report",
-      description: **Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text},
+      description: `**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`,
       color: 0x5865F2
     };
 
     formData.append("payload_json", JSON.stringify({ embeds: [embed] }));
-    photoFiles.forEach((file, i) => formData.append(files[${i}], file));
+    photoFiles.forEach((file, i) => formData.append(`files[${i}]`, file));
 
     fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
       method: "POST",
