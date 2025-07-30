@@ -83,11 +83,12 @@
     }
 
     .site-down-label {
-      margin-top: 4px;
       font-size: 0.7rem;
       color: #999;
-      max-width: 280px;
+      margin-top: -8px;
+      margin-bottom: 20px;
       text-align: center;
+      max-width: 280px;
     }
 
     footer {
@@ -128,11 +129,98 @@
       width: 60px;
       color: #aaa;
     }
+
+    .report-ui {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #111;
+      border: 1px solid #333;
+      padding: 30px;
+      border-radius: 16px;
+      width: 360px;
+      max-width: 90%;
+      z-index: 9999;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .report-ui.show {
+      display: flex;
+    }
+
+    .report-ui input,
+    .report-ui textarea,
+    .report-ui select {
+      background: #1b1b1b;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: white;
+      padding: 10px;
+      width: 100%;
+      font-size: 0.9rem;
+    }
+
+    .report-ui button {
+      background: white;
+      color: black;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .report-ui button:hover {
+      background: #ddd;
+    }
+
+    .report-ui .success {
+      color: lightgreen;
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    .report-ui-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.6);
+      z-index: 9998;
+      display: none;
+    }
+
+    .report-ui-overlay.show {
+      display: block;
+    }
   </style>
 </head>
 <body>
 
+<button class="report-button" onclick="toggleReportUI()">!</button>
+<div class="report-label">Report</div>
+
 <div class="report-ui-overlay" onclick="closeReportUI()"></div>
+
+<div class="report-ui" id="reportUI">
+  <input type="text" id="username" placeholder="Discord Username (Optional)">
+  <input type="text" id="userid" placeholder="Discord ID (Optional)">
+  <select id="category">
+    <option value="Bug">Bug</option>
+    <option value="Suggestion">Suggestion</option>
+    <option value="Server Member">Server Member</option>
+  </select>
+  <textarea id="reportText" rows="5" placeholder="Enter your report (max 3000 chars)" maxlength="3000"></textarea>
+  <button onclick="submitReport()">Submit Report</button>
+  <div class="success" id="successMessage" style="display: none;">✅ Report submitted successfully!</div>
+</div>
 
 <div class="container">
   <h1>Minky</h1>
@@ -152,6 +240,44 @@
 
   <footer>© 2025 Minky</footer>
 </div>
+
+<script>
+  function toggleReportUI() {
+    document.getElementById("reportUI").classList.toggle("show");
+    document.querySelector(".report-ui-overlay").classList.toggle("show");
+  }
+
+  function closeReportUI() {
+    document.getElementById("reportUI").classList.remove("show");
+    document.querySelector(".report-ui-overlay").classList.remove("show");
+  }
+
+  function submitReport() {
+    const username = document.getElementById("username").value;
+    const userid = document.getElementById("userid").value;
+    const reportText = document.getElementById("reportText").value;
+    const category = document.getElementById("category").value;
+
+    if (!reportText.trim()) return;
+
+    fetch("YOUR_WEBHOOK_URL", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        content: `**New Report**\n**Category:** ${category}\n**Username:** ${username || "N/A"}\n**User ID:** ${userid || "N/A"}\n**Message:**\n${reportText}`
+      })
+    }).then(() => {
+      document.getElementById("successMessage").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("successMessage").style.display = "none";
+        closeReportUI();
+        document.getElementById("username").value = "";
+        document.getElementById("userid").value = "";
+        document.getElementById("reportText").value = "";
+      }, 2000);
+    });
+  }
+</script>
 
 </body>
 </html>
