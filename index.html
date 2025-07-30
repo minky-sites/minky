@@ -274,16 +274,6 @@
       color: red;
     }
 
-    .anonymous-checkbox {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.85rem;
-      color: #ccc;
-      margin-top: 6px;
-      margin-bottom: 12px;
-    }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -307,6 +297,11 @@
       <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-icon">
       Discord Server
     </a>
+  </div>
+
+  <!-- ✅ ADDED LABEL HERE -->
+  <div style="font-size: 0.8rem; color: #aaa; margin-top: 10px;">
+    If the Sites are down or Flagged be Patient as we are aware of this and working on fixing it ASAP
   </div>
 
   <footer>© 2025 Minky</footer>
@@ -342,11 +337,6 @@
   <label for="addPhoto" class="custom-photo-label">Add Photo</label>
   <input type="file" id="addPhoto" accept="image/*" multiple style="display: none;" />
   <div id="photoPreviewContainer" class="photo-preview"></div>
-
-  <div class="anonymous-checkbox">
-    <input type="checkbox" id="anonymousCheckbox" />
-    <label for="anonymousCheckbox">Submit Anonymously</label>
-  </div>
 
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
 </div>
