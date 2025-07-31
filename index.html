@@ -66,18 +66,13 @@
     .discord-special:hover .discord-icon {
       filter: brightness(0) invert(1);
     }
-    .discord-icon {
-      width: 22px;
-      height: 22px;
-      transition: 0.3s;
-    }
-    .refresh-icon {
+    .icon {
       width: 18px;
       height: 18px;
       transition: 0.3s;
       filter: brightness(1); /* White by default */
     }
-    .link-list a:hover .refresh-icon {
+    .link-list a:hover .icon {
       filter: brightness(0); /* Turns black on hover */
     }
     footer {
@@ -261,17 +256,41 @@
   <h1>Minky</h1>
   <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
   <div class="link-list">
-    <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
-    <a href="https://roblox.tg/dashboard" target="_blank">Immortal (Generator 2)</a>
-    <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
+    <!-- Main Generator Site - Moon Icon -->
+    <a href="https://www.logged.tg/auth/minkybeams" target="_blank">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+      Main Generator Site
+    </a>
+
+    <!-- Immortal Generator - Plus Icon -->
+    <a href="https://roblox.tg/dashboard" target="_blank">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      Immortal (Generator 2)
+    </a>
+
+    <!-- Autohar - Lightning Bolt -->
+    <a href="https://is.gd/bhAW9Q" target="_blank">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 2L3 14h9l-1 10 10-12h-9l1-10z"></path>
+      </svg>
+      Autohar
+    </a>
+
+    <!-- Cookie Refresher - Refresh Icon (Fixed) -->
     <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">
-      <!-- Refresh SVG Icon -->
-      <svg class="refresh-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M23 4v6h-6M1 20v-6h6"></path>
         <path d="M20.49 9A10 10 0 0 0 2.49 15"></path>
       </svg>
       Cookie Refresher
     </a>
+
+    <!-- Discord Server -->
     <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
       <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-icon">
       Discord Server
