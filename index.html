@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Load Orbitron for futuristic font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -12,7 +13,8 @@
       padding: 0;
     }
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 500;
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
       overflow-x: hidden;
@@ -21,6 +23,7 @@
     }
     h1 {
       font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
       font-size: 2.5rem;
       margin-bottom: 10px;
       text-shadow: 0 0 5px #fff, 0 0 10px #fff;
@@ -28,6 +31,7 @@
     p {
       color: #aaa;
       margin-bottom: 40px;
+      font-size: 1rem;
     }
     .container {
       text-align: center;
@@ -48,7 +52,7 @@
       border: 1px solid #333;
       border-radius: 10px;
       transition: 0.3s;
-      font-weight: bold;
+      font-weight: 500;
       width: 260px;
       display: flex;
       align-items: center;
@@ -72,7 +76,7 @@
       height: 22px;
       transition: 0.3s;
     }
-    /* === Icon Styling (for all other buttons) === */
+    /* === Icon Styling === */
     .icon {
       width: 18px;
       height: 18px;
@@ -148,6 +152,7 @@
     }
     .report-ui h2 {
       margin-bottom: 10px;
+      font-weight: 600;
     }
     .report-ui small {
       color: #aaa;
@@ -170,6 +175,7 @@
       color: white;
       border: 1px solid #444;
       border-radius: 6px;
+      font-family: 'Orbitron', sans-serif;
     }
     .custom-photo-label {
       display: block;
@@ -182,6 +188,8 @@
       width: 100%;
       text-align: center;
       cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
     }
     .photo-preview {
       display: flex;
@@ -216,6 +224,7 @@
       width: 100%;
       transition: 0.3s;
       margin-top: 12px;
+      font-family: 'Orbitron', sans-serif;
     }
     .submit-btn:hover {
       transform: scale(1.05);
@@ -230,6 +239,7 @@
       transition: 0.4s ease;
       z-index: 9999;
       font-weight: bold;
+      font-family: 'Orbitron', sans-serif;
     }
     .confirmation.active {
       top: 20px;
@@ -255,9 +265,39 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* === SNOWFLAKES === */
+    .snowflake {
+      position: fixed;
+      top: -10%;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+      animation: fall linear infinite;
+      opacity: 0.7;
+      filter: blur(0.5px);
+      color: white;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10%) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
+<!-- Snowflakes will be injected by JS -->
 <div class="report-ui-overlay" onclick="closeReportUI()"></div>
 <div class="container">
   <h1>Minky</h1>
@@ -289,17 +329,18 @@
       Autohar
     </a>
 
-    <!-- Cookie Refresher - Fixed Refresh Icon -->
+    <!-- Cookie Refresher - NEW Clean Refresh Icon -->
     <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">
       <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="23 4 23 10 17 10"></polyline>
-        <polyline points="1 20 1 14 7 14"></polyline>
-        <path d="M20.49 9A10 10 0 0 0 2.49 15"></path>
+        <path d="M23 4v6h-6"></path>
+        <path d="M1 20v-6h6"></path>
+        <path d="M3 10a10 10 0 0 1 10 -10v0"></path>
+        <path d="M21 14a10 10 0 0 1 -10 10v0"></path>
       </svg>
       Cookie Refresher
     </a>
 
-    <!-- Discord Server (Original) -->
+    <!-- Discord Server -->
     <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
       <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-icon">
       Discord Server
@@ -326,7 +367,7 @@
     <option value="Bug Report">Report A Bug</option>
     <option value="Suggestion">New Suggestion</option>
     <option value="Server Member">Report A Server Member</option>
-    <option value="Site Down">Site Down</option> <!-- ✅ Site Down Category Added Back -->
+    <option value="Site Down">Site Down</option>
   </select>
   <label for="discordUser">Username</label>
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
@@ -452,6 +493,34 @@ ${text}`,
       }, 5000);
     });
   }
+
+  // === INFINITE SNOWFLAKES ===
+  function createSnowflake() {
+    const flake = document.createElement('div');
+    flake.classList.add('snowflake');
+    flake.textContent = '❄';
+
+    flake.style.left = `${Math.random() * 100}vw`;
+    const size = 0.8 + Math.random() * 1;
+    flake.style.fontSize = `${size}rem`;
+    const duration = 10 + Math.random() * 10;
+    flake.style.animationDuration = `${duration}s`;
+
+    document.body.appendChild(flake);
+
+    setTimeout(() => {
+      flake.remove();
+    }, duration * 1000);
+  }
+
+  function startSnow(interval = 700) {
+    createSnowflake();
+    setInterval(createSnowflake, interval);
+  }
+
+  window.addEventListener('load', () => {
+    startSnow(700);
+  });
 </script>
 </body>
 </html>
