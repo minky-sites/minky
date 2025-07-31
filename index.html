@@ -59,6 +59,7 @@
       background-color: #fff;
       color: black;
     }
+    /* === Discord Button (Original Style) === */
     .discord-special:hover {
       background-color: #5865F2 !important;
       color: white !important;
@@ -66,6 +67,12 @@
     .discord-special:hover .discord-icon {
       filter: brightness(0) invert(1);
     }
+    .discord-icon {
+      width: 22px;
+      height: 22px;
+      transition: 0.3s;
+    }
+    /* === Icon Styling (for all other buttons) === */
     .icon {
       width: 18px;
       height: 18px;
@@ -256,6 +263,7 @@
   <h1>Minky</h1>
   <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
   <div class="link-list">
+
     <!-- Main Generator Site - Moon Icon -->
     <a href="https://www.logged.tg/auth/minkybeams" target="_blank">
       <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -264,7 +272,7 @@
       Main Generator Site
     </a>
 
-    <!-- Immortal Generator - Plus Icon -->
+    <!-- Immortal (Generator 2) - Plus Icon -->
     <a href="https://roblox.tg/dashboard" target="_blank">
       <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -273,7 +281,7 @@
       Immortal (Generator 2)
     </a>
 
-    <!-- Autohar - Lightning Bolt -->
+    <!-- Autohar - Lightning Icon -->
     <a href="https://is.gd/bhAW9Q" target="_blank">
       <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M13 2L3 14h9l-1 10 10-12h-9l1-10z"></path>
@@ -281,20 +289,22 @@
       Autohar
     </a>
 
-    <!-- Cookie Refresher - Refresh Icon (Fixed) -->
+    <!-- Cookie Refresher - Fixed Refresh Icon -->
     <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">
       <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M23 4v6h-6M1 20v-6h6"></path>
+        <polyline points="23 4 23 10 17 10"></polyline>
+        <polyline points="1 20 1 14 7 14"></polyline>
         <path d="M20.49 9A10 10 0 0 0 2.49 15"></path>
       </svg>
       Cookie Refresher
     </a>
 
-    <!-- Discord Server -->
+    <!-- Discord Server (Original) -->
     <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
       <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-icon">
       Discord Server
     </a>
+
   </div>
   <div style="font-size: 0.8rem; color: #aaa; margin-top: 10px;">
     If The Sites Are Down Or Flagged Be Patient As We Are Aware Of This And Working On Fixing It ASAP
@@ -316,6 +326,7 @@
     <option value="Bug Report">Report A Bug</option>
     <option value="Suggestion">New Suggestion</option>
     <option value="Server Member">Report A Server Member</option>
+    <option value="Site Down">Site Down</option> <!-- ✅ Site Down Category Added Back -->
   </select>
   <label for="discordUser">Username</label>
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
