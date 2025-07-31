@@ -44,7 +44,6 @@
       flex-direction: column;
       gap: 12px;
       align-items: center;
-      margin-bottom: 30px; /* ✅ Added spacing under links */
     }
 
     .link-list a {
@@ -300,18 +299,167 @@
     </a>
   </div>
 
-  <div style="font-size: 0.8rem; color: #aaa;">
+  <!-- ✅ ADDED LABEL HERE -->
+  <div style="font-size: 0.8rem; color: #aaa; margin-top: 10px;">
     If The Sites Are Down Or Flagged Be Patient As We Are Aware Of This And Working On Fixing It ASAP
   </div>
 
   <footer>© 2025 Minky</footer>
 </div>
 
+<!-- Report Button -->
 <div class="report-button" onclick="toggleReport()">
   🛠<div class="report-label">Report</div>
 </div>
 
-<!-- Rest of your report UI remains unchanged -->
-<!-- Preserving as you instructed -->
+<!-- Report UI -->
+<div class="report-ui" id="reportUI">
+  <h2>Report A Bug/Suggestions</h2>
+  <small>Must Be In The Discord Server To Get Your Response</small>
+
+  <select id="category">
+    <option value="" disabled selected>Select Category</option>
+    <option value="Bug Report">Report A Bug</option>
+    <option value="Suggestion">New Suggestion</option>
+    <option value="Server Member">Report A Server Member</option>
+  </select>
+
+  <label for="discordUser">Username</label>
+  <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
+
+  <label for="discordID">User ID</label>
+  <input type="text" id="discordID" placeholder="Discord User ID">
+
+  <label for="reportText">Report</label>
+  <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
+  <div class="character-count" id="charCount">0 / 3000</div>
+
+  <label for="addPhoto" class="custom-photo-label">Add Photo</label>
+  <input type="file" id="addPhoto" accept="image/*" multiple style="display: none;" />
+  <div id="photoPreviewContainer" class="photo-preview"></div>
+
+  <button class="submit-btn" onclick="submitReport()">Submit Report</button>
+</div>
+
+<div class="confirmation" id="confirmationMsg">Report sent successfully</div>
+<div class="error-msg" id="errorMsg">Error</div>
+
+<script>
+  const reportUI = document.getElementById("reportUI");
+  const overlay = document.querySelector(".report-ui-overlay");
+  const charCount = document.getElementById("charCount");
+  const textArea = document.getElementById("reportText");
+  const photoInput = document.getElementById("addPhoto");
+  const photoContainer = document.getElementById("photoPreviewContainer");
+  let photoFiles = [];
+
+  function toggleReport() {
+    const isActive = reportUI.classList.contains("active");
+    if (isActive) {
+      closeReportUI();
+    } else {
+      reportUI.classList.add("active");
+      overlay.style.display = "block";
+    }
+  }
+
+  function closeReportUI() {
+    reportUI.classList.remove("active");
+    overlay.style.display = "none";
+  }
+
+  function showError(msg) {
+    const error = document.getElementById("errorMsg");
+    error.textContent = msg;
+    error.classList.add("active");
+    setTimeout(() => error.classList.remove("active"), 4000);
+  }
+
+  function updateCharCount() {
+    const len = textArea.value.length;
+    charCount.textContent = `${len} / 3000`;
+    charCount.classList.toggle("limit", len >= 3000);
+  }
+
+  textArea.addEventListener("input", updateCharCount);
+
+  photoInput.addEventListener("change", () => {
+    const files = Array.from(photoInput.files);
+    if (photoFiles.length + files.length > 5) {
+      showError("You can only upload up to 5 images.");
+      return;
+    }
+
+    files.forEach(file => {
+      photoFiles.push(file);
+      const reader = new FileReader();
+      reader.onload = e => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "photo-wrapper";
+
+        const img = document.createElement("img");
+        img.src = e.target.result;
+
+        const removeBtn = document.createElement("button");
+        removeBtn.className = "remove-photo";
+        removeBtn.textContent = "Remove Photo";
+        removeBtn.onclick = () => {
+          photoFiles = photoFiles.filter(f => f !== file);
+          photoContainer.removeChild(wrapper);
+        };
+
+        wrapper.appendChild(img);
+        wrapper.appendChild(removeBtn);
+        photoContainer.appendChild(wrapper);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    photoInput.value = '';
+  });
+
+  async function submitReport() {
+    const user = document.getElementById("discordUser").value.trim();
+    const id = document.getElementById("discordID").value.trim();
+    const text = textArea.value.trim();
+    const category = document.getElementById("category").value;
+
+    if (!category || !user || !id || !text) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    if (!/^\d+$/.test(id)) {
+      showError("Only numbers allowed in entering your ID");
+      return;
+    }
+
+    if (text.length >= 3000) {
+      showError("Can't Submit Report Because You Have Reached The Character Limit");
+      return;
+    }
+
+    const formData = new FormData();
+    const embed = {
+      title: "📩 New Report",
+      description: `**Category:** ${category}\n**User:** ${user} (${id})\n**Report:**\n${text}`,
+      color: 0x5865F2
+    };
+
+    formData.append("payload_json", JSON.stringify({ embeds: [embed] }));
+    photoFiles.forEach((file, i) => formData.append(`files[${i}]`, file));
+
+    fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
+      method: "POST",
+      body: formData
+    }).then(() => {
+      document.getElementById("confirmationMsg").classList.add("active");
+      setTimeout(() => {
+        document.getElementById("confirmationMsg").classList.remove("active");
+        closeReportUI();
+      }, 5000);
+    });
+  }
+</script>
 </body>
 </html>
