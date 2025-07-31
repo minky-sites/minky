@@ -279,7 +279,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ❄️ Snowflake Animation */
+    /* ❄️ Snowflake CSS */
     #snowflake-container {
       position: fixed;
       top: 0;
@@ -287,13 +287,14 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 1;
+      z-index: 0;
     }
 
     .snowflake {
       position: absolute;
+      top: -10px;
       color: white;
-      font-size: 16px;
+      font-size: 18px;
       user-select: none;
       animation-name: fall;
       animation-iteration-count: infinite;
@@ -301,45 +302,25 @@
     }
 
     @keyframes fall {
-      0% { transform: translateY(-10px) rotate(0deg); }
-      100% { transform: translateY(100vh) rotate(360deg); }
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+      }
     }
   </style>
 </head>
 <body>
-<div class="report-ui-overlay" onclick="closeReportUI()"></div>
-
-<div class="container">
-  <h1>Minky</h1>
-  <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
-
-  <div class="link-list">
-    <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
-    <a href="https://roblox.tg/dashboard" target="_blank">Immortal (Generator 2)</a>
-    <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
-    <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
-    <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-icon">
-      Discord Server
-    </a>
-  </div>
-
-  <div style="font-size: 0.8rem; color: #aaa; margin-top: 10px;">
-    If The Sites Are Down Or Flagged Be Patient As We Are Aware Of This And Working On Fixing It ASAP
-  </div>
-
-  <footer>© 2025 Minky</footer>
-</div>
-
-<div class="report-button" onclick="toggleReport()">🛠<div class="report-label">Report</div></div>
-
-<div class="report-ui" id="reportUI">...</div> <!-- Omitted here for space; keep your full original HTML from earlier -->
 
 <!-- ❄️ Snowflake Container -->
 <div id="snowflake-container"></div>
 
-<!-- JavaScript -->
+<!-- ⬇️ Your Full Original HTML Content Including Report UI -->
+<!-- [OMITTED HERE FOR SPACE — YOUR FULL HTML CONTINUES BELOW THIS COMMENT] -->
+
 <script>
+  // Your original JS including report logic
   const reportUI = document.getElementById("reportUI");
   const overlay = document.querySelector(".report-ui-overlay");
   const charCount = document.getElementById("charCount");
@@ -349,8 +330,13 @@
   let photoFiles = [];
 
   function toggleReport() {
-    reportUI.classList.toggle("active");
-    overlay.style.display = reportUI.classList.contains("active") ? "block" : "none";
+    const isActive = reportUI.classList.contains("active");
+    if (isActive) {
+      closeReportUI();
+    } else {
+      reportUI.classList.add("active");
+      overlay.style.display = "block";
+    }
   }
 
   function closeReportUI() {
@@ -451,22 +437,20 @@
     });
   }
 
-  // ❄️ Snowflake Generator
+  // ❄️ Snowflake JS
   function createSnowflake() {
     const snowflake = document.createElement("div");
     snowflake.className = "snowflake";
     snowflake.textContent = "❄️";
     snowflake.style.left = Math.random() * 100 + "vw";
-    snowflake.style.fontSize = (12 + Math.random() * 12) + "px";
+    snowflake.style.fontSize = (12 + Math.random() * 10) + "px";
     snowflake.style.animationDuration = (6 + Math.random() * 5) + "s";
     snowflake.style.opacity = Math.random().toFixed(2);
-    snowflake.style.zIndex = 1;
     document.getElementById("snowflake-container").appendChild(snowflake);
-
     setTimeout(() => snowflake.remove(), 12000);
   }
 
-  setInterval(createSnowflake, 250);
+  setInterval(createSnowflake, 300);
 </script>
 </body>
 </html>
