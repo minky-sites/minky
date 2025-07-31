@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <!-- Load Orbitron for futuristic font -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -13,8 +12,7 @@
       padding: 0;
     }
     body {
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 500;
+      font-family: 'Poppins', sans-serif;
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
       overflow-x: hidden;
@@ -23,7 +21,6 @@
     }
     h1 {
       font-family: 'Orbitron', sans-serif;
-      font-weight: 700;
       font-size: 2.5rem;
       margin-bottom: 10px;
       text-shadow: 0 0 5px #fff, 0 0 10px #fff;
@@ -31,7 +28,6 @@
     p {
       color: #aaa;
       margin-bottom: 40px;
-      font-size: 1rem;
     }
     .container {
       text-align: center;
@@ -52,7 +48,7 @@
       border: 1px solid #333;
       border-radius: 10px;
       transition: 0.3s;
-      font-weight: 500;
+      font-weight: bold;
       width: 260px;
       display: flex;
       align-items: center;
@@ -63,7 +59,6 @@
       background-color: #fff;
       color: black;
     }
-    /* === Discord Button (Original Style) === */
     .discord-special:hover {
       background-color: #5865F2 !important;
       color: white !important;
@@ -75,16 +70,6 @@
       width: 22px;
       height: 22px;
       transition: 0.3s;
-    }
-    /* === Icon Styling === */
-    .icon {
-      width: 18px;
-      height: 18px;
-      transition: 0.3s;
-      filter: brightness(1); /* White by default */
-    }
-    .link-list a:hover .icon {
-      filter: brightness(0); /* Turns black on hover */
     }
     footer {
       margin-top: 50px;
@@ -152,7 +137,6 @@
     }
     .report-ui h2 {
       margin-bottom: 10px;
-      font-weight: 600;
     }
     .report-ui small {
       color: #aaa;
@@ -175,7 +159,6 @@
       color: white;
       border: 1px solid #444;
       border-radius: 6px;
-      font-family: 'Orbitron', sans-serif;
     }
     .custom-photo-label {
       display: block;
@@ -188,8 +171,6 @@
       width: 100%;
       text-align: center;
       cursor: pointer;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.9rem;
     }
     .photo-preview {
       display: flex;
@@ -224,7 +205,6 @@
       width: 100%;
       transition: 0.3s;
       margin-top: 12px;
-      font-family: 'Orbitron', sans-serif;
     }
     .submit-btn:hover {
       transform: scale(1.05);
@@ -239,7 +219,6 @@
       transition: 0.4s ease;
       z-index: 9999;
       font-weight: bold;
-      font-family: 'Orbitron', sans-serif;
     }
     .confirmation.active {
       top: 20px;
@@ -265,86 +244,22 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
-    /* === SNOWFLAKES === */
-    .snowflake {
-      position: fixed;
-      top: -10%;
-      z-index: 0;
-      pointer-events: none;
-      user-select: none;
-      animation: fall linear infinite;
-      opacity: 0.7;
-      filter: blur(0.5px);
-      color: white;
-      font-size: 1.2rem;
-      line-height: 1;
-    }
-
-    @keyframes fall {
-      0% {
-        transform: translateY(-10%) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.7;
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
   </style>
 </head>
 <body>
-<!-- Snowflakes will be injected by JS -->
 <div class="report-ui-overlay" onclick="closeReportUI()"></div>
 <div class="container">
   <h1>Minky</h1>
   <p>Best Beaming Sites/Methods/Tools/Tutorials 👾<br>Join Our Discord For The Full Beaming Experience 👾</p>
   <div class="link-list">
-
-    <!-- Main Generator Site - Moon Icon -->
-    <a href="https://www.logged.tg/auth/minkybeams" target="_blank">
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-      </svg>
-      Main Generator Site
-    </a>
-
-    <!-- Immortal (Generator 2) - Plus Icon -->
-    <a href="https://roblox.tg/dashboard" target="_blank">
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="12" y1="5" x2="12" y2="19"></line>
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-      </svg>
-      Immortal (Generator 2)
-    </a>
-
-    <!-- Autohar - Lightning Icon -->
-    <a href="https://is.gd/bhAW9Q" target="_blank">
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M13 2L3 14h9l-1 10 10-12h-9l1-10z"></path>
-      </svg>
-      Autohar
-    </a>
-
-    <!-- Cookie Refresher - Custom Refresh Icon -->
-    <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"></circle>
-        <path d="M12 16v1a3 3 0 0 0 3 -3h1"></path>
-        <path d="M8.1 8l4.6 4.4"></path>
-      </svg>
-      Cookie Refresher
-    </a>
-
-    <!-- Discord Server -->
+    <a href="https://www.logged.tg/auth/minkybeams" target="_blank">Main Generator Site</a>
+    <a href="https://roblox.tg/dashboard" target="_blank">Immortal (Generator 2)</a>
+    <a href="https://is.gd/bhAW9Q" target="_blank">Autohar</a>
+    <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
     <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
       <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord" class="discord-icon">
       Discord Server
     </a>
-
   </div>
   <div style="font-size: 0.8rem; color: #aaa; margin-top: 10px;">
     If The Sites Are Down Or Flagged Be Patient As We Are Aware Of This And Working On Fixing It ASAP
@@ -366,7 +281,6 @@
     <option value="Bug Report">Report A Bug</option>
     <option value="Suggestion">New Suggestion</option>
     <option value="Server Member">Report A Server Member</option>
-    <option value="Site Down">Site Down</option>
   </select>
   <label for="discordUser">Username</label>
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
@@ -453,23 +367,39 @@
     photoInput.value = '';
   });
 
+  // === RATE LIMIT: 1 report per 30 minutes ===
   async function submitReport() {
     const user = document.getElementById("discordUser").value.trim();
     const id = document.getElementById("discordID").value.trim();
     const text = textArea.value.trim();
     const category = document.getElementById("category").value;
+
     if (!category || !user || !id || !text) {
       alert("Please fill all fields.");
       return;
     }
+
     if (!/^\d+$/.test(id)) {
       showError("Only numbers allowed in entering your ID");
       return;
     }
+
     if (text.length >= 3000) {
       showError("Can't Submit Report Because You Have Reached The Character Limit");
       return;
     }
+
+    // ✅ Check rate limit
+    const lastReportTime = localStorage.getItem("lastReportTime");
+    const now = Date.now();
+    const thirtyMinutes = 30 * 60 * 1000;
+
+    if (lastReportTime && now - parseInt(lastReportTime) < thirtyMinutes) {
+      const minutesLeft = Math.ceil((thirtyMinutes - (now - parseInt(lastReportTime))) / 60000);
+      showError(`Please wait ${minutesLeft} minute(s) before submitting another report.`);
+      return;
+    }
+
     const formData = new FormData();
     const embed = {
       title: "📩 New Report",
@@ -481,45 +411,26 @@ ${text}`,
     };
     formData.append("payload_json", JSON.stringify({ embeds: [embed] }));
     photoFiles.forEach((file, i) => formData.append(`files[${i}]`, file));
-    fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
-      method: "POST",
-      body: formData
-    }).then(() => {
+
+    try {
+      await fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
+        method: "POST",
+        body: formData
+      });
+
+      // ✅ Save timestamp only after successful send
+      localStorage.setItem("lastReportTime", now.toString());
+
       document.getElementById("confirmationMsg").classList.add("active");
       setTimeout(() => {
         document.getElementById("confirmationMsg").classList.remove("active");
         closeReportUI();
       }, 5000);
-    });
+    } catch (err) {
+      showError("Failed to send report. Please try again later.");
+      console.error(err);
+    }
   }
-
-  // === INFINITE SNOWFLAKES ===
-  function createSnowflake() {
-    const flake = document.createElement('div');
-    flake.classList.add('snowflake');
-    flake.textContent = '❄';
-
-    flake.style.left = `${Math.random() * 100}vw`;
-    const size = 0.8 + Math.random() * 1;
-    flake.style.fontSize = `${size}rem`;
-    const duration = 10 + Math.random() * 10;
-    flake.style.animationDuration = `${duration}s`;
-
-    document.body.appendChild(flake);
-
-    setTimeout(() => {
-      flake.remove();
-    }, duration * 1000);
-  }
-
-  function startSnow(interval = 700) {
-    createSnowflake();
-    setInterval(createSnowflake, interval);
-  }
-
-  window.addEventListener('load', () => {
-    startSnow(700);
-  });
 </script>
 </body>
 </html>
