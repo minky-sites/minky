@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Load Orbitron for all text -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -12,7 +13,8 @@
       padding: 0;
     }
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 500;
       background: radial-gradient(circle at center, #0f0f0f, #000000 90%);
       color: white;
       overflow-x: hidden;
@@ -21,6 +23,7 @@
     }
     h1 {
       font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
       font-size: 2.5rem;
       margin-bottom: 10px;
       text-shadow: 0 0 5px #fff, 0 0 10px #fff;
@@ -28,6 +31,7 @@
     p {
       color: #aaa;
       margin-bottom: 40px;
+      font-size: 1rem;
     }
     .container {
       text-align: center;
@@ -48,7 +52,7 @@
       border: 1px solid #333;
       border-radius: 10px;
       transition: 0.3s;
-      font-weight: bold;
+      font-weight: 500;
       width: 260px;
       display: flex;
       align-items: center;
@@ -137,6 +141,7 @@
     }
     .report-ui h2 {
       margin-bottom: 10px;
+      font-weight: 600;
     }
     .report-ui small {
       color: #aaa;
@@ -159,6 +164,7 @@
       color: white;
       border: 1px solid #444;
       border-radius: 6px;
+      font-family: 'Orbitron', sans-serif;
     }
     .custom-photo-label {
       display: block;
@@ -171,6 +177,8 @@
       width: 100%;
       text-align: center;
       cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
     }
     .photo-preview {
       display: flex;
@@ -205,6 +213,7 @@
       width: 100%;
       transition: 0.3s;
       margin-top: 12px;
+      font-family: 'Orbitron', sans-serif;
     }
     .submit-btn:hover {
       transform: scale(1.05);
@@ -219,6 +228,7 @@
       transition: 0.4s ease;
       z-index: 9999;
       font-weight: bold;
+      font-family: 'Orbitron', sans-serif;
     }
     .confirmation.active {
       top: 20px;
@@ -447,35 +457,28 @@ ${text}`,
     flake.classList.add('snowflake');
     flake.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
     
-    // Random position
     flake.style.left = `${Math.random() * 100}vw`;
     
-    // Random size (0.8rem to 1.8rem)
     const size = 0.8 + Math.random() * 1;
     flake.style.fontSize = `${size}rem`;
     
-    // Random animation duration (10s to 20s)
     const duration = 10 + Math.random() * 10;
     flake.style.animationDuration = `${duration}s`;
     
-    // Add to body
     document.body.appendChild(flake);
 
-    // Remove after animation ends to prevent memory bloat
     setTimeout(() => {
       flake.remove();
     }, duration * 1000);
   }
 
-  // Start snow
-  function startSnow(interval = 600) {
-    createSnowflake(); // First flake
-    setInterval(createSnowflake, interval); // Then every X ms
+  function startSnow(interval = 700) {
+    createSnowflake();
+    setInterval(createSnowflake, interval);
   }
 
-  // Launch snow after page loads
   window.addEventListener('load', () => {
-    startSnow(700); // One snowflake every 700ms → smooth, infinite flow
+    startSnow(700);
   });
 </script>
 </body>
