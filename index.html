@@ -324,6 +324,7 @@
     <option value="Bug Report">Report A Bug</option>
     <option value="Suggestion">New Suggestion</option>
     <option value="Server Member">Report A Server Member</option>
+    <option value="Site Down">Site Down</option> <!-- ✅ New Category Added -->
   </select>
   <label for="discordUser">Username</label>
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
@@ -450,12 +451,11 @@ ${text}`,
     });
   }
 
-  // === INFINITE SNOWFLAKES ===
+  // === INFINITE SNOWFLAKES (ALL SAME SHAPE: ❄) ===
   function createSnowflake() {
-    const snowflakes = ['❅', '❆', '❄', '✼', '✻', '✽'];
     const flake = document.createElement('div');
     flake.classList.add('snowflake');
-    flake.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+    flake.textContent = '❄'; // 🔺 Now all snowflakes are the same ❄
     
     flake.style.left = `${Math.random() * 100}vw`;
     
