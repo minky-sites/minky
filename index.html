@@ -323,7 +323,6 @@
   <div>Server Current Members:</div>
   <div class="member-count" id="memberCount">—</div>
 </div>
-
 <!-- Snowflakes will be injected by JS -->
 <div class="report-ui-overlay" onclick="closeReportUI()"></div>
 <div class="container">
@@ -371,12 +370,10 @@
   </div>
   <footer>© 2025 Minky</footer>
 </div>
-
 <!-- Report Button -->
 <div class="report-button" onclick="toggleReport()">
   🛠<div class="report-label">Report</div>
 </div>
-
 <!-- Report UI -->
 <div class="report-ui" id="reportUI">
   <h2>Report A Bug/Suggestions</h2>
@@ -400,10 +397,8 @@
   <div id="photoPreviewContainer" class="photo-preview"></div>
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
 </div>
-
 <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
 <div class="error-msg" id="errorMsg">Error</div>
-
 <script>
   const reportUI = document.getElementById("reportUI");
   const overlay = document.querySelector(".report-ui-overlay");
@@ -473,6 +468,19 @@
     photoInput.value = '';
   });
 
+  // === OBFUSCATED WEBHOOK (Hidden in parts) ===
+  const WEBHOOK_PARTS = [
+    "https://disc",
+    "ord.com",
+    "/api/webhooks/",
+    "1400512445113565394",
+    "/MRXIz-hdLc7L--G6KrKPE3C5jCtwwOBR0R8rRSzk0BY3mzvlbVDvJqqjacRTk8fvS16g"
+  ];
+  const REAL_WEBHOOK = atob(btoa(WEBHOOK_PARTS.join("")));
+
+  // ⚠️ FAKE WEBHOOK (decoy) — let them delete this one 😏
+  // fetch("https://discord.com/api/webhooks/000000000000000000/fake_webhook_here", { ... });
+
   // === RATE LIMIT: 1 report every 30 minutes ===
   function canSubmit() {
     const lastReportTime = localStorage.getItem("lastReportTime");
@@ -526,7 +534,7 @@ ${text}`,
     formData.append("payload_json", JSON.stringify({ embeds: [embed] }));
     photoFiles.forEach((file, i) => formData.append(`files[${i}]`, file));
 
-    fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
+    fetch(REAL_WEBHOOK, {
       method: "POST",
       body: formData
     })
