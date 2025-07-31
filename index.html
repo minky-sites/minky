@@ -292,7 +292,6 @@
         opacity: 0;
       }
     }
-
     /* === DISCORD MEMBER COUNTER === */
     .discord-counter {
       position: fixed;
@@ -372,20 +371,26 @@
   </div>
   <footer>© 2025 Minky</footer>
 </div>
+
 <!-- Report Button -->
 <div class="report-button" onclick="toggleReport()">
   🛠<div class="report-label">Report</div>
 </div>
+
 <!-- Report UI -->
 <div class="report-ui" id="reportUI">
   <h2>Report A Bug/Suggestions</h2>
   <small>Must Be In The Discord Server To Get Your Response</small>
   <select id="category">
     <option value="" disabled selected>Select Category</option>
-    <option value="Bug Report">Report A Bug</option>
-    <option value="Suggestion">New Suggestion</option>
-    <option value="Server Member">Report A Server Member</option>
     <option value="Site Down">Site Down</option>
+    <option value="Bug Report">Bug Report</option>
+    <option value="Suggestion">Suggestion</option>
+    <option value="Account Issue">Account Issue</option>
+    <option value="Scam Report">Scam Report</option>
+    <option value="Exploit / Cheating">Exploit / Cheating</option>
+    <option value="Discord Rule Violation">Discord Rule Violation</option>
+    <option value="Other">Other</option>
   </select>
   <label for="discordUser">Username</label>
   <input type="text" id="discordUser" placeholder="Discord Username (e.g. user#1234)">
@@ -399,8 +404,10 @@
   <div id="photoPreviewContainer" class="photo-preview"></div>
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
 </div>
+
 <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
 <div class="error-msg" id="errorMsg">Error</div>
+
 <script>
   const reportUI = document.getElementById("reportUI");
   const overlay = document.querySelector(".report-ui-overlay");
@@ -409,6 +416,7 @@
   const photoInput = document.getElementById("addPhoto");
   const photoContainer = document.getElementById("photoPreviewContainer");
   let photoFiles = [];
+
   function toggleReport() {
     const isActive = reportUI.classList.contains("active");
     if (isActive) {
@@ -418,22 +426,27 @@
       overlay.style.display = "block";
     }
   }
+
   function closeReportUI() {
     reportUI.classList.remove("active");
     overlay.style.display = "none";
   }
+
   function showError(msg) {
     const error = document.getElementById("errorMsg");
     error.textContent = msg;
     error.classList.add("active");
     setTimeout(() => error.classList.remove("active"), 4000);
   }
+
   function updateCharCount() {
     const len = textArea.value.length;
     charCount.textContent = `${len} / 3000`;
     charCount.classList.toggle("limit", len >= 3000);
   }
+
   textArea.addEventListener("input", updateCharCount);
+
   photoInput.addEventListener("change", () => {
     const files = Array.from(photoInput.files);
     if (photoFiles.length + files.length > 5) {
@@ -463,11 +476,30 @@
     });
     photoInput.value = '';
   });
+
+  // === RATE LIMIT: 1 report every 30 minutes ===
+  function canSubmit() {
+    const lastReportTime = localStorage.getItem("lastReportTime");
+    const now = Date.now();
+    const thirtyMinutes = 30 * 60 * 1000;
+
+    if (lastReportTime && now - lastReportTime < thirtyMinutes) {
+      const minutesLeft = Math.ceil((thirtyMinutes - (now - lastReportTime)) / 60000);
+      showError(`Please wait ${minutesLeft} minute${minutesLeft > 1 ? 's' : ''} before submitting another report.`);
+      return false;
+    }
+
+    localStorage.setItem("lastReportTime", now);
+    return true;
+  }
+
+  // Submit Report
   async function submitReport() {
     const user = document.getElementById("discordUser").value.trim();
     const id = document.getElementById("discordID").value.trim();
     const text = textArea.value.trim();
     const category = document.getElementById("category").value;
+
     if (!category || !user || !id || !text) {
       alert("Please fill all fields.");
       return;
@@ -480,6 +512,12 @@
       showError("Can't Submit Report Because You Have Reached The Character Limit");
       return;
     }
+
+    // Check rate limit
+    if (!canSubmit()) {
+      return;
+    }
+
     const formData = new FormData();
     const embed = {
       title: "📩 New Report",
@@ -491,17 +529,24 @@ ${text}`,
     };
     formData.append("payload_json", JSON.stringify({ embeds: [embed] }));
     photoFiles.forEach((file, i) => formData.append(`files[${i}]`, file));
+
     fetch("https://discord.com/api/webhooks/1399830806884515901/mjJP06MwJ2fZuKBbl2AIujHimt5BJoNBlyZzH0Ssh8_B7nBz1nYzww1Jl9bgG3_CsN2X", {
       method: "POST",
       body: formData
-    }).then(() => {
+    })
+    .then(() => {
       document.getElementById("confirmationMsg").classList.add("active");
       setTimeout(() => {
         document.getElementById("confirmationMsg").classList.remove("active");
         closeReportUI();
       }, 5000);
+    })
+    .catch(err => {
+      console.error("Submission error:", err);
+      showError("Failed to send report. Try again.");
     });
   }
+
   // === INFINITE SNOWFLAKES ===
   function createSnowflake() {
     const flake = document.createElement('div');
@@ -517,10 +562,12 @@ ${text}`,
       flake.remove();
     }, duration * 1000);
   }
+
   function startSnow(interval = 700) {
     createSnowflake();
     setInterval(createSnowflake, interval);
   }
+
   window.addEventListener('load', () => {
     startSnow(700);
   });
@@ -540,6 +587,7 @@ ${text}`,
       document.getElementById('memberCount').textContent = '—';
     }
   }
+
   // Load on page load
   updateMemberCount();
   // Update every 2 minutes
