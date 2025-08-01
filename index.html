@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,17 +92,10 @@
       font-size: 0.8rem;
       color: #555;
     }
-
-    /* === BUTTON ROW === */
-    .button-row {
+    .report-button {
       position: fixed;
       top: 20px;
       right: 20px;
-      display: flex;
-      gap: 10px;
-      z-index: 1000;
-    }
-    .report-button, .fast-mode-button {
       background: #222;
       color: white;
       border: 1px solid #333;
@@ -114,12 +108,13 @@
       align-items: center;
       justify-content: center;
       transition: 0.3s;
+      z-index: 1000;
     }
-    .report-button:hover, .fast-mode-button:hover {
+    .report-button:hover {
       background: white;
       color: black;
     }
-    .button-label {
+    .report-label {
       font-size: 0.7rem;
       position: absolute;
       top: 60px;
@@ -127,46 +122,150 @@
       width: 60px;
       color: #aaa;
     }
-
-    /* === CHECKMARK ON FAST MODE === */
-    .fast-mode-button.active::after {
-      content: "✓";
-      font-size: 14px;
-      position: absolute;
-      top: 3px;
-      right: 3px;
-      color: #0f0;
-    }
-
-    /* === DISCORD MEMBER COUNTER === */
-    .discord-counter {
+    .report-ui-overlay {
       position: fixed;
-      top: 20px;
-      left: 20px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 998;
+      display: none;
+    }
+    .report-ui {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 90%;
+      max-width: 400px;
+      background: #111;
+      border: 1px solid #333;
+      padding: 25px;
+      border-radius: 12px;
+      z-index: 999;
+      transition: 0.4s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .report-ui.active {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .report-ui h2 {
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .report-ui small {
+      color: #aaa;
+      display: block;
+      margin-bottom: 15px;
+    }
+    .report-ui label {
+      display: block;
+      margin-bottom: 5px;
       color: white;
+      font-size: 0.9rem;
+    }
+    .report-ui input[type="text"],
+    .report-ui textarea,
+    .report-ui select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      background: #222;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 6px;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .custom-photo-label {
+      display: block;
+      margin-top: 10px;
+      background: #333;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+      cursor: pointer;
       font-family: 'Orbitron', sans-serif;
       font-size: 0.9rem;
-      text-align: center;
-      z-index: 100;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #333;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-      min-width: 160px;
     }
-    .member-count {
-      font-size: 1.4rem;
-      font-weight: 600;
+    .photo-preview {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      gap: 10px;
+      margin-top: 10px;
+      padding-bottom: 5px;
+    }
+    .photo-preview img {
+      height: 70px;
+      border-radius: 6px;
+    }
+    .remove-photo {
+      font-size: 12px;
+      padding: 4px 6px;
       margin-top: 4px;
-      letter-spacing: 1px;
     }
-
-    /* === NO HOVER ANIMATION IN FAST MODE === */
-    .no-hover-anim .link-list a {
-      transition: none !important;
+    .photo-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-
+    .submit-btn {
+      background: white;
+      color: black;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      transition: 0.3s;
+      margin-top: 12px;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .submit-btn:hover {
+      transform: scale(1.05);
+    }
+    .confirmation, .error-msg {
+      position: fixed;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 20px;
+      border-radius: 8px;
+      transition: 0.4s ease;
+      z-index: 9999;
+      font-weight: bold;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .confirmation.active {
+      top: 20px;
+      background: white;
+      color: black;
+    }
+    .error-msg.active {
+      top: 20px;
+      background: red;
+      color: white;
+    }
+    .character-count {
+      text-align: right;
+      font-size: 0.8rem;
+      color: #aaa;
+      margin-top: -10px;
+      margin-bottom: 10px;
+    }
+    .character-count.limit {
+      color: red;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     /* === SNOWFLAKES === */
     .snowflake {
       position: fixed;
@@ -194,31 +293,38 @@
         opacity: 0;
       }
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* === DISCORD MEMBER COUNTER === */
+    .discord-counter {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      color: white;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      text-align: center;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #333;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      min-width: 160px;
+    }
+    .member-count {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-top: 4px;
+      letter-spacing: 1px;
     }
   </style>
 </head>
-<body class="">
+<body>
 <!-- Live Discord Member Counter -->
 <div class="discord-counter">
   <div>Server Current Members:</div>
   <div class="member-count" id="memberCount">—</div>
 </div>
-
-<!-- Button Row -->
-<div class="button-row">
-  <!-- Fast Mode Button -->
-  <div id="fastModeBtn" class="fast-mode-button">
-    ⚡<div class="button-label">Fast Mode</div>
-  </div>
-  <!-- Report Button -->
-  <div class="report-button" onclick="toggleReport()">
-    🛠<div class="button-label">Report</div>
-  </div>
-</div>
-
+<!-- Snowflakes will be injected by JS -->
 <div class="report-ui-overlay" onclick="closeReportUI()"></div>
 <div class="container">
   <h1>Minky</h1>
@@ -265,7 +371,10 @@
   </div>
   <footer>© 2025 Minky</footer>
 </div>
-
+<!-- Report Button -->
+<div class="report-button" onclick="toggleReport()">
+  🛠<div class="report-label">Report</div>
+</div>
 <!-- Report UI -->
 <div class="report-ui" id="reportUI">
   <h2>Report A Bug/Suggestions</h2>
@@ -284,69 +393,22 @@
   <label for="reportText">Report</label>
   <textarea id="reportText" placeholder="Write your report here (max 3000 characters)" maxlength="3000"></textarea>
   <div class="character-count" id="charCount">0 / 3000</div>
-  <label for="addPhoto" class="custom-photo-label" id="photoLabel">Add Photo</label>
+  <label for="addPhoto" class="custom-photo-label">Add Photo</label>
   <input type="file" id="addPhoto" accept="image/*" multiple style="display: none;" />
   <div id="photoPreviewContainer" class="photo-preview"></div>
   <button class="submit-btn" onclick="submitReport()">Submit Report</button>
 </div>
-
 <div class="confirmation" id="confirmationMsg">Report sent successfully</div>
 <div class="error-msg" id="errorMsg">Error</div>
-
 <script>
-  // === ELEMENTS ===
-  const fastModeBtn = document.getElementById("fastModeBtn");
-  const photoLabel = document.getElementById("photoLabel");
+  const reportUI = document.getElementById("reportUI");
+  const overlay = document.querySelector(".report-ui-overlay");
+  const charCount = document.getElementById("charCount");
+  const textArea = document.getElementById("reportText");
   const photoInput = document.getElementById("addPhoto");
-  const photoPreviewContainer = document.getElementById("photoPreviewContainer");
+  const photoContainer = document.getElementById("photoPreviewContainer");
+  let photoFiles = [];
 
-  // === FAST MODE STATE ===
-  function isFastMode() {
-    return localStorage.getItem("fastMode") === "true";
-  }
-
-  function setFastMode(enabled) {
-    if (enabled) {
-      document.body.classList.add("no-hover-anim");
-      fastModeBtn.classList.add("active");
-      localStorage.setItem("fastMode", "true");
-    } else {
-      document.body.classList.remove("no-hover-anim");
-      fastModeBtn.classList.remove("active");
-      localStorage.setItem("fastMode", "false");
-    }
-  }
-
-  // Initialize on load
-  if (isFastMode()) {
-    setFastMode(true);
-  }
-
-  // Toggle Fast Mode
-  fastModeBtn.onclick = () => {
-    const enabled = !isFastMode();
-    setFastMode(enabled);
-
-    // Hide/show photo section
-    if (enabled) {
-      photoLabel.style.display = "none";
-      photoInput.style.display = "none";
-      photoPreviewContainer.style.display = "none";
-    } else {
-      photoLabel.style.display = "block";
-      photoInput.style.display = "none";
-      photoPreviewContainer.style.display = "flex";
-    }
-
-    // Stop or start snow
-    if (enabled) {
-      stopSnow();
-    } else {
-      startSnow(700);
-    }
-  };
-
-  // === REPORT UI (unchanged) ===
   function toggleReport() {
     const isActive = reportUI.classList.contains("active");
     if (isActive) {
@@ -354,17 +416,6 @@
     } else {
       reportUI.classList.add("active");
       overlay.style.display = "block";
-
-      // Apply Fast Mode to photo section
-      if (isFastMode()) {
-        photoLabel.style.display = "none";
-        photoInput.style.display = "none";
-        photoPreviewContainer.style.display = "none";
-      } else {
-        photoLabel.style.display = "block";
-        photoInput.style.display = "none";
-        photoPreviewContainer.style.display = "flex";
-      }
     }
   }
 
@@ -380,71 +431,15 @@
     setTimeout(() => error.classList.remove("active"), 4000);
   }
 
-  // === SNOWFLAKES ===
-  let snowInterval;
-  function startSnow(interval = 700) {
-    if (isFastMode()) return;
-    createSnowflake();
-    snowInterval = setInterval(createSnowflake, interval);
-  }
-  function stopSnow() {
-    clearInterval(snowInterval);
-    document.querySelectorAll('.snowflake').forEach(el => el.remove());
-  }
-  function createSnowflake() {
-    if (isFastMode()) return;
-    const flake = document.createElement('div');
-    flake.classList.add('snowflake');
-    flake.textContent = '❄';
-    flake.style.left = `${Math.random() * 100}vw`;
-    const size = 0.8 + Math.random() * 1;
-    flake.style.fontSize = `${size}rem`;
-    const duration = 10 + Math.random() * 10;
-    flake.style.animationDuration = `${duration}s`;
-    document.body.appendChild(flake);
-    setTimeout(() => flake.remove(), duration * 1000);
-  }
-
-  window.addEventListener('load', () => {
-    if (!isFastMode()) {
-      startSnow(700);
-    }
-    updateMemberCount();
-    setInterval(updateMemberCount, 120000);
-  });
-
-  // === LIVE DISCORD MEMBER COUNTER ===
-  async function updateMemberCount() {
-    try {
-      const response = await fetch('https://discord.com/api/v10/invites/kPeNP5aJTK?with_counts=true');
-      const data = await response.json();
-      if (data.approximate_member_count) {
-        document.getElementById('memberCount').textContent = new Intl.NumberFormat().format(data.approximate_member_count);
-      } else {
-        document.getElementById('memberCount').textContent = '—';
-      }
-    } catch (err) {
-      console.error('Failed to fetch Discord member count:', err);
-      document.getElementById('memberCount').textContent = '—';
-    }
-  }
-
-  // === REPORT UI & OTHERS (from original) ===
-  const reportUI = document.getElementById("reportUI");
-  const overlay = document.querySelector(".report-ui-overlay");
-  const charCount = document.getElementById("charCount");
-  const textArea = document.getElementById("reportText");
-  const photoFiles = [];
-
   function updateCharCount() {
     const len = textArea.value.length;
     charCount.textContent = `${len} / 3000`;
     charCount.classList.toggle("limit", len >= 3000);
   }
+
   textArea.addEventListener("input", updateCharCount);
 
   photoInput.addEventListener("change", () => {
-    if (isFastMode()) return;
     const files = Array.from(photoInput.files);
     if (photoFiles.length + files.length > 5) {
       showError("You can only upload up to 5 images.");
@@ -462,19 +457,19 @@
         removeBtn.className = "remove-photo";
         removeBtn.textContent = "Remove Photo";
         removeBtn.onclick = () => {
-          photoFiles.splice(photoFiles.indexOf(file), 1);
-          wrapper.remove();
+          photoFiles = photoFiles.filter(f => f !== file);
+          photoContainer.removeChild(wrapper);
         };
         wrapper.appendChild(img);
         wrapper.appendChild(removeBtn);
-        photoPreviewContainer.appendChild(wrapper);
+        photoContainer.appendChild(wrapper);
       };
       reader.readAsDataURL(file);
     });
     photoInput.value = '';
   });
 
-  // === OBFUSCATED WEBHOOK ===
+  // === OBFUSCATED WEBHOOK (Hidden in parts) ===
   const WEBHOOK_PARTS = [
     "https://disc",
     "ord.com",
@@ -484,7 +479,7 @@
   ];
   const REAL_WEBHOOK = atob(btoa(WEBHOOK_PARTS.join("")));
 
-  // ⚠️ FAKE WEBHOOK (decoy)
+  // ⚠️ FAKE WEBHOOK (decoy) — let them delete this one 😏
   // fetch("https://discord.com/api/webhooks/000000000000000000/fake_webhook_here", { ... });
 
   // === RATE LIMIT: 1 report every 30 minutes ===
@@ -492,11 +487,13 @@
     const lastReportTime = localStorage.getItem("lastReportTime");
     const now = Date.now();
     const thirtyMinutes = 30 * 60 * 1000;
+
     if (lastReportTime && now - lastReportTime < thirtyMinutes) {
       const minutesLeft = Math.ceil((thirtyMinutes - (now - lastReportTime)) / 60000);
       showError(`Please wait ${minutesLeft} minute${minutesLeft > 1 ? 's' : ''} before submitting another report.`);
       return false;
     }
+
     localStorage.setItem("lastReportTime", now);
     return true;
   }
@@ -521,7 +518,10 @@
       return;
     }
 
-    if (!canSubmit()) return;
+    // Check rate limit
+    if (!canSubmit()) {
+      return;
+    }
 
     const formData = new FormData();
     const embed = {
@@ -533,9 +533,7 @@ ${text}`,
       color: 0x5865F2
     };
     formData.append("payload_json", JSON.stringify({ embeds: [embed] }));
-    if (!isFastMode()) {
-      photoFiles.forEach((file, i) => formData.append(`files[${i}]`, file));
-    }
+    photoFiles.forEach((file, i) => formData.append(`files[${i}]`, file));
 
     fetch(REAL_WEBHOOK, {
       method: "POST",
@@ -553,6 +551,52 @@ ${text}`,
       showError("Failed to send report. Try again.");
     });
   }
+
+  // === INFINITE SNOWFLAKES ===
+  function createSnowflake() {
+    const flake = document.createElement('div');
+    flake.classList.add('snowflake');
+    flake.textContent = '❄';
+    flake.style.left = `${Math.random() * 100}vw`;
+    const size = 0.8 + Math.random() * 1;
+    flake.style.fontSize = `${size}rem`;
+    const duration = 10 + Math.random() * 10;
+    flake.style.animationDuration = `${duration}s`;
+    document.body.appendChild(flake);
+    setTimeout(() => {
+      flake.remove();
+    }, duration * 1000);
+  }
+
+  function startSnow(interval = 700) {
+    createSnowflake();
+    setInterval(createSnowflake, interval);
+  }
+
+  window.addEventListener('load', () => {
+    startSnow(700);
+  });
+
+  // === LIVE DISCORD MEMBER COUNTER ===
+  async function updateMemberCount() {
+    try {
+      const response = await fetch('https://discord.com/api/v10/invites/kPeNP5aJTK?with_counts=true');
+      const data = await response.json();
+      if (data.approximate_member_count) {
+        document.getElementById('memberCount').textContent = new Intl.NumberFormat().format(data.approximate_member_count);
+      } else {
+        document.getElementById('memberCount').textContent = '—';
+      }
+    } catch (err) {
+      console.error('Failed to fetch Discord member count:', err);
+      document.getElementById('memberCount').textContent = '—';
+    }
+  }
+
+  // Load on page load
+  updateMemberCount();
+  // Update every 2 minutes
+  setInterval(updateMemberCount, 120000);
 </script>
 </body>
 </html>
