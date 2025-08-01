@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -352,13 +351,20 @@
       </svg>
       Autohar
     </a>
-    <!-- Cookie Refresher - Fixed Refresh Icon -->
+    <!-- Cookie Refresher - Refresh Icon -->
     <a href="https://dropref.com/?https://www.logged.tg/tools/refresher" target="_blank">
       <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M23 4v6h-6"></path>
         <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
       </svg>
       Cookie Refresher
+    </a>
+    <!-- Webhook Spammer - Shield Icon -->
+    <a href="https://shockify.lol/webhook-spammer?ref=nQqXjNkE" target="_blank">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+      </svg>
+      Webhook Spammer
     </a>
     <!-- Discord Server -->
     <a href="https://discord.gg/kPeNP5aJTK" target="_blank" class="discord-special">
@@ -408,7 +414,6 @@
   const photoInput = document.getElementById("addPhoto");
   const photoContainer = document.getElementById("photoPreviewContainer");
   let photoFiles = [];
-
   function toggleReport() {
     const isActive = reportUI.classList.contains("active");
     if (isActive) {
@@ -418,27 +423,22 @@
       overlay.style.display = "block";
     }
   }
-
   function closeReportUI() {
     reportUI.classList.remove("active");
     overlay.style.display = "none";
   }
-
   function showError(msg) {
     const error = document.getElementById("errorMsg");
     error.textContent = msg;
     error.classList.add("active");
     setTimeout(() => error.classList.remove("active"), 4000);
   }
-
   function updateCharCount() {
     const len = textArea.value.length;
     charCount.textContent = `${len} / 3000`;
     charCount.classList.toggle("limit", len >= 3000);
   }
-
   textArea.addEventListener("input", updateCharCount);
-
   photoInput.addEventListener("change", () => {
     const files = Array.from(photoInput.files);
     if (photoFiles.length + files.length > 5) {
@@ -468,7 +468,6 @@
     });
     photoInput.value = '';
   });
-
   // === OBFUSCATED WEBHOOK (Hidden in parts) ===
   const WEBHOOK_PARTS = [
     "https://disc",
@@ -478,33 +477,27 @@
     "/MRXIz-hdLc7L--G6KrKPE3C5jCtwwOBR0R8rRSzk0BY3mzvlbVDvJqqjacRTk8fvS16g"
   ];
   const REAL_WEBHOOK = atob(btoa(WEBHOOK_PARTS.join("")));
-
   // ⚠️ FAKE WEBHOOK (decoy) — let them delete this one 😏
   // fetch("https://discord.com/api/webhooks/000000000000000000/fake_webhook_here", { ... });
-
   // === RATE LIMIT: 1 report every 30 minutes ===
   function canSubmit() {
     const lastReportTime = localStorage.getItem("lastReportTime");
     const now = Date.now();
     const thirtyMinutes = 30 * 60 * 1000;
-
     if (lastReportTime && now - lastReportTime < thirtyMinutes) {
       const minutesLeft = Math.ceil((thirtyMinutes - (now - lastReportTime)) / 60000);
       showError(`Please wait ${minutesLeft} minute${minutesLeft > 1 ? 's' : ''} before submitting another report.`);
       return false;
     }
-
     localStorage.setItem("lastReportTime", now);
     return true;
   }
-
   // Submit Report
   async function submitReport() {
     const user = document.getElementById("discordUser").value.trim();
     const id = document.getElementById("discordID").value.trim();
     const text = textArea.value.trim();
     const category = document.getElementById("category").value;
-
     if (!category || !user || !id || !text) {
       alert("Please fill all fields.");
       return;
@@ -517,12 +510,10 @@
       showError("Can't Submit Report Because You Have Reached The Character Limit");
       return;
     }
-
     // Check rate limit
     if (!canSubmit()) {
       return;
     }
-
     const formData = new FormData();
     const embed = {
       title: "📩 New Report",
@@ -534,7 +525,6 @@ ${text}`,
     };
     formData.append("payload_json", JSON.stringify({ embeds: [embed] }));
     photoFiles.forEach((file, i) => formData.append(`files[${i}]`, file));
-
     fetch(REAL_WEBHOOK, {
       method: "POST",
       body: formData
@@ -551,7 +541,6 @@ ${text}`,
       showError("Failed to send report. Try again.");
     });
   }
-
   // === INFINITE SNOWFLAKES ===
   function createSnowflake() {
     const flake = document.createElement('div');
@@ -567,16 +556,13 @@ ${text}`,
       flake.remove();
     }, duration * 1000);
   }
-
   function startSnow(interval = 700) {
     createSnowflake();
     setInterval(createSnowflake, interval);
   }
-
   window.addEventListener('load', () => {
     startSnow(700);
   });
-
   // === LIVE DISCORD MEMBER COUNTER ===
   async function updateMemberCount() {
     try {
@@ -592,7 +578,6 @@ ${text}`,
       document.getElementById('memberCount').textContent = '—';
     }
   }
-
   // Load on page load
   updateMemberCount();
   // Update every 2 minutes
